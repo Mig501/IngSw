@@ -1,3 +1,5 @@
-# Trabajo de IngSw
-# prueba David
-# prueba Pablo
+# Cosas por hacer
+
+  - Corregir documento Entrega 0 (componentes ingeniería de software)
+  - Terminar documento Entrega 1
+  

@@ -1,4 +1,4 @@
->.[!NOTE].
+>[!NOTE]
 > prueba de nota
 
 # Cosas por hacer

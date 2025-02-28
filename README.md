@@ -1,3 +1,6 @@
+>.[!NOTE].
+> prueba de nota
+
 # Cosas por hacer
 
   - Corregir documento Entrega 0 (componentes ingeniería de software)

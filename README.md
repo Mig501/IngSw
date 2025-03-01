@@ -6,12 +6,12 @@
   - Corregir documento Entrega 0 (componentes ingeniería de software)
   - Terminar documento Entrega 1 (puntos 3 y 4)
 
-# funcionalidades a añadir
+# Funcionalidades a añadir
 
-# cosas hechas hoy
+# Cosas hechas hoy
   - completado puntos 1 y 2
 
-# cosas a preguntar 
+# Cosas a preguntar 
   - el punto 1.5 esta correcto con solo esa referencia
   - en el 2.2 hay que entrar a detalle
   - la posibilidad de introducir el transporte de los productos a través de camiones y/o furgonetas

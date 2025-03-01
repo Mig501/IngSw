@@ -9,10 +9,10 @@
 # Funcionalidades a añadir
 
 # Cosas hechas hoy
-  - completado puntos 1 y 2
+  - Completado puntos 1 y 2
 
 # Cosas a preguntar 
-  - el punto 1.5 esta correcto con solo esa referencia
-  - en el 2.2 hay que entrar a detalle
-  - la posibilidad de introducir el transporte de los productos a través de camiones y/o furgonetas
-  - se pueden añadir metodos de pago
+  - El punto 1.5 esta correcto con solo esa referencia
+  - En el 2.2 hay que entrar a detalle
+  - La posibilidad de introducir el transporte de los productos a través de camiones y/o furgonetas
+  - Se pueden añadir metodos de pago

@@ -1,4 +1,4 @@
->[!Entrega Final]
+>[!NOTE]
 > Aquí se describe lo restante para la final del proyecto BSA (fecha límite: sin especificar)
 
 # Cosas finalizadas

@@ -1,5 +1,5 @@
 >[!NOTE]
-> Aquí se describe lo restante para la final del proyecto BSA (fecha límite: sin especificar)
+> Entrega final: Aquí se describe lo restante para la final del proyecto BSA (fecha límite: sin especificar)
 
 # Cosas finalizadas
 
@@ -11,8 +11,8 @@
 
 # Funcionalidades a añadir
 
->[!Entrega 1]
-> Aquí se describe lo restante para la entrega 1 (fecha límite: 9 marzo a las 23:59)
+>[!NOTE]
+> Entrega 1: Aquí se describe lo restante para la entrega 1 (fecha límite: 9 marzo a las 23:59)
 
 # Cosas completadas
   - Completado puntos 1 y 2

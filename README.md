@@ -11,14 +11,13 @@
 
 # Funcionalidades a añadir
 
-<<<<<<< HEAD
+
 # cosas a preguntar 
   - el punto 1.5 esta correcto con solo esa referencia
   - en el 2.2 hay que entrar a detalle
   - la posibilidad de introducir el transporte de los productos a través de camiones y/o furgonetas
   - se pueden añadir metodos de pago
-# prueba
-=======
+
 >[!NOTE]
 > Entrega 1: Aquí se describe lo restante para la entrega 1 (fecha límite: 9 marzo a las 23:59)
 
@@ -37,4 +36,3 @@
   - En el 2.2 hay que entrar a detalle
   - La posibilidad de introducir el transporte de los productos a través de camiones y/o furgonetas
   - Se pueden añadir metodos de pago
->>>>>>> fe3e65a064efbaf5c7e911e440f371f2c6865a3d

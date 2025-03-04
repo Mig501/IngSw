@@ -16,3 +16,4 @@
   - en el 2.2 hay que entrar a detalle
   - la posibilidad de introducir el transporte de los productos a través de camiones y/o furgonetas
   - se pueden añadir metodos de pago
+# prueba

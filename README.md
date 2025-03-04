@@ -26,11 +26,10 @@
   - Completado puntos 1 y 2
 
 # Cosas por revisar
-- Apartados 3.1.2 y 3.1.3
+- Apartados 3.1.1, 3.1.2, 3.1.3 y 3.1.4 siendo el 3.1.2 y 3.1.3 ampliados
 
 # Cosas por finalizar
-- Apartado 3
-- Apartado 3.1.4 (está a medio hacer)
+- Apartados 3.2, 3.3 y 3.4
 - Apartado 4
   
 # Cosas a preguntar 

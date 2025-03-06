@@ -14,6 +14,7 @@
 
 # cosas a preguntar 
   - la posibilidad de introducir el transporte de los productos a través de camiones y/o furgonetas
+  - Gestión de logística desde nuestro único taller a ciudades CyL
 
 >[!NOTE]
 > Entrega 1: Aquí se describe lo restante para la entrega 1 (fecha límite: 9 marzo a las 23:59)

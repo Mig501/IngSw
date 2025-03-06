@@ -29,6 +29,3 @@ la posibilidad de introducir el transporte de los productos a través de camione
 - Eliminar todo lo que tenga que ver con métodos de pago, ya que no se puede impemnetar
   
 # Cosas a preguntar 
-  - El punto 1.5 esta correcto con solo esa referencia
-  - En el 2.2 hay que entrar a detalle
-  - La posibilidad de introducir el transporte de los productos a través de camiones y/o furgonetas

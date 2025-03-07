@@ -29,5 +29,6 @@ la posibilidad de introducir el transporte de los productos a través de camione
 - Apartado 4
 - Referencias
 - Eliminar todo lo que tenga que ver con métodos de pago, ya que no se puede impemnetar(Se realiza en la revisión final)
-  
+- Añadir el significado de `módulos sensibles`  en la sección de referencias.
+
 # Cosas a preguntar 

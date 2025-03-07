@@ -21,11 +21,13 @@ la posibilidad de introducir el transporte de los productos a través de camione
   - Completado puntos 1 y 2
 
 # Cosas por revisar
-- Apartados 3.1.1, 3.1.2, 3.1.3 y 3.1.4 siendo el 3.1.2 y 3.1.3 ampliados
+- Revisión de los puntos 3.1, 3.2 y 3.3
+- Revisión general del documento una vez finalizado
 
 # Cosas por finalizar
-- Apartados 3.2, 3.3 y 3.4
+- Apartados 3.2 y 3.4
 - Apartado 4
-- Eliminar todo lo que tenga que ver con métodos de pago, ya que no se puede impemnetar
+- Referencias
+- Eliminar todo lo que tenga que ver con métodos de pago, ya que no se puede impemnetar(Se realiza en la revisión final)
   
 # Cosas a preguntar 

@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5 import uic
 
 # Cargar la interfaz generada desde el archivo .ui
-Form, Window = uic.loadUiType("./src/vista/Ui/Login.ui")
+Form, Window = uic.loadUiType("./src/vista/ui/Login.ui")
 
 class MiVentana(QMainWindow, Form):
     def __init__(self):

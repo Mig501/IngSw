@@ -4,7 +4,7 @@ from PyQt6 import uic
 # Cargar la interfaz generada desde el archivo .ui
 Form, Window = uic.loadUiType("./src/interface/ui/Login.ui")
 
-class MiVentana(QMainWindow, Form):
+class Login(QMainWindow, Form):
     def __init__(self):
         super().__init__()
         self.setupUi(self)  # Inicializa los widgets
@@ -18,10 +18,3 @@ class MiVentana(QMainWindow, Form):
         texto_area = self.nombre_usuario.text() #Obtener el texto del campo nombre
         print("El user es: ", end="")
         print(texto_area)
-
-
-if __name__ == "__main__":
-    app = QApplication([])
-    ventana = MiVentana()
-    ventana.show()
-    app.exec()

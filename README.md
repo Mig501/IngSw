@@ -14,7 +14,7 @@
 
 
 >[!NOTE]
-> Entrega 2: Aquí se describe lo restante para la entrega 1 (fecha límite: 9 marzo a las 23:59)
+> Entrega 2: Aquí se describe lo restante para la entrega 2 (fecha límite: 13 abril a las 23:59)
 
 # Cosas completadas
 

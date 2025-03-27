@@ -32,7 +32,7 @@ DROP TABLE IF EXISTS WorkShops;
 DROP TABLE IF EXISTS Contracts;
 DROP TABLE IF EXISTS Users;
 
---Users related tables---------------------------------------------------------------------------------------------------------------------------------
+-- Users related tables---------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE Users (
 	UserID CHAR(7) PRIMARY KEY CHECK (UserID LIKE '[0-9][0-9][0-9][0-9][A-Z][A-Z][A-Z]'),
@@ -79,7 +79,7 @@ CREATE TABLE RaitingsTransaction (
 	PRIMARY KEY (UserR_Pay_ID, UserR_Sell_ID)
 );
 
---ChatBot related tables------------------------------------------------------------------------------------------------------------------------------
+-- ChatBot related tables------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE ChatBot (
 	Num_Query INT,
@@ -96,7 +96,7 @@ CREATE TABLE TopicChatBot (
 	PRIMARY KEY (Num_Query, UserID)
 );
 
---Employees related tables----------------------------------------------------------------------------------------------------------------------------
+-- Employees related tables----------------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE Employees (
 	Emp_Num INT PRIMARY KEY IDENTITY(0, 1),
@@ -131,7 +131,7 @@ CREATE TABLE Deliverie_Employees (
 	Driving_License NVARCHAR(20) NOT NULL
 );
 
---Contracts related tables----------------------------------------------------------------------------------------------------------------------------
+-- Contracts related tables----------------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE Contracts (
 	ContractID CHAR(6) PRIMARY KEY,
@@ -143,7 +143,7 @@ CREATE TABLE Contracts (
 	EndTime TIME NOT NULL
 );
 
---Products related tables-----------------------------------------------------------------------------------------------------------------------------
+-- Products related tables-----------------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE Products (
 	ZipCode BIGINT PRIMARY KEY,
@@ -185,7 +185,7 @@ CREATE TABLE Other (
 	Vans_Pack_Num VARCHAR(20) NULL
 );
 
---WorWar related tables-------------------------------------------------------------------------------------------------------------------------------
+-- WorWar related tables-------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE WorkShops (
 	WorkZipCode VARCHAR(7) PRIMARY KEY,
@@ -213,7 +213,7 @@ CREATE TABLE WorWar (
 	Inventory INT NOT NULL DEFAULT(0)--TRIGGER
 );
 
---Transport related tables----------------------------------------------------------------------------------------------------------------------------
+-- Transport related tables----------------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE Transport (
 	Pack_Num VARCHAR(20) PRIMARY KEY,
@@ -257,7 +257,7 @@ CREATE TABLE Trucks (
 	Weight_Capacity FLOAT NOT NULL
 );
 
---Relations related tables----------------------------------------------------------------------------------------------------------------------------
+-- Relations related tables----------------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE WorUse (
 	UserID CHAR(7),
@@ -286,8 +286,8 @@ CREATE TABLE DelTra (
 );
 
 
---Foreign keys-----------------------------------------------------------------------------------------------------------------------------------
---Users related tables---------------------------------------------------------------------------------------------------------------------------------
+-- Foreign keys-----------------------------------------------------------------------------------------------------------------------------------
+-- Users related tables---------------------------------------------------------------------------------------------------------------------------------
 
 ALTER TABLE UserPay
 ADD CONSTRAINT FK_User_Pay_ID FOREIGN KEY (User_Pay_ID) REFERENCES Users (UserID);
@@ -307,7 +307,7 @@ ADD CONSTRAINT FK_UserFavID FOREIGN KEY (UserFavID) REFERENCES Users (UserID);
 ALTER TABLE RaitingsTransaction
 ADD CONSTRAINT FK_UserR_Pay_Sell_ID FOREIGN KEY (UserR_Pay_ID, UserR_Sell_ID) REFERENCES UserPay (User_Pay_ID, UserP_Sell_ID);
 
---ChatBot related tables------------------------------------------------------------------------------------------------------------------------------
+-- ChatBot related tables------------------------------------------------------------------------------------------------------------------------------
 
 ALTER TABLE ChatBot
 ADD CONSTRAINT FK_CBUserID FOREIGN KEY (UserID) REFERENCES Users (UserID);
@@ -318,7 +318,7 @@ ADD CONSTRAINT FK_CBWork_Emp_Num FOREIGN KEY (Work_Emp_Num) REFERENCES Workshop_
 ALTER TABLE TopicChatBot
 ADD CONSTRAINT FK_CBTNum_UserID FOREIGN KEY (Num_Query, UserID) REFERENCES ChatBot (Num_Query, UserID);
 
---Employees related tables----------------------------------------------------------------------------------------------------------------------------
+-- Employees related tables----------------------------------------------------------------------------------------------------------------------------
 
 ALTER TABLE Employees
 ADD CONSTRAINT FK_ContractID FOREIGN KEY (ContractID) REFERENCES Contracts (ContractID);
@@ -332,7 +332,7 @@ ADD CONSTRAINT FK_WorWarID FOREIGN KEY (WorWarID) REFERENCES WorWar (WorWarID);
 ALTER TABLE Deliverie_Employees
 ADD CONSTRAINT FK_Del_Emp_Num FOREIGN KEY (Del_Emp_Num) REFERENCES Employees (Emp_Num);
 
---Products related tables-----------------------------------------------------------------------------------------------------------------------------
+-- Products related tables-----------------------------------------------------------------------------------------------------------------------------
 
 ALTER TABLE Products
 ADD CONSTRAINT FK_Prod_Work_Emp_Num FOREIGN KEY (Work_Emp_Num) REFERENCES Workshop_Employees (Work_Emp_Num);
@@ -364,7 +364,7 @@ ADD CONSTRAINT FK_Oth_ZipCode FOREIGN KEY (Oth_ZipCode) REFERENCES Products (Zip
 ALTER TABLE Other
 ADD CONSTRAINT FK_Oth_Vans_Pack_Num FOREIGN KEY (Vans_Pack_Num) REFERENCES Vans (Vans_Pack_Num);
 
---WorWar related tables-------------------------------------------------------------------------------------------------------------------------------
+-- WorWar related tables-------------------------------------------------------------------------------------------------------------------------------
 
 ALTER TABLE WareHouses
 ADD CONSTRAINT FK_WorkZipCode FOREIGN KEY (WorkZipCode) REFERENCES WorkShops (WorkZipCode);
@@ -375,7 +375,7 @@ ADD CONSTRAINT FK_WW_WorkZipCode FOREIGN KEY (WorkZipCode) REFERENCES WorkShops 
 ALTER TABLE WorWar
 ADD CONSTRAINT FK_WW_WareZipCode FOREIGN KEY (WareZipCode) REFERENCES WareHouses (WareZipCode);
 
---Transport related tables----------------------------------------------------------------------------------------------------------------------------
+-- Transport related tables----------------------------------------------------------------------------------------------------------------------------
 
 ALTER TABLE Nacional
 ADD CONSTRAINT FK_Nat_Pack_Num FOREIGN KEY (Nat_Pack_Num) REFERENCES Transport (Pack_Num);
@@ -398,7 +398,7 @@ ADD CONSTRAINT FK_Vans_Pack_Num FOREIGN KEY (Vans_Pack_Num) REFERENCES Nacional 
 ALTER TABLE Trucks
 ADD CONSTRAINT FK_Truck_Pack_Num FOREIGN KEY (Truck_Pack_Num) REFERENCES International (Inter_Pack_Num);
 
---Relations related tables----------------------------------------------------------------------------------------------------------------------------
+-- Relations related tables----------------------------------------------------------------------------------------------------------------------------
 
 ALTER TABLE WorUse
 ADD CONSTRAINT FK_WU_UserID FOREIGN KEY (UserID) REFERENCES Users (UserID);
@@ -424,8 +424,8 @@ ADD CONSTRAINT FK_DT_Del_Emp_Num FOREIGN KEY (Del_Emp_Num) REFERENCES Deliverie_
 ALTER TABLE DelTra
 ADD CONSTRAINT FK_DT_Pack_Num FOREIGN KEY (Pack_Num) REFERENCES Transport (Pack_Num);
 
---Triggers--------------------------------------------------------------------------------------------------------------------------------------------
---TRIGGER para calcula el coste de la ruta de reparto---------------------------------------------------------------------------------
+-- Triggers--------------------------------------------------------------------------------------------------------------------------------------------
+-- TRIGGER para calcula el coste de la ruta de reparto---------------------------------------------------------------------------------
 GO
 CREATE TRIGGER trg_CalcRtCst
 ON Transport
@@ -438,7 +438,7 @@ BEGIN
 	INNER JOIN inserted i ON Transport.Pack_Num = i.Pack_Num;
 END;
 
---TRIGGER para actualizar la fecha de registro de un usuario que ha modificado su username-------------------------------------------------------------
+-- TRIGGER para actualizar la fecha de registro de un usuario que ha modificado su username-------------------------------------------------------------
 GO
 CREATE TRIGGER trg_UpdateLogDate
 ON Users
@@ -454,7 +454,7 @@ BEGIN
 END;
 GO
 
---TRIGGER para calcular la edad de un empleado---------------------------------------------------------------------------------------------------------
+-- TRIGGER para calcular la edad de un empleado---------------------------------------------------------------------------------------------------------
 GO
 CREATE TRIGGER trg_CalculateAgeOnEmployees
 ON Employees
@@ -473,7 +473,7 @@ BEGIN
     INNER JOIN inserted i ON Employees.Emp_Num = i.Emp_Num;
 END;
 GO
---TRIGGER para calcular el raiting promedio de un usuario---------------------------------------------------------------------------------------------
+-- TRIGGER para calcular el raiting promedio de un usuario---------------------------------------------------------------------------------------------
 GO
 CREATE OR ALTER TRIGGER trg_UpdateAvgRating
 ON RaitingsTransaction
@@ -502,7 +502,7 @@ BEGIN
 END;
 GO
 
---TRIGGER para calcular la antigüedad de un empleado en la empresa------------------------------------------------------------------------------------
+-- TRIGGER para calcular la antigüedad de un empleado en la empresa------------------------------------------------------------------------------------
 GO
 CREATE TRIGGER trg_CalculateDwellTime
 ON Employees
@@ -526,7 +526,7 @@ BEGIN
 END;
 GO
 
---TRIGGER para calcular la autonomía de un coche-------------------------------------------------------------------------------------------------------
+-- TRIGGER para calcular la autonomía de un coche-------------------------------------------------------------------------------------------------------
 GO
 CREATE TRIGGER trg_update_autonomy
 ON Automoviles
@@ -542,7 +542,7 @@ BEGIN
 END;
 GO
 
---TRIGGER para calcular el Inventory del WorWar en función del parking slot y number of pieces del warehouse-------------------------------------------
+-- TRIGGER para calcular el Inventory del WorWar en función del parking slot y number of pieces del warehouse-------------------------------------------
 GO
 CREATE OR ALTER TRIGGER trg_UpdateWorWarInventory
 ON WorWar
@@ -561,8 +561,8 @@ BEGIN
 END;
 GO
 
-/*--Inserts----------------------------------------------------------------------------------------------------------------------------------------------
---Users related tables---------------------------------------------------------------------------------------------------------------------------------
+-- Inserts----------------------------------------------------------------------------------------------------------------------------------------------
+-- Users related tables---------------------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO Users (UserID, Username, Email, Add_Zip_Code, Add_Country, Add_Street, Add_Number, Add_Floor_Num, Phone_Number, Log_Date, Conf_Password, Conf_Search_His, Conf_Acc_Type)
 VALUES
@@ -985,7 +985,7 @@ VALUES
 ('1241VWX', '77889', '2024-02-18'), -- Usuario asignado al taller de El Cairo
 ('1242YZA', '99000', '2024-01-25'), -- Usuario asignado al taller de Londres
 ('1243BCD', '12321', '2024-03-12'); -- Usuario asignado al taller de Lisboa
-*/
+
 SELECT * FROM RaitingsTransaction;
 SELECT * FROM UserPay;
 SELECT * FROM UserTalk;

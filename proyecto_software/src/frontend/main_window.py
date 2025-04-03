@@ -1,7 +1,7 @@
 # src/frontend/main_window.py
 
-from PyQt6.QtWidgets import QMainWindow, QStackedWidget
-from frontend.screens.login import LoginScreen
+from PyQt6.QtWidgets import QMainWindow, QLabel
+from PyQt6.QtCore import Qt
 
 class MainWindow(QMainWindow):
     def __init__(self):

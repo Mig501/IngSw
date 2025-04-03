@@ -3,6 +3,7 @@
 import sys
 from PyQt6.QtWidgets import QApplication
 from frontend.main_window import MainWindow
+#from src.controlador import CoordinadorPrincipal
 
 def main():
     app = QApplication(sys.argv)
@@ -20,3 +21,18 @@ def main():
 
 if __name__ == "__main__":
     main()
+    #app =
+    #vemtamalogin = Login()
+    #modelo
+    #cordinador = cordinadorprincipal(ventanalogin, modelo)
+
+    #ventanalogin.controlador= controlador
+
+#crear objeto de tipo login
+
+#crear objeto referencia al modelo
+
+#crear referencia del coordinador
+
+
+

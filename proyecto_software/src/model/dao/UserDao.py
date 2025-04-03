@@ -1,13 +1,6 @@
-<<<<<<< HEAD:proyecto_software/src/model/dao/dao.py
-# src/model/dao/UserDao.py
-from conexion.Conexion import Conexion
-from vo.vo import UserVo
-class UserDao(Conexion):
-=======
 from src.model.conexion import conexion
 from src.model.vo import UserVo
 class UserDao(conexion):
->>>>>>> 53bf489ffccd54034c656eb1425eb8d2f4fd96b9:proyecto_software/src/model/dao/UserDao.py
     sql_select = "SELECT * FROM user" #pones las columnas que quieras seleccionar
     SQL_CONSULTA = "SELECT * FROM user WHERE username = ?"
 

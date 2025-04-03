@@ -1,25 +1,29 @@
-# src/frontend/screens/login.py
-
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel, QSpacerItem, QSizePolicy
-from PyQt6.QtCore import QSize, Qt
+from PyQt6.QtWidgets import (
+    QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel, QSizePolicy
+)
+from PyQt6.QtCore import QSize, Qt, pyqtSignal
 from PyQt6.QtGui import QPixmap
 
 class LoginScreen(QWidget):
+    login_success = pyqtSignal()  # Señal emitida cuando el login es correcto
+
     def __init__(self):
         super().__init__()
 
+        # Layout principal centrado
         main_layout = QVBoxLayout()
         main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
+        # Contenido (todo el formulario de login)
         content = QWidget()
         layout = QVBoxLayout()
         layout.setSpacing(12)
 
-        # Layout: Título + Logo
+        # Layout del título + logo
         header_layout = QVBoxLayout()
         header_layout.setSpacing(10)
 
-        # Titulo
+        # Título
         self.title_label = QLabel("BSA Systems")
         self.title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         header_layout.addWidget(self.title_label)
@@ -33,27 +37,26 @@ class LoginScreen(QWidget):
         self.logo.setPixmap(pixmap)
         self.logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
         header_layout.addWidget(self.logo)
+
         layout.addLayout(header_layout)
 
-        # Usuario
+        # Campo de usuario
         self.input_user = QLineEdit()
         self.input_user.setPlaceholderText("Usuario")
         self.input_user.setFixedWidth(250)
         layout.addWidget(self.input_user, alignment=Qt.AlignmentFlag.AlignCenter)
 
-        # Layout: Contraseña + botón de mostrar/ocultar
+        # Campo de contraseña + botón 👁
         password_container = QWidget()
         password_layout = QHBoxLayout()
         password_layout.setContentsMargins(0, 0, 0, 0)
         password_layout.setSpacing(0)
 
-        # Contraseña
         self.input_pass = QLineEdit()
         self.input_pass.setPlaceholderText("Contraseña")
         self.input_pass.setEchoMode(QLineEdit.EchoMode.Password)
         self.input_pass.setFixedWidth(250)
 
-        # Botón de mostrar/ocultar contraseña
         self.toggle_button = QPushButton("👁️")
         self.toggle_button.setCheckable(True)
         self.toggle_button.setFixedSize(QSize(30, 30))
@@ -68,17 +71,24 @@ class LoginScreen(QWidget):
 
         # Botón de login
         self.button_login = QPushButton("Iniciar sesión")
-        self.button_login.setObjectName('LoginButtom')
+        self.button_login.setObjectName('LoginButton')
         self.button_login.setFixedWidth(250)
         self.button_login.setFixedHeight(40)
+        self.button_login.clicked.connect(self.check_login)
         layout.addWidget(self.button_login, alignment=Qt.AlignmentFlag.AlignCenter)
+
+        # Finalizar layouts
         content.setLayout(layout)
         main_layout.addWidget(content)
         self.setLayout(main_layout)
 
     def toggle_password_visibility(self):
-        '''Modifica la visibilidad de la contraseña cuando se pulse el botón asignado a la acción'''
+        '''Muestra u oculta el texto de la contraseña'''
         if self.toggle_button.isChecked():
             self.input_pass.setEchoMode(QLineEdit.EchoMode.Normal)
         else:
             self.input_pass.setEchoMode(QLineEdit.EchoMode.Password)
+
+    def check_login(self):
+        '''Emite la señal de login exitoso (sin validación por ahora)'''
+        self.login_success.emit()

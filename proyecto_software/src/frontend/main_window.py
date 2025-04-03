@@ -1,21 +1,14 @@
 # src/frontend/main_window.py
 
-from PyQt6.QtWidgets import QMainWindow, QStackedWidget
-from frontend.screens.login import LoginScreen
+from PyQt6.QtWidgets import QMainWindow, QLabel
+from PyQt6.QtCore import Qt
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("BSA App")
-        self.setFixedSize(500, 600)
+        self.setWindowTitle("BSA App - Principal")
+        self.setFixedSize(900, 600)
 
-        # Contenedor de pantallas
-        self.stack = QStackedWidget()
-        self.setCentralWidget(self.stack)
-
-        # Crear e insertar pantallas
-        self.login_screen = LoginScreen()
-        self.stack.addWidget(self.login_screen)  # index 0
-
-        # Mostrar login como pantalla inicial
-        self.stack.setCurrentWidget(self.login_screen)
+        label = QLabel("Bienvenido al panel principal")
+        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.setCentralWidget(label)

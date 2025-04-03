@@ -1,6 +1,7 @@
-from proyecto_software.model.conexion import conexion
-from proyecto_software.model.vo import UserVo
-class UserDao(conexion):
+# src/model/dao/UserDao.py
+from conexion.Conexion import Conexion
+from vo.vo import UserVo
+class UserDao(Conexion):
     sql_select = "SELECT * FROM user" #pones las columnas que quieras seleccionar
     def select(self) -> list[UserVo]:
         cursor = self.getCursor()

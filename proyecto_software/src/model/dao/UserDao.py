@@ -1,9 +1,11 @@
+#Un dao por tabla
+
 from src.model.conexion import conexion
 from src.model.vo import UserVo
 class UserDao(conexion):
     sql_select = "SELECT * FROM user" #pones las columnas que quieras seleccionar
     SQL_CONSULTA = "SELECT * FROM user WHERE username = ?"
-
+    
     def select(self) -> list[UserVo]:
         cursor = self.getCursor()
         cursor.execute(self.sql_select)

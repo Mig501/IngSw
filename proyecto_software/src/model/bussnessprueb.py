@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-from model.dao.dao import UserDao
-=======
-from proyecto_software.src.model.dao.UserDao import UserDao
->>>>>>> 53bf489ffccd54034c656eb1425eb8d2f4fd96b9
+from src.model.dao.UserDao import UserDao
+
 class bussinesobject():
     def pruebaselect(self):
         userdao= UserDao()

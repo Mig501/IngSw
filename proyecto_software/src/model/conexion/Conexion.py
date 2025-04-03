@@ -1,3 +1,4 @@
+# src/model/conexion/Conexion.py
 import jaydebeapi
 
 class Conexion:

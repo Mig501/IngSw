@@ -1,11 +1,13 @@
+# src/frontend/main_window.py
+
 from PyQt6.QtWidgets import QMainWindow, QStackedWidget
-from frontend.screens.login import LoginScreen
+from screens.login import LoginScreen
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("BSA App")
-        self.setGeometry(100, 100, 900, 600)
+        self.setFixedSize(500, 600)
 
         # Contenedor de pantallas
         self.stack = QStackedWidget()

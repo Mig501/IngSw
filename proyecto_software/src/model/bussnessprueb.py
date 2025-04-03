@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 from src.model.dao.UserDao import UserDao
 
+=======
+
+from src.model.dao.UserDao import UserDao
+>>>>>>> 2560ce82681ae45d10970fafe680f8ace29479d1
 class bussinesobject():
     def pruebaselect(self):
         userdao= UserDao()

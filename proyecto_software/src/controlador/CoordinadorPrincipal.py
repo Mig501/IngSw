@@ -15,7 +15,7 @@ class CoordinadorPrincipal:
             self.ventana.mostrar_mensaje("Nombre de usuario o contraseña incorrectos")
 
         loginVO = LoginVO(nombre_usuario)
-        self.modelo.comprobar_login(loginVO)
+        resultado = self.modelo.comprobar_login(loginVO)
         #ventana.hide()
         #ventana.close()
         

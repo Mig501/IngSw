@@ -1,8 +1,10 @@
+# src/frontend/windows/login/screens/register_screen.py
+
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton
 from PyQt6.QtCore import Qt, pyqtSignal
 
 class RegisterScreen(QWidget):
-    proceed_to_main = pyqtSignal()  # ✅ esta es la señal que necesitas
+    back_to_login = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -26,8 +28,8 @@ class RegisterScreen(QWidget):
         self.input_email.setPlaceholderText("Correo electrónico")
         layout.addWidget(self.input_email)
 
-        self.button_register = QPushButton("Entrar a la aplicación")
-        self.button_register.clicked.connect(self.proceed_to_main.emit)  # ✅ emitir señal
+        self.button_register = QPushButton("Registrarse")
+        self.button_register.clicked.connect(self.back_to_login.emit)  
         layout.addWidget(self.button_register)
 
         self.setLayout(layout)

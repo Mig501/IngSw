@@ -6,7 +6,7 @@ from PyQt6.QtCore import Qt
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("BSA App - Principal")
+        self.setWindowTitle("BSA App")
         self.setFixedSize(900, 600)
 
         label = QLabel("Bienvenido al panel principal")

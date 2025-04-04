@@ -1,4 +1,4 @@
-# src/frontend/login_window.py
+# src/frontend/login/login_window.py
 
 from PyQt6.QtWidgets import QMainWindow, QStackedWidget
 from frontend.windows.login.screens.login_screen import LoginScreen
@@ -20,17 +20,20 @@ class LoginWindow(QMainWindow):
         self.register_screen = RegisterScreen()
 
         # Añadir al stack
-        self.stack.addWidget(self.login_screen)    # index 0
-        self.stack.addWidget(self.register_screen) # index 1
+        self.stack.addWidget(self.login_screen)
+        self.stack.addWidget(self.register_screen)
         self.stack.setCurrentWidget(self.login_screen)
 
         # Conexiones
         self.login_screen.login_success.connect(self.open_main_window)
         self.login_screen.register_clicked.connect(self.show_register_screen)
-        self.register_screen.proceed_to_main.connect(self.open_main_window)
+        self.register_screen.back_to_login.connect(self.show_login_screen)
 
     def show_register_screen(self):
         self.stack.setCurrentWidget(self.register_screen)
+
+    def show_login_screen(self):
+        self.stack.setCurrentWidget(self.login_screen)
 
     def open_main_window(self):
         self.main_window = MainWindow()

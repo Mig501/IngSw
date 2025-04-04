@@ -5,8 +5,8 @@ from PyQt6.QtCore import QSize, Qt, pyqtSignal
 from PyQt6.QtGui import QPixmap
 
 class LoginScreen(QWidget):
-    login_success = pyqtSignal()          # Señal emitida al iniciar sesión
-    register_clicked = pyqtSignal()       # Señal emitida al pulsar "Registrarse"
+    login_success = pyqtSignal()         
+    register_clicked = pyqtSignal()       
 
     def __init__(self):
         super().__init__()
@@ -20,16 +20,18 @@ class LoginScreen(QWidget):
         layout = QVBoxLayout()
         layout.setSpacing(12)
 
-        # Título + logo
+        # Encabezado
         header_layout = QVBoxLayout()
         header_layout.setSpacing(10)
 
+        # Título
         self.title_label = QLabel("BSA Systems")
         self.title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         header_layout.addWidget(self.title_label)
 
+        # Logo
         self.logo = QLabel()
-        pixmap = QPixmap("src/frontend/images/logo/logo_sin_fondo.png")
+        pixmap = QPixmap("src/frontend/images/logo_sin_fondo.png")
         if pixmap.isNull():
             print("❌ No se pudo cargar la imagen del logo.")
         pixmap = pixmap.scaledToWidth(170, Qt.TransformationMode.SmoothTransformation)
@@ -45,17 +47,19 @@ class LoginScreen(QWidget):
         self.input_user.setFixedWidth(250)
         layout.addWidget(self.input_user, alignment=Qt.AlignmentFlag.AlignCenter)
 
-        # Contraseña + botón 👁️
+        # Layout contraseña
         password_container = QWidget()
         password_layout = QHBoxLayout()
         password_layout.setContentsMargins(0, 0, 0, 0)
         password_layout.setSpacing(0)
 
+        # Contraseña
         self.input_pass = QLineEdit()
         self.input_pass.setPlaceholderText("Contraseña")
         self.input_pass.setEchoMode(QLineEdit.EchoMode.Password)
         self.input_pass.setFixedWidth(250)
 
+        # Botón mostrar contraseña
         self.toggle_button = QPushButton("👁️")
         self.toggle_button.setCheckable(True)
         self.toggle_button.setFixedSize(QSize(30, 30))

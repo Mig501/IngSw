@@ -49,6 +49,17 @@ La interfaz gráfica está siendo desarrollada en **PyQt6**, siguiendo el patró
 
 ## 📂 Base de datos
 
+### 🧾 Consideraciones para la tabla `user`
+
+- `username` debe ser **único**.
+- La `password` podría tener unos **requisitos mínimos** (por ejemplo: longitud mínima, mayúsculas, símbolos, etc.).
+- El `email` debe ser **único** para evitar duplicidades en el registro.
+- **Ajustar el tamaño del código postal** en función del país más largo (el que tenga códigos más largos).
+- El campo `país` se puede escribir completo y después mapear a una abreviatura asociada (ej. España → ES).
+- En la dirección se podría incluir un **desplegable** para seleccionar el tipo de vía (ej. Calle, Avenida) y luego escribir el nombre.
+- Posibilidad de añadir campos como **perímetro** y **escalera**, ya que algunos edificios requieren esta información para una dirección completa.
+- El campo de **teléfono móvil debe ser obligatorio** y el prefijo se añadiría en función del país que se haya añadido.
+
 ---
 
 ## 👥 Perfiles de usuario

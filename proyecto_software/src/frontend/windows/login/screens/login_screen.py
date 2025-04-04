@@ -1,13 +1,12 @@
-# src/frontend/screens/login.py
+# src/frontend/windows/login/screens/login.py
 
-from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel, QSizePolicy
-)
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel, QSizePolicy
 from PyQt6.QtCore import QSize, Qt, pyqtSignal
 from PyQt6.QtGui import QPixmap
 
 class LoginScreen(QWidget):
-    login_success = pyqtSignal()  # Señal emitida cuando el login es correcto
+    login_success = pyqtSignal()          # Señal emitida al iniciar sesión
+    register_clicked = pyqtSignal()       # Señal emitida al pulsar "Registrarse"
 
     def __init__(self):
         super().__init__()
@@ -16,21 +15,19 @@ class LoginScreen(QWidget):
         main_layout = QVBoxLayout()
         main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        # Contenido (todo el formulario de login)
+        # Contenedor del contenido
         content = QWidget()
         layout = QVBoxLayout()
         layout.setSpacing(12)
 
-        # Layout del título + logo
+        # Título + logo
         header_layout = QVBoxLayout()
         header_layout.setSpacing(10)
 
-        # Título
         self.title_label = QLabel("BSA Systems")
         self.title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         header_layout.addWidget(self.title_label)
 
-        # Logo
         self.logo = QLabel()
         pixmap = QPixmap("src/frontend/images/logo/logo_sin_fondo.png")
         if pixmap.isNull():
@@ -42,13 +39,13 @@ class LoginScreen(QWidget):
 
         layout.addLayout(header_layout)
 
-        # Campo de usuario
+        # Usuario
         self.input_user = QLineEdit()
         self.input_user.setPlaceholderText("Usuario")
         self.input_user.setFixedWidth(250)
         layout.addWidget(self.input_user, alignment=Qt.AlignmentFlag.AlignCenter)
 
-        # Campo de contraseña + botón 👁
+        # Contraseña + botón 👁️
         password_container = QWidget()
         password_layout = QHBoxLayout()
         password_layout.setContentsMargins(0, 0, 0, 0)
@@ -74,10 +71,16 @@ class LoginScreen(QWidget):
         # Botón de login
         self.button_login = QPushButton("Iniciar sesión")
         self.button_login.setObjectName('LoginButton')
-        self.button_login.setFixedWidth(250)
-        self.button_login.setFixedHeight(40)
+        self.button_login.setFixedSize(250, 40)
         self.button_login.clicked.connect(self.check_login)
         layout.addWidget(self.button_login, alignment=Qt.AlignmentFlag.AlignCenter)
+
+        # Botón de registro
+        self.button_register = QPushButton("Registrarse")
+        self.button_register.setObjectName('RegisterButton')
+        self.button_register.setFixedSize(250, 40)
+        self.button_register.clicked.connect(self.register_clicked.emit)
+        layout.addWidget(self.button_register, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # Finalizar layouts
         content.setLayout(layout)

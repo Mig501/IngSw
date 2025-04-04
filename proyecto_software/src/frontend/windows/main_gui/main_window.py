@@ -1,4 +1,4 @@
-# src/frontend/main_window.py
+# src/frontend/windows/main_gui/main_window.py
 
 from PyQt6.QtWidgets import QMainWindow, QLabel
 from PyQt6.QtCore import Qt

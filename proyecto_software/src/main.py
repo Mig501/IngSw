@@ -2,7 +2,7 @@
 
 import sys
 from PyQt6.QtWidgets import QApplication
-from frontend.login_window import LoginWindow
+from frontend.windows.login.login_window import LoginWindow
 
 def main():
     app = QApplication(sys.argv)

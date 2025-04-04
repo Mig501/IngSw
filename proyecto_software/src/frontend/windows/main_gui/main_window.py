@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import (
     QLabel, QStackedWidget, QListWidget, QListWidgetItem, QSizePolicy
 )
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QIcon
 import sys
 
 from frontend.windows.main_gui.screens.item1_screen import Item1Screen
@@ -31,11 +32,6 @@ class MainWindow(QMainWindow):
         self.sidebar_layout = QVBoxLayout()
         self.sidebar.setLayout(self.sidebar_layout)
 
-        # Título del menú
-        self.menu_label = QLabel("<  Menú")
-        self.menu_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        self.sidebar_layout.addWidget(self.menu_label)
-
         # Lista de opciones
         self.menu_list = QListWidget()
         for i in range(1, 5):
@@ -52,7 +48,8 @@ class MainWindow(QMainWindow):
         self.header = QWidget()
         self.header_layout = QHBoxLayout()
         self.header.setLayout(self.header_layout)
-        self.menu_button = QPushButton("☰ Menú")
+        self.menu_button = QPushButton("Menú")
+        self.menu_button.setIcon(QIcon('resources/icons/menu.svg'))
         self.menu_button.setFixedWidth(100)
         self.menu_button.clicked.connect(self.toggle_sidebar)
         self.header_label = QLabel("My App")
@@ -89,7 +86,11 @@ class MainWindow(QMainWindow):
         self.sidebar.setVisible(False)
 
     def toggle_sidebar(self):
-        self.sidebar.setVisible(not self.sidebar.isVisible())
+        is_visible = not self.sidebar.isVisible()
+        self.sidebar.setVisible(is_visible)
+        icon = QIcon("resources/icons/chevron_left.svg") if is_visible else QIcon("resources/icons/menu.svg")
+        self.menu_button.setIcon(icon)
+        self.menu_button.setText("Menú")
 
     def display_page(self, index):
         self.stacked_widget.setCurrentIndex(index)

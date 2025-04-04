@@ -2,20 +2,38 @@
 
 ## Índice
 
+- [📌 Descripción general](#descripción-general)
+- [🧠 Requisitos y objetivos](#requisitos-y-objetivos)
+- [🏗️ Arquitectura](#arquitectura)
+- [🖼️ Frontend (Interfaz Gráfica)](#frontend-interfaz-gráfica)
+- [🗃️ Base de datos](#base-de-datos)
+- [❓ Preguntas sobre posibles funcionalidades](#preguntas-sobre-posibles-funcionalidades)
+- [❓ Preguntas de implementación](#preguntas-de-implementación)
+- [📦 Instalación y uso](#instalación-y-uso)
+- [🧾 Licencia](#licencia)
+
 ---
 
 ## 📌 Descripción general
 
-**BSA (BuySellAutomovile)** es una aplicación de escritorio para la gestión de venta y compra de automóviles, piezas y servicios asociados, con módulos de soporte para talleres, almacenes, empleados, transporte y chatbot.
+**BSA (BuySellAutomovile)** es una aplicación de escritorio para la gestión de venta y compra de automóviles, piezas y servicios asociados, con módulos de soporte para talleres, almacenes, empleados y clientes.
 
 ---
 
 ## 🧠 Requisitos y objetivos
 
-- Gestionar productos, usuarios, talleres y transportes.
+- Gestionar productos, usuarios y talleres.
 - Control de inventario, pedidos, contratos y mantenimiento.
-- Interacción con chatbot y generación de estadísticas.
+- Generación de estadísticas.
 - Soporte para distintos perfiles de usuario con permisos diferenciados.
+
+---
+
+## 🏗️ Arquitectura
+
+- Basada en el patrón **MVC (Modelo-Vista-Controlador)**.
+- Implementada en **Python** con **PyQt6** para la interfaz de usuario.
+- Uso de **SQLite** como motor de base de datos local, con posibilidad de migración.
 
 ---
 
@@ -23,31 +41,23 @@
 
 La interfaz gráfica está siendo desarrollada en **PyQt6**, siguiendo el patrón arquitectónico **MVC**. Cada funcionalidad del sistema cuenta con una pantalla dedicada.
 
-### ✔️ Funcionalidades ya implementadas o en desarrollo
+### ✔️ Funcionalidades ya implementadas o en desarrollo:
 
-- **Pantalla de Login**  
-  - Añadir dos funcionalidades: login y registrer
-  - Login: Vista principal de la ventana que da acceso a la main gui
-  - Registrer: vista secundaria a la que se accede a través del boton
+- **Pantalla de Login**
+  - Validación de credenciales por tipo de usuario.
+  - Cierre de la ventana de login al iniciar sesión y apertura de la ventana principal.
+  - Manejo de errores de autenticación.
 
-- **Pantalla Principal**  
+- **Pantalla Principal**
   - Estructura modular para mostrar contenido dinámico según el perfil.
-  - Menús de navegación para distintas funcionalidades según permisos del usuario.
-  - Estilo visual moderno y limpio.
-
-### 🧪 Pruebas UI
-
-- Se han probado las transiciones entre ventanas.
+  - Menús de navegación personalizados.
+  - Estética limpia y moderna.
 
 ---
 
-## 🗃️ Backend
+## 🗃️ Base de Datos
 
-*En desarrollo...*
-
----
-
-## 📂 Base de datos
+El sistema BSA utiliza una base de datos relacional para gestionar toda la información crítica del sistema.
 
 ### 🧾 Consideraciones para la tabla `user`
 
@@ -62,13 +72,16 @@ La interfaz gráfica está siendo desarrollada en **PyQt6**, siguiendo el patró
 
 ---
 
-## 👥 Perfiles de usuario
+## ❓ Preguntas sobre posibles funcionalidades
 
-- **Administrador**: acceso total a la aplicación, gestión completa.
-- **Usuario**: acceso limitado, puede consultar productos, interactuar con chatbot, etc.
+- ¿Se puede integrar un bot de Telegram para enviar notificaciones?
 
 ---
 
-## ❓ Preguntas sobre posibles funcionalidades
+## 📦 Instalación y uso
 
-- Integrar bot de Telegram para enviar notificaciones
+---
+
+## 🧾 Licencia
+
+Proyecto desarrollado con fines educativos para la asignatura de Ingeniería del Software.

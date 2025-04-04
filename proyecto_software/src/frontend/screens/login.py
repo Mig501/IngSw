@@ -1,3 +1,5 @@
+# src/frontend/screens/login.py
+
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel, QSizePolicy
 )

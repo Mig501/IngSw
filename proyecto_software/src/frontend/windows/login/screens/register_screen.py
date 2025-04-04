@@ -9,12 +9,15 @@ class RegisterScreen(QWidget):
     def __init__(self):
         super().__init__()
 
+        # layout
         layout = QVBoxLayout()
 
-        title = QLabel("Registro de usuario")
-        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(title)
+        # Título
+        self.title = QLabel("Registro de usuario")
+        self.title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(self.title)
 
+        # Username
         self.input_user = QLineEdit()
         self.input_user.setPlaceholderText("Usuario")
         layout.addWidget(self.input_user)

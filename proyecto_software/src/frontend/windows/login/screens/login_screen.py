@@ -2,7 +2,7 @@
 
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel, QSizePolicy
 from PyQt6.QtCore import QSize, Qt, pyqtSignal
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QIcon
 
 class LoginScreen(QWidget):
     login_success = pyqtSignal()         
@@ -31,10 +31,10 @@ class LoginScreen(QWidget):
 
         # Logo
         self.logo = QLabel()
-        pixmap = QPixmap("src/frontend/images/logo_sin_fondo.png")
+        pixmap = QPixmap("resources/images/logo2_removed.png")
         if pixmap.isNull():
             print("❌ No se pudo cargar la imagen del logo.")
-        pixmap = pixmap.scaledToWidth(170, Qt.TransformationMode.SmoothTransformation)
+        pixmap = pixmap.scaledToWidth(200, Qt.TransformationMode.SmoothTransformation)
         self.logo.setPixmap(pixmap)
         self.logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
         header_layout.addWidget(self.logo)
@@ -60,7 +60,8 @@ class LoginScreen(QWidget):
         self.input_pass.setFixedWidth(250)
 
         # Botón mostrar contraseña
-        self.toggle_button = QPushButton("👁️")
+        self.toggle_button = QPushButton()
+        self.toggle_button.setIcon(QIcon('resources/icons/eye.svg'))
         self.toggle_button.setCheckable(True)
         self.toggle_button.setFixedSize(QSize(30, 30))
         self.toggle_button.clicked.connect(self.toggle_password_visibility)
@@ -95,8 +96,10 @@ class LoginScreen(QWidget):
         '''Muestra u oculta el texto de la contraseña'''
         if self.toggle_button.isChecked():
             self.input_pass.setEchoMode(QLineEdit.EchoMode.Normal)
+            self.toggle_button.setIcon(QIcon('resources/icons/eye_off.svg'))
         else:
             self.input_pass.setEchoMode(QLineEdit.EchoMode.Password)
+            self.toggle_button.setIcon(QIcon('resources/icons/eye.svg'))
 
     def check_login(self):
         '''Emite la señal de login exitoso (sin validación por ahora)'''

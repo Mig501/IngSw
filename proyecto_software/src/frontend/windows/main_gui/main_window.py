@@ -11,12 +11,12 @@ from frontend.windows.main_gui.screens.item2_screen import Item2Screen
 from frontend.windows.main_gui.screens.item3_screen import Item3Screen
 from frontend.windows.main_gui.screens.item4_screen import Item4Screen
 
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("BSA App")
         self.setFixedSize(900, 600)
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)  # <- ✅ QUITAR BARRA DE SISTEMA
 
         # Widget principal
         central_widget = QWidget()
@@ -44,21 +44,43 @@ class MainWindow(QMainWindow):
         self.main_area_layout = QVBoxLayout()
         self.main_area.setLayout(self.main_area_layout)
 
-        # Encabezado con botón de menú
+        # ✅ BARRA DE TÍTULO PERSONALIZADA CON BOTONES
         self.header = QWidget()
+        self.header.setFixedHeight(40)
         self.header_layout = QHBoxLayout()
+        self.header_layout.setContentsMargins(0, 0, 0, 0)
         self.header.setLayout(self.header_layout)
+
         self.menu_button = QPushButton("Menú")
-        self.menu_button.setIcon(QIcon('resources/icons/menu.svg'))
+        self.menu_button.setIcon(QIcon("resources/icons/menu.svg"))
         self.menu_button.setFixedWidth(100)
         self.menu_button.clicked.connect(self.toggle_sidebar)
-        self.header_label = QLabel("My App")
+
+        self.header_label = QLabel("BSA App")
         self.header_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        btn_minimize = QPushButton()
+        btn_minimize.setIcon(QIcon("resources/icons/chevron_down.svg"))
+        btn_minimize.setFixedSize(30, 30)
+        btn_minimize.clicked.connect(self.showMinimized)
+
+        btn_maximize = QPushButton()
+        btn_maximize.setIcon(QIcon("resources/icons/chevron_up.svg"))
+        btn_maximize.setFixedSize(30, 30)
+        btn_maximize.clicked.connect(self.toggle_max_restore)
+
+        btn_close = QPushButton()
+        btn_close.setIcon(QIcon("resources/icons/x.svg"))
+        btn_close.setFixedSize(30, 30)
+        btn_close.clicked.connect(self.close)
 
         self.header_layout.addWidget(self.menu_button)
         self.header_layout.addStretch()
         self.header_layout.addWidget(self.header_label)
         self.header_layout.addStretch()
+        self.header_layout.addWidget(btn_minimize)
+        self.header_layout.addWidget(btn_maximize)
+        self.header_layout.addWidget(btn_close)
 
         # Contenido (cambiable)
         self.stacked_widget = QStackedWidget()
@@ -92,9 +114,14 @@ class MainWindow(QMainWindow):
         self.menu_button.setIcon(icon)
         self.menu_button.setText("Menú")
 
+    def toggle_max_restore(self):
+        if self.isMaximized():
+            self.showNormal()
+        else:
+            self.showMaximized()
+
     def display_page(self, index):
         self.stacked_widget.setCurrentIndex(index)
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

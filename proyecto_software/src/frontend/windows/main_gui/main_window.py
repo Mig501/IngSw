@@ -1,9 +1,12 @@
+# src/frontend/windows/main_gui/main_window.py
+
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,
     QLabel, QStackedWidget, QListWidget, QListWidgetItem, QSizePolicy
 )
-from PyQt6.QtCore import Qt, QPoint
-from PyQt6.QtGui import QIcon
+from PyQt6.QtCore import Qt, QSize
+from PyQt6.QtGui import QIcon, QPixmap
+from PyQt6.QtSvgWidgets import QSvgWidget
 import sys
 
 from frontend.windows.main_gui.screens.home_screen import HomeScreen
@@ -30,17 +33,59 @@ class MainWindow(QMainWindow):
 
         # Sidebar (menú lateral)
         self.sidebar = QWidget()
+        self.sidebar.setObjectName('Sidebar')
         self.sidebar.setFixedWidth(200)
         self.sidebar_layout = QVBoxLayout()
+        self.sidebar_layout.setContentsMargins(0, 60, 0, 0) # left, top, right, bottom
         self.sidebar.setLayout(self.sidebar_layout)
 
-        # Lista de opciones
+        # Lista de opciones del menú
         self.menu_list = QListWidget()
-        items = ['Home', 'Item1']
-        for item_text in items:
-            item = QListWidgetItem(item_text)
-            self.menu_list.addItem(item)
+        self.menu_list.setObjectName('MenuList')
+        self.menu_list.setSpacing(6)
+
+        # Widget personalizado para "Home"
+        home_widget = QWidget()
+        home_layout = QHBoxLayout()
+        home_layout.setContentsMargins(0, 0, 0, 0)
+        home_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        home_icon = QLabel()
+        pixmap = QPixmap("resources/icons/home.svg")
+        home_icon.setPixmap(pixmap.scaled(20, 20, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+
+        home_label = QLabel("Home")
+        home_label.setObjectName("SidebarLabel")
+
+        home_layout.addWidget(home_icon)
+        home_layout.addWidget(home_label)
+        home_widget.setLayout(home_layout)
+
+        home_item = QListWidgetItem()
+        home_item.setSizeHint(home_widget.sizeHint())
+        self.menu_list.addItem(home_item)
+        self.menu_list.setItemWidget(home_item, home_widget)
+
+        # Widget personalizado para "Item 1"
+        item1_widget = QWidget()
+        item1_layout = QHBoxLayout()
+        item1_layout.setContentsMargins(0, 0, 0, 0)
+        item1_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        item1_label = QLabel("Item 1")
+        item1_label.setObjectName("SidebarLabel")
+        
+        item1_layout.addWidget(item1_label)
+        item1_widget.setLayout(item1_layout)
+
+        item1_item = QListWidgetItem()
+        item1_item.setSizeHint(item1_widget.sizeHint())
+        self.menu_list.addItem(item1_item)
+        self.menu_list.setItemWidget(item1_item, item1_widget)
+
+        # Añadir al sidebar
         self.sidebar_layout.addWidget(self.menu_list)
+
 
         # Contenedor derecho que incluye el header y el área de contenido
         self.right_section = QWidget()
@@ -49,29 +94,35 @@ class MainWindow(QMainWindow):
 
         # Barra de título con botones personalizados
         self.header = QWidget()
+        self.header.setObjectName('Header')
         self.header.setFixedHeight(40)
         self.header_layout = QHBoxLayout()
         self.header_layout.setContentsMargins(0, 0, 0, 0)
         self.header.setLayout(self.header_layout)
 
+        # Boton menú
         self.menu_button = QPushButton("Menú")
         self.menu_button.setIcon(QIcon("resources/icons/menu.svg"))
         self.menu_button.setFixedWidth(100)
         self.menu_button.clicked.connect(self.toggle_sidebar)
 
+        #Título header
         self.header_label = QLabel("BSA App")
         self.header_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        btn_minimize = QPushButton()
-        btn_minimize.setIcon(QIcon("resources/icons/minus.svg"))
-        btn_minimize.setFixedSize(30, 30)
-        btn_minimize.clicked.connect(self.showMinimized)
+        # Botón minimizar
+        self.btn_minimize = QPushButton()
+        self.btn_minimize.setIcon(QIcon("resources/icons/minus.svg"))
+        self.btn_minimize.setFixedSize(30, 30)
+        self.btn_minimize.clicked.connect(self.showMinimized)
 
+        # Botón maximizar
         self.btn_maximize = QPushButton()
         self.btn_maximize.setIcon(QIcon("resources/icons/chevron_up.svg"))
         self.btn_maximize.setFixedSize(30, 30)
         self.btn_maximize.clicked.connect(self.toggle_max_restore)
 
+        # Botón cerrar
         btn_close = QPushButton()
         btn_close.setIcon(QIcon("resources/icons/x.svg"))
         btn_close.setFixedSize(30, 30)
@@ -81,11 +132,11 @@ class MainWindow(QMainWindow):
         self.header_layout.addStretch()
         self.header_layout.addWidget(self.header_label)
         self.header_layout.addStretch()
-        self.header_layout.addWidget(btn_minimize)
+        self.header_layout.addWidget(self.btn_minimize)
         self.header_layout.addWidget(self.btn_maximize)
         self.header_layout.addWidget(btn_close)
 
-        # Área de contenido (cambiable)
+        # Área de contenido
         self.main_area = QWidget()
         self.main_area.setObjectName('MainBody')
         self.main_area_layout = QVBoxLayout()

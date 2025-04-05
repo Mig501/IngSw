@@ -11,10 +11,10 @@ CREATE TABLE Users (
     UserPassword VARCHAR(20) NOT NULL, 
     Email VARCHAR(90) CHARACTER SET utf8mb4 NOT NULL UNIQUE,
     /*Add_Zip_Code VARCHAR(10),
-    Add_Country CHAR(3), 
-    Add_Street VARCHAR(100) CHARACTER SET utf8mb4,
-    Add_Number INT,
-    Add_Floor_Num VARCHAR(5),
+    Country CHAR(3), 
+    Street VARCHAR(100) CHARACTER SET utf8mb4,
+    Number INT,
+    Floor_Num VARCHAR(5),
     Phone_Number CHAR(16),
     Log_Date DATETIME DEFAULT NOW()*/
     /*hay que añadir el campo para el rol de cada user para a la 

@@ -1,3 +1,5 @@
+# src/frontend/window/main_gui/main_window.py
+
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,
     QLabel, QStackedWidget, QListWidget, QListWidgetItem, QSizePolicy
@@ -16,10 +18,12 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("BSA App")
         self.setFixedSize(900, 600)
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)  # <- ✅ QUITAR BARRA DE SISTEMA
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)  
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
 
         # Widget principal
         central_widget = QWidget()
+        central_widget.setObjectName('MainContainer')
         self.setCentralWidget(central_widget)
 
         # Layout principal horizontal
@@ -39,12 +43,12 @@ class MainWindow(QMainWindow):
             self.menu_list.addItem(item)
         self.sidebar_layout.addWidget(self.menu_list)
 
-        # Cuerpo principal con header y contenido
-        self.main_area = QWidget()
-        self.main_area_layout = QVBoxLayout()
-        self.main_area.setLayout(self.main_area_layout)
+        # Contenedor derecho que incluye el header y el área de contenido
+        self.right_section = QWidget()
+        self.right_section_layout = QVBoxLayout()
+        self.right_section.setLayout(self.right_section_layout)
 
-        # ✅ BARRA DE TÍTULO PERSONALIZADA CON BOTONES
+        # Barra de título con botones personalizados
         self.header = QWidget()
         self.header.setFixedHeight(40)
         self.header_layout = QHBoxLayout()
@@ -82,7 +86,12 @@ class MainWindow(QMainWindow):
         self.header_layout.addWidget(btn_maximize)
         self.header_layout.addWidget(btn_close)
 
-        # Contenido (cambiable)
+        # Área de contenido (cambiable)
+        self.main_area = QWidget()
+        self.main_area.setObjectName('MainBody')
+        self.main_area_layout = QVBoxLayout()
+        self.main_area.setLayout(self.main_area_layout)
+
         self.stacked_widget = QStackedWidget()
         self.pages = [
             Item1Screen(),
@@ -93,13 +102,15 @@ class MainWindow(QMainWindow):
         for page in self.pages:
             self.stacked_widget.addWidget(page)
 
-        # Agregar a layout de main area
-        self.main_area_layout.addWidget(self.header)
         self.main_area_layout.addWidget(self.stacked_widget)
+
+        # Agregar header y área de contenido al contenedor derecho
+        self.right_section_layout.addWidget(self.header)
+        self.right_section_layout.addWidget(self.main_area)
 
         # Agregar widgets al layout principal
         self.main_layout.addWidget(self.sidebar)
-        self.main_layout.addWidget(self.main_area)
+        self.main_layout.addWidget(self.right_section)
 
         # Conectar selección del menú
         self.menu_list.currentRowChanged.connect(self.display_page)

@@ -1,17 +1,13 @@
-# src/frontend/window/main_gui/main_window.py
-
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,
     QLabel, QStackedWidget, QListWidget, QListWidgetItem, QSizePolicy
 )
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QPoint
 from PyQt6.QtGui import QIcon
 import sys
 
+from frontend.windows.main_gui.screens.home_screen import HomeScreen
 from frontend.windows.main_gui.screens.item1_screen import Item1Screen
-from frontend.windows.main_gui.screens.item2_screen import Item2Screen
-from frontend.windows.main_gui.screens.item3_screen import Item3Screen
-from frontend.windows.main_gui.screens.item4_screen import Item4Screen
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -20,6 +16,8 @@ class MainWindow(QMainWindow):
         self.setFixedSize(900, 600)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)  
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+
+        self.old_pos = None  # Para controlar el arrastre
 
         # Widget principal
         central_widget = QWidget()
@@ -38,8 +36,9 @@ class MainWindow(QMainWindow):
 
         # Lista de opciones
         self.menu_list = QListWidget()
-        for i in range(1, 5):
-            item = QListWidgetItem(f"Item {i}")
+        items = ['Home', 'Item1']
+        for item_text in items:
+            item = QListWidgetItem(item_text)
             self.menu_list.addItem(item)
         self.sidebar_layout.addWidget(self.menu_list)
 
@@ -64,14 +63,14 @@ class MainWindow(QMainWindow):
         self.header_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         btn_minimize = QPushButton()
-        btn_minimize.setIcon(QIcon("resources/icons/chevron_down.svg"))
+        btn_minimize.setIcon(QIcon("resources/icons/minus.svg"))
         btn_minimize.setFixedSize(30, 30)
         btn_minimize.clicked.connect(self.showMinimized)
 
-        btn_maximize = QPushButton()
-        btn_maximize.setIcon(QIcon("resources/icons/chevron_up.svg"))
-        btn_maximize.setFixedSize(30, 30)
-        btn_maximize.clicked.connect(self.toggle_max_restore)
+        self.btn_maximize = QPushButton()
+        self.btn_maximize.setIcon(QIcon("resources/icons/chevron_up.svg"))
+        self.btn_maximize.setFixedSize(30, 30)
+        self.btn_maximize.clicked.connect(self.toggle_max_restore)
 
         btn_close = QPushButton()
         btn_close.setIcon(QIcon("resources/icons/x.svg"))
@@ -83,7 +82,7 @@ class MainWindow(QMainWindow):
         self.header_layout.addWidget(self.header_label)
         self.header_layout.addStretch()
         self.header_layout.addWidget(btn_minimize)
-        self.header_layout.addWidget(btn_maximize)
+        self.header_layout.addWidget(self.btn_maximize)
         self.header_layout.addWidget(btn_close)
 
         # Área de contenido (cambiable)
@@ -94,10 +93,8 @@ class MainWindow(QMainWindow):
 
         self.stacked_widget = QStackedWidget()
         self.pages = [
-            Item1Screen(),
-            Item2Screen(),
-            Item3Screen(),
-            Item4Screen()
+            HomeScreen(),
+            Item1Screen()
         ]
         for page in self.pages:
             self.stacked_widget.addWidget(page)
@@ -128,11 +125,26 @@ class MainWindow(QMainWindow):
     def toggle_max_restore(self):
         if self.isMaximized():
             self.showNormal()
+            self.btn_maximize.setIcon(QIcon("resources/icons/chevron_up.svg"))
         else:
             self.showMaximized()
+            self.btn_maximize.setIcon(QIcon("resources/icons/chevron_down.svg"))
 
     def display_page(self, index):
         self.stacked_widget.setCurrentIndex(index)
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton and self.header.underMouse():
+            self.old_pos = event.globalPosition().toPoint()
+
+    def mouseMoveEvent(self, event):
+        if self.old_pos is not None:
+            delta = event.globalPosition().toPoint() - self.old_pos
+            self.move(self.x() + delta.x(), self.y() + delta.y())
+            self.old_pos = event.globalPosition().toPoint()
+
+    def mouseReleaseEvent(self, event):
+        self.old_pos = None
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

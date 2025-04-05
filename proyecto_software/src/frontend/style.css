@@ -26,6 +26,8 @@ QWidget#MainContainer {
 /* Estilo para el área de contenido principal */
 QWidget#MainBody {
     background-color: #546473;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
 }

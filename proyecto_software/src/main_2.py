@@ -1,13 +1,8 @@
-# src/main.py
-from model.BusinessObject import BussinesObject
-import sys
-from PyQt6.QtWidgets import QApplication
-from frontend.windows.login.login_window import LoginWindow
+from model.dao.UserDao import UserDao
 
 def main():
-    bo = BussinesObject()
-    bo.pruebainsert()
-    bo.pruebaselect()
+    dao = UserDao()
+    users = dao.select()
 
 if __name__ == '__main__':
     main()

@@ -3,6 +3,9 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel, QSizePolicy
 from PyQt6.QtCore import QSize, Qt, pyqtSignal
 from PyQt6.QtGui import QPixmap, QIcon
+from PyQt6.QtWidgets import QMessageBox
+from model.vo.LoginVO import LoginVO
+from model.BusinessObject import BusinessObject
 
 class LoginScreen(QWidget):
     login_success = pyqtSignal()         
@@ -103,4 +106,22 @@ class LoginScreen(QWidget):
 
     def check_login(self):
         '''Emite la señal de login exitoso (sin validación por ahora)'''
+        username = self.input_user.text().strip()
+        password = self.input_pass.text().strip()
+
+        if not username or not password:
+            QMessageBox.warning(self, "Campos vacíos", "Por favor, completa todos los campos.")
+            return
+
+        login_vo = LoginVO(username, password)
+        result = BusinessObject().comprobarlogin(login_vo)
+
+        if not result:
+            # Se ha podido iniciar sesión
+            QMessageBox.information(self, "Inicio de sesión exitoso", "¡Bienvenido!")
+            self.input_user.clear()
+
+        else:
+            QMessageBox.critical(self, "Error de inicio de sesión", "Usuario o contraseña incorrectos.")
+
         self.login_success.emit()

@@ -1,7 +1,8 @@
 # src/frontend/windows/login/screens/register_screen.py
-
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
 from PyQt6.QtCore import Qt, pyqtSignal
+from model.vo.UserVO import UserVO
+from model.BusinessObject import BusinessObject
 
 class RegisterScreen(QWidget):
     # Señal para volver a la pantalla de login
@@ -94,5 +95,22 @@ class RegisterScreen(QWidget):
             )
             return  # Si falta algo, no continúa
 
-        # Si todo está bien, vuelve al login
-        self.back_to_login.emit()
+        try:
+            # El id de usuario se genera automáticamente en la base de datos, así que no lo pasamos
+            user_vo = UserVO(None, user, email, password, phone)
+            rows = BusinessObject().insert(user_vo)
+            
+            if rows > 0:
+                QMessageBox.information(self, "Registro exitoso", "Usuario registrado correctamente.")
+                print("Usuario registrado correctamente")
+                self.back_to_login.emit()
+
+            else:
+                QMessageBox.critical(self, "Error", "No se pudo registrar el usuario.")
+
+        except Exception as e:
+            if "Duplicate entry" in str(e):
+                QMessageBox.critical(self, "Usuario existente", "El nombre de usuario o el correo ya están registrados.")
+            else:
+                QMessageBox.critical(self, "Error", f"Error al registrar el usuario:\n{str(e)}")
+            return

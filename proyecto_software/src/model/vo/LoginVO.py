@@ -1,9 +1,8 @@
-class LoginVo:
+class LoginVO:
     """
     Class representing a login value object.
     """
 
-    def __init__(self, username, apellido, email):
+    def __init__(self, username, password):
         self.username = username
-        self.apellido = apellido
-        self.email = email
+        self.userpassword = password

@@ -4,7 +4,7 @@ from model.dao.UserDao import UserDao
 #probar
 import random
 
-class BussinesObject():
+class BusinessObject():
 
     def pruebainsert(self):
         user_dao = UserDao()
@@ -21,7 +21,17 @@ class BussinesObject():
             print(usuario.user_id, usuario.username, usuario.email, usuario.userpassword)
 
     
-    def Comprobarlogin(self, loginVo):
+    def comprobarlogin(self, loginVo):
         userdao= UserDao()
-        return userdao.consultlogin(loginVo.username, loginVo.userpassword)
+        return userdao.consultlogin(loginVo)
+    
+    def insert(self, user_vo) -> int:
+        try:
+            user_dao = UserDao()
+            rows = user_dao.insert(user_vo)
+            return rows
+
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.insert: {e}")
+
 

@@ -8,8 +8,6 @@
 - [🖼️ Frontend (Interfaz Gráfica)](#frontend-interfaz-gráfica)
 - [🗃️ Base de datos](#base-de-datos)
 - [❓ Preguntas sobre posibles funcionalidades](#preguntas-sobre-posibles-funcionalidades)
-- [❓ Preguntas de implementación](#preguntas-de-implementación)
-- [📦 Instalación y uso](#instalación-y-uso)
 - [🧾 Licencia](#licencia)
 
 ---
@@ -33,7 +31,7 @@
 
 - Basada en el patrón **MVC (Modelo-Vista-Controlador)**.
 - Implementada en **Python** con **PyQt6** para la interfaz de usuario.
-- Uso de **SQLite** como motor de base de datos local, con posibilidad de migración.
+- Uso de **MySQL** como motor de base de datos local.
 
 ---
 
@@ -47,6 +45,7 @@ La interfaz gráfica está siendo desarrollada en **PyQt6**, siguiendo el patró
   - Validación de credenciales por tipo de usuario.
   - Cierre de la ventana de login al iniciar sesión y apertura de la ventana principal.
   - Manejo de errores de autenticación.
+  - Registro de nuevos usuarios (Clientes únicamente)
 
 - **Pantalla Principal**
   - Estructura modular para mostrar contenido dinámico según el perfil.
@@ -75,10 +74,6 @@ El sistema BSA utiliza una base de datos relacional para gestionar toda la infor
 ## ❓ Preguntas sobre posibles funcionalidades
 
 - ¿Se puede integrar un bot de Telegram para enviar notificaciones?
-
----
-
-## 📦 Instalación y uso
 
 ---
 

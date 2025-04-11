@@ -85,3 +85,12 @@ El sistema BSA utiliza una base de datos relacional para gestionar toda la infor
 ## 🧾 Licencia
 
 Proyecto desarrollado con fines educativos para la asignatura de Ingeniería del Software.
+
+
+Consultas
+ - Value object -> Login, Registro, por cada cosa es, son muchas
+ - DAO -> uno por tabla
+- Login window y register window en vista
+
+validaciones de forma en contralador, enteros, string
+validaciones de lógico va en el model en otra carpeta logica

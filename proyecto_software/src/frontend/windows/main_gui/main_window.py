@@ -33,7 +33,7 @@ class MainWindow(QMainWindow):
         # Sidebar (menú lateral)
         self.sidebar = QWidget()
         self.sidebar.setObjectName('Sidebar')
-        self.sidebar.setFixedWidth(200)
+        self.sidebar.setFixedWidth(140)
         self.sidebar_layout = QVBoxLayout()
         self.sidebar_layout.setContentsMargins(0, 60, 0, 0)
         self.sidebar.setLayout(self.sidebar_layout)
@@ -57,6 +57,7 @@ class MainWindow(QMainWindow):
         home_widget.setLayout(home_layout)
         home_item = QListWidgetItem()
         home_item.setSizeHint(home_widget.sizeHint())
+        
         self.menu_list.addItem(home_item)
         self.menu_list.setItemWidget(home_item, home_widget)
 
@@ -102,6 +103,7 @@ class MainWindow(QMainWindow):
         self.btn_maximize.clicked.connect(self.toggle_max_restore)
 
         btn_close = QPushButton()
+        btn_close.setObjectName('CloseButton')
         btn_close.setIcon(QIcon("resources/icons/x.svg"))
         btn_close.setFixedSize(30, 30)
         btn_close.clicked.connect(self.close)
@@ -132,14 +134,18 @@ class MainWindow(QMainWindow):
         self.main_layout.addWidget(self.sidebar)
         self.main_layout.addWidget(self.right_section)
 
-        # Botón de menú fuera del header y encima del sidebar
-        self.menu_button = QPushButton("Menú", self)
+        # Botón menú
+        self.menu_button = QPushButton("Menú")
         self.menu_button.setIcon(QIcon("resources/icons/menu.svg"))
-        self.menu_button.setObjectName("MenuFloating")
         self.menu_button.setFixedWidth(100)
-        self.menu_button.move(10, 10)
-        self.menu_button.raise_()
+        self.menu_button.setFixedHeight(30)
+        self.menu_button.setObjectName("MenuButton")
         self.menu_button.clicked.connect(self.toggle_sidebar)
+
+        # Posicionar manualmente el botón encima de la sidebar
+        self.menu_button.setParent(self.centralWidget())
+        self.menu_button.move(30, 15)
+        self.menu_button.raise_()
 
         self.menu_list.currentRowChanged.connect(self.display_page)
         self.sidebar.setVisible(False)

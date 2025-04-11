@@ -124,6 +124,7 @@ class MainWindow(QMainWindow):
 
         # Botón cerrar
         btn_close = QPushButton()
+        btn_close.setObjectName('CloseButton')
         btn_close.setIcon(QIcon("resources/icons/x.svg"))
         btn_close.setFixedSize(30, 30)
         btn_close.clicked.connect(self.close)

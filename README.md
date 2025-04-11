@@ -99,6 +99,7 @@ validaciones de lógico va en el model en otra carpeta logica
     - actualizar word a los cambios realizados respeto al diagrama
     - creacion de diagramas de flujo
     - actualizar tablas de entidad realicion para que se ajuste al formato y a las actualizaciones necesarias
+        -unificar warehouse y workshop en una unica tabla llamada concesionario/taller
   
   ## base de datos
     - quitar atributos y tablas inecesarios

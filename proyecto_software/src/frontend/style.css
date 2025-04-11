@@ -53,3 +53,11 @@ QLabel#SidebarLabel {
     font-size: 16px;
     margin-left: 5px;
 }
+
+QPushButtom#CloseButton {
+    background-color: #c0392b;
+}
+
+QPushButton#CloseButton:hover {
+    background-color: #e74c3c;
+}

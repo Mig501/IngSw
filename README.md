@@ -104,4 +104,4 @@ Proyecto desarrollado con fines educativos para la asignatura de Ingeniería del
 
 # 🚗 BSA - BuySellAutomobile
 
-![Logo del proyecto](resources/images/logo2.jpg)
+![Logo del proyecto](proyecto_software/resources/images/logo2.jpg)

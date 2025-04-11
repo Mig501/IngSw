@@ -39,7 +39,7 @@
 
 La interfaz gráfica está siendo desarrollada en **PyQt6**, siguiendo el patrón arquitectónico **MVC**. Cada funcionalidad del sistema cuenta con una pantalla dedicada.
 
-### ✔️ Funcionalidades ya implementadas o en desarrollo:
+### ✔️ Funcionalidades en desarrollo:
 
 - **Pantalla de Login**
   - Validación de credenciales por tipo de usuario.
@@ -73,8 +73,6 @@ El sistema BSA utiliza una base de datos relacional para gestionar toda la infor
 
 ## ❓ Preguntas sobre posibles funcionalidades
 
-- ¿Se puede integrar un bot de Telegram para enviar notificaciones?
-
 ---
 
 ## 🧾 Licencia
@@ -92,3 +90,19 @@ validaciones de forma en contralador, enteros, string
 validaciones de lógico va en el model en otra carpeta logica
 =======
 >>>>>>> f572595e53bb66f312689af8119ee528783bc7a2
+
+## Cosas por hacer 
+
+  ## Entrega 2
+    - revisar diagrama de casos de usos unificado
+    - cambiar formato del word al formato indicado 
+    - actualizar word a los cambios realizados respeto al diagrama
+    - creacion de diagramas de flujo
+    - actualizar tablas de entidad realicion para que se ajuste al formato y a las actualizaciones necesarias
+  
+  ## base de datos
+    - quitar atributos y tablas inecesarios
+    - crear clase root de todos los usuarios "Users" y hacer que el resto de ususarios ereden del esa.
+
+
+## Cosas en proceso

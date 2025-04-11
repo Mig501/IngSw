@@ -8,8 +8,6 @@
 - [🖼️ Frontend (Interfaz Gráfica)](#frontend-interfaz-gráfica)
 - [🗃️ Base de datos](#base-de-datos)
 - [❓ Preguntas sobre posibles funcionalidades](#preguntas-sobre-posibles-funcionalidades)
-- [❓ Preguntas de implementación](#preguntas-de-implementación)
-- [📦 Instalación y uso](#instalación-y-uso)
 - [🧾 Licencia](#licencia)
 
 ---
@@ -33,7 +31,7 @@
 
 - Basada en el patrón **MVC (Modelo-Vista-Controlador)**.
 - Implementada en **Python** con **PyQt6** para la interfaz de usuario.
-- Uso de **SQLite** como motor de base de datos local, con posibilidad de migración.
+- Uso de **MySQL** como motor de base de datos local.
 
 ---
 
@@ -47,6 +45,7 @@ La interfaz gráfica está siendo desarrollada en **PyQt6**, siguiendo el patró
   - Validación de credenciales por tipo de usuario.
   - Cierre de la ventana de login al iniciar sesión y apertura de la ventana principal.
   - Manejo de errores de autenticación.
+  - Registro de nuevos usuarios (Clientes únicamente)
 
 - **Pantalla Principal**
   - Estructura modular para mostrar contenido dinámico según el perfil.
@@ -78,13 +77,10 @@ El sistema BSA utiliza una base de datos relacional para gestionar toda la infor
 
 ---
 
-## 📦 Instalación y uso
-
----
-
 ## 🧾 Licencia
 
 Proyecto desarrollado con fines educativos para la asignatura de Ingeniería del Software.
+<<<<<<< HEAD
 
 
 Consultas
@@ -94,3 +90,5 @@ Consultas
 
 validaciones de forma en contralador, enteros, string
 validaciones de lógico va en el model en otra carpeta logica
+=======
+>>>>>>> f572595e53bb66f312689af8119ee528783bc7a2

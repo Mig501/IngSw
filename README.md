@@ -1,7 +1,7 @@
 # 🛠️ DESARROLLO
 
 ## ❓ Preguntas sobre posibles funcionalidades
-
+- Si se añade como extend de iniciar sesión de user una funcionalidad que sea desactivar cuenta, se debe meter en el login obligatoriamente o para poder implementarlo en otra parte debe aparecer en el diagrama de caso de uso en otra parte.
 
 ## Cosas por hacer 
 
@@ -13,15 +13,25 @@
     - actualizar tablas de entidad realicion para que se ajuste al formato y a las actualizaciones necesarias
         -unificar warehouse y workshop en una unica tabla llamada concesionario/taller
   
-  ### base de datos
+  ### Base de datos
     - quitar atributos y tablas inecesarios
     - crear clase root de todos los usuarios "Users" y hacer que el resto de ususarios ereden del esa.
 
+---
 
 ## Cosas en proceso
 
+---
 
-___________________________________________________________________________________________________________________
+## Consultas
+- Value object -> Login, Registro, por cada cosa es, son muchas
+- DAO -> uno por tabla
+- Login window y register window en vista
+
+validaciones de forma en contralador, enteros, string
+validaciones de lógico va en el model en otra carpeta logica
+
+---
 # 🛠️ Proyecto BSA - BuySellAutomovile
 
 ## Índice
@@ -100,13 +110,3 @@ ________________________________________________________________________________
 ## 🧾 Licencia
 
 Proyecto desarrollado con fines educativos para la asignatura de Ingeniería del Software.
-
-Consultas
-- Value object -> Login, Registro, por cada cosa es, son muchas
-- DAO -> uno por tabla
-- Login window y register window en vista
-
-validaciones de forma en contralador, enteros, string
-validaciones de lógico va en el model en otra carpeta logica
-
-

@@ -156,7 +156,7 @@ El sistema BSA ha sido desarrollado por el **Grupo 6** para la asignatura de Ing
 - **David Morán Gorgojo**  
   *Rol:* Analista de requisitos  
   *Responsabilidades:* Supervisión general, planificación, obtención y validación de requisitos.  
-  *Correo:* dmorga03@estudiantes.unileon.es
+  *Correo:* dmorag03@estudiantes.unileon.es
 
 - **Miguel Sánchez Rodríguez**  
   *Rol:* Desarrollador de base de datos (BD)  
@@ -171,7 +171,7 @@ El sistema BSA ha sido desarrollado por el **Grupo 6** para la asignatura de Ing
 - **Jaime Alvarado Fernández**  
   *Rol:* Desarrollador Frontend  
   *Responsabilidades:* Diseño e implementación de la interfaz de usuario (UI/UX), conexión con el backend.  
-  *Correo:* jalva08@estudiantes.unileon.es
+  *Correo:* jalvaf08@estudiantes.unileon.es
 
 ---
 

@@ -1,3 +1,27 @@
+# 🛠️ DESARROLLO
+
+## ❓ Preguntas sobre posibles funcionalidades
+
+
+## Cosas por hacer 
+
+  ### Entrega 2
+    - revisar diagrama de casos de usos unificado
+    - cambiar formato del word al formato indicado 
+    - actualizar word a los cambios realizados respeto al diagrama
+    - creacion de diagramas de flujo
+    - actualizar tablas de entidad realicion para que se ajuste al formato y a las actualizaciones necesarias
+        -unificar warehouse y workshop en una unica tabla llamada concesionario/taller
+  
+  ### base de datos
+    - quitar atributos y tablas inecesarios
+    - crear clase root de todos los usuarios "Users" y hacer que el resto de ususarios ereden del esa.
+
+
+## Cosas en proceso
+
+
+___________________________________________________________________________________________________________________
 # 🛠️ Proyecto BSA - BuySellAutomovile
 
 ## Índice
@@ -14,30 +38,30 @@
 
 ## 📌 Descripción general
 
-**BSA (BuySellAutomovile)** es una aplicación de escritorio para la gestión de venta y compra de automóviles, piezas y servicios asociados, con módulos de soporte para talleres, almacenes, empleados y clientes.
+  **BSA (BuySellAutomovile)** es una aplicación de escritorio para la gestión de venta y compra de automóviles, piezas y servicios asociados, con módulos de soporte para talleres, almacenes, empleados y clientes.
 
 ---
 
 ## 🧠 Requisitos y objetivos
 
-- Gestionar productos, usuarios y talleres.
-- Control de inventario, pedidos, contratos y mantenimiento.
-- Generación de estadísticas.
-- Soporte para distintos perfiles de usuario con permisos diferenciados.
+  - Gestionar productos, usuarios y talleres.
+  - Control de inventario, pedidos, contratos y mantenimiento.
+  - Generación de estadísticas.
+  - Soporte para distintos perfiles de usuario con permisos diferenciados.
 
 ---
 
 ## 🏗️ Arquitectura
 
-- Basada en el patrón **MVC (Modelo-Vista-Controlador)**.
-- Implementada en **Python** con **PyQt6** para la interfaz de usuario.
-- Uso de **MySQL** como motor de base de datos local.
+  - Basada en el patrón **MVC (Modelo-Vista-Controlador)**.
+  - Implementada en **Python** con **PyQt6** para la interfaz de usuario.
+  - Uso de **MySQL** como motor de base de datos local.
 
 ---
 
 ## 🖼️ Frontend (Interfaz Gráfica)
 
-La interfaz gráfica está siendo desarrollada en **PyQt6**, siguiendo el patrón arquitectónico **MVC**. Cada funcionalidad del sistema cuenta con una pantalla dedicada.
+  La interfaz gráfica está siendo desarrollada en **PyQt6**, siguiendo el patrón arquitectónico **MVC**. Cada funcionalidad del sistema cuenta con una pantalla dedicada.
 
 ### ✔️ Funcionalidades en desarrollo:
 
@@ -56,54 +80,33 @@ La interfaz gráfica está siendo desarrollada en **PyQt6**, siguiendo el patró
 
 ## 🗃️ Base de Datos
 
-El sistema BSA utiliza una base de datos relacional para gestionar toda la información crítica del sistema.
+  El sistema BSA utiliza una base de datos relacional para gestionar toda la información crítica del sistema.
 
 ### 🧾 Consideraciones para la tabla `user`
 
-- `username` debe ser **único**.
-- La `password` podría tener unos **requisitos mínimos** (por ejemplo: longitud mínima, mayúsculas, símbolos, etc.).
-- El `email` debe ser **único** para evitar duplicidades en el registro.
-- **Ajustar el tamaño del código postal** en función del país más largo (el que tenga códigos más largos).
-- El campo `país` se puede escribir completo y después mapear a una abreviatura asociada (ej. España → ES).
-- En la dirección se podría incluir un **desplegable** para seleccionar el tipo de vía (ej. Calle, Avenida) y luego escribir el nombre.
-- Posibilidad de añadir campos como **escalera**, ya que algunos edificios requieren esta información para una dirección completa.
-- El campo de **teléfono móvil debe ser obligatorio** y el prefijo se añadiría en función del país que se haya añadido.
+  - `username` debe ser **único**.
+  - La `password` podría tener unos **requisitos mínimos** (por ejemplo: longitud mínima, mayúsculas, símbolos, etc.).
+  - El `email` debe ser **único** para evitar duplicidades en el registro.
+  - **Ajustar el tamaño del código postal** en función del país más largo (el que tenga códigos más largos).
+  - El campo `país` se puede escribir completo y después mapear a una abreviatura asociada (ej. España → ES).
+  - En la dirección se podría incluir un **desplegable** para seleccionar el tipo de vía (ej. Calle, Avenida) y luego escribir el nombre.
+  - Posibilidad de añadir campos como **escalera**, ya que algunos edificios requieren esta información para una dirección completa.
+  - El campo de **teléfono móvil debe ser obligatorio** y el prefijo se añadiría en función del país que se haya añadido.
 
 ---
 
-## ❓ Preguntas sobre posibles funcionalidades
 
----
 
 ## 🧾 Licencia
 
 Proyecto desarrollado con fines educativos para la asignatura de Ingeniería del Software.
-<<<<<<< HEAD
-
 
 Consultas
- - Value object -> Login, Registro, por cada cosa es, son muchas
- - DAO -> uno por tabla
+- Value object -> Login, Registro, por cada cosa es, son muchas
+- DAO -> uno por tabla
 - Login window y register window en vista
 
 validaciones de forma en contralador, enteros, string
 validaciones de lógico va en el model en otra carpeta logica
-=======
->>>>>>> f572595e53bb66f312689af8119ee528783bc7a2
-
-## Cosas por hacer 
-
-  ## Entrega 2
-    - revisar diagrama de casos de usos unificado
-    - cambiar formato del word al formato indicado 
-    - actualizar word a los cambios realizados respeto al diagrama
-    - creacion de diagramas de flujo
-    - actualizar tablas de entidad realicion para que se ajuste al formato y a las actualizaciones necesarias
-        -unificar warehouse y workshop en una unica tabla llamada concesionario/taller
-  
-  ## base de datos
-    - quitar atributos y tablas inecesarios
-    - crear clase root de todos los usuarios "Users" y hacer que el resto de ususarios ereden del esa.
 
 
-## Cosas en proceso

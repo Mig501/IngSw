@@ -92,17 +92,6 @@ validaciones de lógico va en el model en otra carpeta logica
 
   El sistema BSA utiliza una base de datos relacional para gestionar toda la información crítica del sistema.
 
-### 🧾 Consideraciones para la tabla `user`
-
-  - `username` debe ser **único**.
-  - La `password` podría tener unos **requisitos mínimos** (por ejemplo: longitud mínima, mayúsculas, símbolos, etc.).
-  - El `email` debe ser **único** para evitar duplicidades en el registro.
-  - **Ajustar el tamaño del código postal** en función del país más largo (el que tenga códigos más largos).
-  - El campo `país` se puede escribir completo y después mapear a una abreviatura asociada (ej. España → ES).
-  - En la dirección se podría incluir un **desplegable** para seleccionar el tipo de vía (ej. Calle, Avenida) y luego escribir el nombre.
-  - Posibilidad de añadir campos como **escalera**, ya que algunos edificios requieren esta información para una dirección completa.
-  - El campo de **teléfono móvil debe ser obligatorio** y el prefijo se añadiría en función del país que se haya añadido.
-
 ---
 
 

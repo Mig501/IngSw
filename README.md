@@ -99,3 +99,9 @@ validaciones de lógico va en el model en otra carpeta logica
 ## 🧾 Licencia
 
 Proyecto desarrollado con fines educativos para la asignatura de Ingeniería del Software.
+
+---
+
+# 🚗 BSA - BuySellAutomobile
+
+![Logo del proyecto](resources/images/logo2.jpg)

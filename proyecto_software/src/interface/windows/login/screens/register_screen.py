@@ -42,12 +42,9 @@ class RegisterScreen(QWidget):
 
         # Botón de registro
         self.button_register = QPushButton("Registrarse")
-
         self.button_register.clicked.connect(self.validate)
-
+    
         layout.addWidget(self.button_register)
-
-        # Aplicar layout a la ventana
         self.setLayout(layout)
 
     def validate(self):

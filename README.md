@@ -143,7 +143,7 @@ El desarrollo del sistema BSA se ha llevado a cabo utilizando las siguientes tec
 > Toda la documentación técnica y académica se encuentra en la carpeta [`/docs`](./docs/)
 
 ### 📘 Documentos principales
-- [Especificación de Requisitos (ERS)](./docs/ERS_BSA.pdf)
+- [`Presentación Proyecto BSA`](docs/Componentes_descripcion_proyecto.pdf)
 
 ### 🗂️ Documentación complementaria
 

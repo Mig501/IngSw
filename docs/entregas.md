@@ -22,7 +22,7 @@
 **Fecha de entrega:** [10 de marzo, 2025]
 
 ### Archivo entregado:
-- [`Practica1_documentoERS_BSA.pdf`](entrega_1/Practica1_documentoERS_BSA.pdf)
+- [`Requisitos del Sistema (ERS)`](entrega_1/Practica1_documentoERS_BSA.pdf)
 
 ### Contenido requerido:
 - [1] Documento ERS en formato PDF, siguiendo el estándar IEEE 830

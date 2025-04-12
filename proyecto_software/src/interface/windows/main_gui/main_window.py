@@ -1,7 +1,7 @@
 # src/interface/windows/main_gui/main_window.py
 
 from PyQt6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,
+    QMainWindow, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,
     QLabel, QStackedWidget, QListWidget, QListWidgetItem, QSizePolicy
 )
 from PyQt6.QtCore import Qt, QSize
@@ -87,6 +87,7 @@ class MainWindow(QMainWindow):
         self.header.setFixedHeight(40)
         self.header_layout = QHBoxLayout()
         self.header_layout.setContentsMargins(0, 0, 0, 0)
+        self.header_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.header.setLayout(self.header_layout)
 
         self.header_label = QLabel("BSA App")
@@ -144,13 +145,14 @@ class MainWindow(QMainWindow):
 
         # Posicionar manualmente el botón encima de la sidebar
         self.menu_button.setParent(self.centralWidget())
-        self.menu_button.move(30, 15)
+        self.menu_button.move(30, 20)
         self.menu_button.raise_()
 
         self.menu_list.currentRowChanged.connect(self.display_page)
         self.sidebar.setVisible(False)
 
     def toggle_sidebar(self):
+        '''Se encarga de cambiar el icono del boton de menu cuando este se pulse'''
         is_visible = not self.sidebar.isVisible()
         self.sidebar.setVisible(is_visible)
         icon = QIcon("resources/icons/chevron_left.svg") if is_visible else QIcon("resources/icons/menu.svg")
@@ -158,6 +160,7 @@ class MainWindow(QMainWindow):
         self.menu_button.setText("Menú")
 
     def toggle_max_restore(self):
+        '''Modifica el icono del boton de maximizar cuando este se pulse'''
         if self.isMaximized():
             self.showNormal()
             self.btn_maximize.setIcon(QIcon("resources/icons/chevron_up.svg"))
@@ -165,14 +168,20 @@ class MainWindow(QMainWindow):
             self.showMaximized()
             self.btn_maximize.setIcon(QIcon("resources/icons/chevron_down.svg"))
 
+    '''
+    Esta funcion no puede ir en la parte de interfaz, ya que se encarga de cambiar de vista cuando 
+    se seleccione una de las opciones de la barra lateral.
+    '''
     def display_page(self, index):
         self.stacked_widget.setCurrentIndex(index)
 
     def mousePressEvent(self, event):
+        '''Permite arrastar la ventana cuando se agarre la misma en la sección de header'''
         if event.button() == Qt.MouseButton.LeftButton and self.header.underMouse():
             self.old_pos = event.globalPosition().toPoint()
 
     def mouseMoveEvent(self, event):
+        '''Se encarga de mover la posicion de la ventana al ser arrastrada'''
         if self.old_pos:
             delta = event.globalPosition().toPoint() - self.old_pos
             self.move(self.x() + delta.x(), self.y() + delta.y())

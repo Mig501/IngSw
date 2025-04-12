@@ -33,13 +33,13 @@ validaciones de lógico va en el model en otra carpeta logica
 
 ---
 
-# 🚗 BSA - BuySellAutomobile
+# BSA - BuySellAutomobile
 
 ![Logo del proyecto](proyecto_software/resources/images/logo2.jpg)
 
 ---
 
-## 📌 Descripción
+## Descripción
 
 **BSA (BuySellAutomobile)** es un sistema de información diseñado para gestionar la compra, venta y mantenimiento de automóviles y sus componentes dentro de talleres mecánicos.  
 
@@ -57,7 +57,7 @@ El sistema proporciona una interfaz gráfica sencilla e intuitiva, y está basad
 
 ---
 
-## ⚙️ Tecnologías usadas
+## Tecnologías usadas
 
 El desarrollo del sistema BSA se ha llevado a cabo utilizando las siguientes tecnologías:
 
@@ -71,18 +71,18 @@ El desarrollo del sistema BSA se ha llevado a cabo utilizando las siguientes tec
 
 ---
 
-## 📄 Documentación
+## Documentación
 
 > Toda la documentación técnica y académica se encuentra en la carpeta [`/docs`](./docs/)
 
-### 📘 Documentos principales
+### Documentos principales
 - [`Presentación Proyecto BSA`](./docs/entrega_0/Componentes_descripcion_proyecto.pdf)
 
-### 🗂️ Documentación complementaria
+### Documentación complementaria
 
 ---
 
-## 👥 Autores
+## Autores
 
 El sistema BSA ha sido desarrollado por el **Grupo 6** para la asignatura de Ingeniería del Software. A continuación, se detallan los integrantes del equipo, sus roles y responsabilidades:
 
@@ -108,7 +108,6 @@ El sistema BSA ha sido desarrollado por el **Grupo 6** para la asignatura de Ing
 
 ---
 
-## 📜 Licencia
-
-Este proyecto está licenciado bajo la **Licencia MIT**.  
+## Licencia
+  
 Puedes consultar los términos completos en el archivo [`LICENSE`](./LICENSE).

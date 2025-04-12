@@ -3,7 +3,7 @@
 **Fecha de entrega:** [24 de febrero, 2025]
 
 ### Archivo entregado:
-- [`Presentación Proyecto BSA`](docs/entrega_0/Componentes_descripcion_proyecto.pdf)
+- [`Presentación Proyecto BSA`](entrega_0/Componentes_descripcion_proyecto.pdf)
 
 ### Contenido requerido:
 - [1] Datos personales del equipo (DNI, nombre y apellidos)

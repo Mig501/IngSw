@@ -1,9 +1,9 @@
-# src/frontend/login/login_window.py
+# src/interface/login/login_window.py
 
 from PyQt6.QtWidgets import QMainWindow, QStackedWidget
-from frontend.windows.login.screens.login_screen import LoginScreen
-from frontend.windows.login.screens.register_screen import RegisterScreen
-from frontend.windows.main_gui.main_window import MainWindow
+from interface.windows.login.screens.login_screen import LoginScreen
+from interface.windows.login.screens.register_screen import RegisterScreen
+from interface.windows.main_gui.main_window import MainWindow
 
 class LoginWindow(QMainWindow):
     def __init__(self):

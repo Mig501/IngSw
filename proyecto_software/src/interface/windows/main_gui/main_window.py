@@ -1,4 +1,4 @@
-# src/frontend/windows/main_gui/main_window.py
+# src/interface/windows/main_gui/main_window.py
 
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,
@@ -8,8 +8,8 @@ from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon, QPixmap
 import sys
 
-from frontend.windows.main_gui.screens.home_screen import HomeScreen
-from frontend.windows.main_gui.screens.item1_screen import Item1Screen
+from interface.windows.main_gui.screens.home_screen import HomeScreen
+from interface.windows.main_gui.screens.item1_screen import Item1Screen
 
 class MainWindow(QMainWindow):
     def __init__(self):

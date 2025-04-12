@@ -2,13 +2,13 @@
 from model.BusinessObject import BusinessObject
 import sys
 from PyQt6.QtWidgets import QApplication
-from frontend.windows.login.login_window import LoginWindow
+from interface.windows.login.login_window import LoginWindow
 
 def main():
     app = QApplication(sys.argv)
 
     # Cargar CSS si lo tienes
-    with open("src/frontend/style.css", "r") as f:
+    with open("src/interface/style.css", "r") as f:
         app.setStyleSheet(f.read())
 
     login = LoginWindow()

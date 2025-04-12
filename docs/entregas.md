@@ -3,7 +3,7 @@
 **Fecha de entrega:** [24 de febrero, 2025]
 
 ### Archivo entregado:
-- [`Presentación Proyecto BSA`](docs/entrega_0/Componentes_descripcion_proyecto.pdf)
+- [`Presentación Proyecto BSA`](./docs/entrega_0/Componentes_descripcion_proyecto.pdf)
 
 ### Contenido requerido:
 - [1] Datos personales del equipo (DNI, nombre y apellidos)
@@ -22,7 +22,7 @@
 **Fecha de entrega:** [10 de marzo, 2025]
 
 ### Archivo entregado:
-- `Practica1_documentoERS_BSA.pdf`
+- [`Practica1_documentoERS_BSA.pdf`](./docs/entrega_1/Practica1_documentoERS_BSA.pdf)
 
 ### Contenido requerido:
 - [1] Documento ERS en formato PDF, siguiendo el estándar IEEE 830
@@ -58,11 +58,5 @@
 - [6] Modelo de dominio (modelo de clases del dominio) en PDF
 
 > *Nota:* Todos los artefactos deben estar correctamente nombrados y organizados en la estructura del `.zip`.
-
-### 👥 Responsables:
-- Pablo Ruiz: diagrama de casos de uso
-- Jaime Alvarado: diagramas de secuencia y edición visual
-- Miguel Sánchez: modelo de dominio y contratos
-- David Morán: redacción de descripciones y revisión
 
 **Estado:** En desarrollo

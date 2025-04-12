@@ -7,7 +7,6 @@ from interface.windows.login.login_window import LoginWindow
 def main():
     app = QApplication(sys.argv)
 
-    # Cargar CSS si lo tienes
     with open("src/interface/style.css", "r") as f:
         app.setStyleSheet(f.read())
 

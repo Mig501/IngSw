@@ -19,48 +19,23 @@ class RegisterScreen(QWidget):
         self.title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.title)
 
-        # Campo: Nombre de usuario (obligatorio)
+        # Campo: Nombre de usuario
         self.input_user = QLineEdit()
         self.input_user.setPlaceholderText("Usuario")
         layout.addWidget(self.input_user)
 
-        # Campo: Contraseña (obligatorio)
+        # Campo: Contraseña
         self.input_pass = QLineEdit()
         self.input_pass.setPlaceholderText("Contraseña")
         self.input_pass.setEchoMode(QLineEdit.EchoMode.Password)
         layout.addWidget(self.input_pass)
 
-        # Campo: Correo electrónico (obligatorio)
+        # Campo: Correo electrónico
         self.input_email = QLineEdit()
         self.input_email.setPlaceholderText("Correo electrónico")
         layout.addWidget(self.input_email)
 
-        # Campo: Código postal (opcional)
-        self.zip_code = QLineEdit()
-        self.zip_code.setPlaceholderText("Código Postal")
-        layout.addWidget(self.zip_code)
-
-        # Campo: País (opcional)
-        self.country = QLineEdit()
-        self.country.setPlaceholderText('País')
-        layout.addWidget(self.country)
-
-        # Campo: Dirección (opcional)
-        self.street = QLineEdit()
-        self.street.setPlaceholderText('Dirección')
-        layout.addWidget(self.street)
-
-        # Campo: Número (opcional)
-        self.house_number = QLineEdit()
-        self.house_number.setPlaceholderText('Número')
-        layout.addWidget(self.house_number)
-
-        # Campo: Piso (opcional)
-        self.floor = QLineEdit()
-        self.floor.setPlaceholderText('Piso')
-        layout.addWidget(self.floor)
-
-        # Campo: Teléfono móvil (obligatorio)
+        # Campo: Teléfono móvil
         self.phone_number = QLineEdit()
         self.phone_number.setPlaceholderText('Teléfono Móvil')
         layout.addWidget(self.phone_number)

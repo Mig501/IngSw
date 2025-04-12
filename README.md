@@ -1,7 +1,11 @@
 # 🛠️ DESARROLLO
 
+---
+
 ## ❓ Preguntas sobre posibles funcionalidades
 - Si se añade como extend de iniciar sesión de user una funcionalidad que sea desactivar cuenta, se debe meter en el login obligatoriamente o para poder implementarlo en otra parte debe aparecer en el diagrama de caso de uso en otra parte.
+
+---
 
 ## Cosas por hacer 
 
@@ -15,11 +19,7 @@
   
   ### Base de datos
     - quitar atributos y tablas inecesarios
-    - crear clase root de todos los usuarios "Users" y hacer que el resto de ususarios ereden del esa.
-
----
-
-## Cosas en proceso
+    - crear clase root de todos los usuarios "Users" y hacer que el resto de ususarios hereden del esa.
 
 ---
 
@@ -30,73 +30,6 @@
 
 validaciones de forma en contralador, enteros, string
 validaciones de lógico va en el model en otra carpeta logica
-
----
-# 🛠️ Proyecto BSA - BuySellAutomovile
-
-## Índice
-
-- [📌 Descripción general](#descripción-general)
-- [🧠 Requisitos y objetivos](#requisitos-y-objetivos)
-- [🏗️ Arquitectura](#arquitectura)
-- [🖼️ Frontend (Interfaz Gráfica)](#frontend-interfaz-gráfica)
-- [🗃️ Base de datos](#base-de-datos)
-- [❓ Preguntas sobre posibles funcionalidades](#preguntas-sobre-posibles-funcionalidades)
-- [🧾 Licencia](#licencia)
-
----
-
-## 📌 Descripción general
-
-  **BSA (BuySellAutomovile)** es una aplicación de escritorio para la gestión de venta y compra de automóviles, piezas y servicios asociados, con módulos de soporte para talleres, almacenes, empleados y clientes.
-
----
-
-## 🧠 Requisitos y objetivos
-
-  - Gestionar productos, usuarios y talleres.
-  - Control de inventario, pedidos, contratos y mantenimiento.
-  - Generación de estadísticas.
-  - Soporte para distintos perfiles de usuario con permisos diferenciados.
-
----
-
-## 🏗️ Arquitectura
-
-  - Basada en el patrón **MVC (Modelo-Vista-Controlador)**.
-  - Implementada en **Python** con **PyQt6** para la interfaz de usuario.
-  - Uso de **MySQL** como motor de base de datos local.
-
----
-
-## 🖼️ Frontend (Interfaz Gráfica)
-
-  La interfaz gráfica está siendo desarrollada en **PyQt6**, siguiendo el patrón arquitectónico **MVC**. Cada funcionalidad del sistema cuenta con una pantalla dedicada.
-
-### ✔️ Funcionalidades en desarrollo:
-
-- **Pantalla de Login**
-  - Validación de credenciales por tipo de usuario.
-  - Cierre de la ventana de login al iniciar sesión y apertura de la ventana principal.
-  - Manejo de errores de autenticación.
-  - Registro de nuevos usuarios (Clientes únicamente)
-
-- **Pantalla Principal**
-  - Estructura modular para mostrar contenido dinámico según el perfil.
-  - Menús de navegación personalizados.
-  - Estética limpia y moderna.
-
----
-
-## 🗃️ Base de Datos
-
-  El sistema BSA utiliza una base de datos relacional para gestionar toda la información crítica del sistema.
-
----
-
-## 🧾 Licencia
-
-Proyecto desarrollado con fines educativos para la asignatura de Ingeniería del Software.
 
 ---
 

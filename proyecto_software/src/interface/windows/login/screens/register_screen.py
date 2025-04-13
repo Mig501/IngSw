@@ -69,7 +69,7 @@ class RegisterScreen(QWidget):
 
         try:
             # El id de usuario se genera automáticamente en la base de datos, así que no lo pasamos
-            user_vo = UserVO(None, user, email, password, phone)
+            user_vo = UserVO(None, user, password, email, phone)
             rows = BusinessObject().insert(user_vo)
             
             if rows > 0:

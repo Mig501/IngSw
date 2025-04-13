@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import QMainWindow, QStackedWidget
 from interface.windows.login.screens.login_screen import LoginScreen
 from interface.windows.login.screens.register_screen import RegisterScreen
 from interface.windows.main_gui.main_window import MainWindow
+from PyQt6.QtWidgets import QMessageBox
 
 class LoginWindow(QMainWindow):
     def __init__(self):
@@ -25,7 +26,6 @@ class LoginWindow(QMainWindow):
         self.stack.setCurrentWidget(self.login_screen)
 
         # Conexiones
-        self.login_screen.login_success.connect(self.open_main_window)
         self.login_screen.register_clicked.connect(self.show_register_screen)
         self.register_screen.back_to_login.connect(self.show_login_screen)
 
@@ -39,3 +39,6 @@ class LoginWindow(QMainWindow):
         self.main_window = MainWindow()
         self.main_window.show()
         self.close()
+
+    def mostrar_mensaje(self, mensaje):
+        QMessageBox.information(self, "Información", mensaje)

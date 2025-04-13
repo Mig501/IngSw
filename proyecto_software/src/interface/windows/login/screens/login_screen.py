@@ -8,7 +8,7 @@ from model.vo.LoginVO import LoginVO
 from model.BusinessObject import BusinessObject
 
 class LoginScreen(QWidget):
-    login_success = pyqtSignal()         
+    login_clicked = pyqtSignal()  # Signal to be emitted when login is clicked         
     register_clicked = pyqtSignal()       
 
     def __init__(self):
@@ -80,7 +80,7 @@ class LoginScreen(QWidget):
         self.button_login = QPushButton("Iniciar sesión")
         self.button_login.setObjectName('LoginButton')
         self.button_login.setFixedSize(250, 40)
-        self.button_login.clicked.connect(self.check_login)
+        self.button_login.clicked.connect(self.login_clicked.emit)
         layout.addWidget(self.button_login, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # Botón de registro
@@ -104,24 +104,28 @@ class LoginScreen(QWidget):
             self.input_pass.setEchoMode(QLineEdit.EchoMode.Password)
             self.toggle_button.setIcon(QIcon('resources/icons/eye.svg'))
 
-    def check_login(self):
-        '''Emite la señal de login exitoso (sin validación por ahora)'''
-        username = self.input_user.text().strip()
-        password = self.input_pass.text().strip()
+    #def check_login(self):
+    #    '''Emite la señal de login exitoso (sin validación por ahora)'''
+    #    username = self.input_user.text().strip()
+    #    password = self.input_pass.text().strip()
+#
+    #    if not username or not password:
+    #        QMessageBox.warning(self, "Campos vacíos", "Por favor, completa todos los campos.")
+    #        return
+#
+    #    login_vo = LoginVO(username, password)
+    #    result = BusinessObject().comprobarlogin(login_vo)
+#
+    #    if not result:
+    #        # Se ha podido iniciar sesión
+    #        QMessageBox.information(self, "Inicio de sesión exitoso", "¡Bienvenido!")
+    #        self.input_user.clear()
+#
+    #    else:
+    #        QMessageBox.critical(self, "Error de inicio de sesión", "Usuario o contraseña incorrectos.")
+#
+    #    self.login_success.emit()
 
-        if not username or not password:
-            QMessageBox.warning(self, "Campos vacíos", "Por favor, completa todos los campos.")
-            return
-
-        login_vo = LoginVO(username, password)
-        result = BusinessObject().comprobarlogin(login_vo)
-
-        if not result:
-            # Se ha podido iniciar sesión
-            QMessageBox.information(self, "Inicio de sesión exitoso", "¡Bienvenido!")
-            self.input_user.clear()
-
-        else:
-            QMessageBox.critical(self, "Error de inicio de sesión", "Usuario o contraseña incorrectos.")
-
-        self.login_success.emit()
+    def get_credentials(self):
+        '''Devuelve el nombre de usuario y la contraseña'''
+        return self.input_user.text().strip(), self.input_pass.text().strip()

@@ -2,6 +2,7 @@
 '''Debemos implementar un DAO por tabla, en este caso la tabla user'''
 from model.conexion.Conexion import Conexion
 from model.vo.UserVO import UserVO
+from model.vo.LoginVO import LoginVO
 import jaydebeapi
 
 class UserDao(Conexion):
@@ -44,10 +45,10 @@ class UserDao(Conexion):
         try:
             cursor.execute(self.sql_search,[loginVO.username])
             row = cursor.fetchone() # usamos fetchone para obtener una sola fila, ya que el username es único
-    
+        
         except jaydebeapi.DatabaseError as e:
             raise jaydebeapi.DatabaseError(f"Consultlogin error: {e}")
-        
+
         except Exception as e:
             raise Exception(f"Consultlogin error: {e}")
     
@@ -60,9 +61,15 @@ class UserDao(Conexion):
             return None
             #raise Exception("Results not found")
         
-        else:
-            row = list(row)
-            return UserVO(row[0], row[1], row[2], row[3], row[4])
+        row = list(row)
+        db_password = row[2]
+
+        
+        # validar contraseña
+        if db_password != loginVO.userpassword:
+            return None # contraseña incorrecta
+        
+        return UserVO(row[0], row[1], row[2], row[3], row[4]) # devolvemos el objeto UserVO si la contraseña es correcta
 
     def insert(self, userVO) -> int:
         cursor = self.getCursor()

@@ -1,9 +1,9 @@
 class UserVO:
-    def __init__(self, user_id, username, email, userpassword, phone):
+    def __init__(self, user_id, username, userpassword, email, phone):
         self.user_id = user_id
         self.username = username
-        self.email = email
         self.userpassword = userpassword
+        self.email = email
         self.phone = phone
     
     @property
@@ -45,3 +45,7 @@ class UserVO:
     @phone.setter
     def phone(self, phone):
         self._phone = phone
+
+    def __str__(self) -> tuple:
+        return (f"UserVO{{id_user={self._user_id}, nombre='{self._username}', "
+                f"email='{self._email}', password='{self._userpassword}'}}")

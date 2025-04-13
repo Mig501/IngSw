@@ -27,16 +27,11 @@ class LoginScreen(QWidget):
         header_layout = QVBoxLayout()
         header_layout.setSpacing(10)
 
-        # Título
-        self.title_label = QLabel("BSA Systems")
-        self.title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        header_layout.addWidget(self.title_label)
-
         # Logo
         self.logo = QLabel()
         pixmap = QPixmap("resources/images/logo2_removed.png")
         if pixmap.isNull():
-            print("❌ No se pudo cargar la imagen del logo.")
+            print("No se pudo cargar la imagen del logo.")
         pixmap = pixmap.scaledToWidth(200, Qt.TransformationMode.SmoothTransformation)
         self.logo.setPixmap(pixmap)
         self.logo.setAlignment(Qt.AlignmentFlag.AlignCenter)

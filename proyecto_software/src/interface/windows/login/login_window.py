@@ -79,10 +79,9 @@ class LoginWindow(QMainWindow):
         self.main_window.show()
         self.close()
 
-<<<<<<< HEAD
     def mostrar_mensaje(self, mensaje):
         QMessageBox.information(self, "Información", mensaje)
-=======
+
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton and self.title_bar.underMouse():
             self.old_pos = event.globalPosition().toPoint()
@@ -95,4 +94,3 @@ class LoginWindow(QMainWindow):
 
     def mouseReleaseEvent(self, event):
         self.old_pos = None
->>>>>>> b468c5037ffdc0cd25fcfae124a7cb124df79cf9

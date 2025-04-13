@@ -37,7 +37,8 @@ class LoginWindow(QMainWindow):
         self.minimize_button.setObjectName('MinimizeButton')
         self.minimize_button.setIcon(QIcon("resources/icons/minus.svg"))
         self.minimize_button.setFixedSize(30, 30)
-        self.minimize_button.move(430, 5)
+
+        self.minimize_button.move(420, 10)
         self.minimize_button.clicked.connect(self.showMinimized)
 
         # Botón cerrar
@@ -45,7 +46,7 @@ class LoginWindow(QMainWindow):
         self.close_button.setObjectName('CloseButton')
         self.close_button.setIcon(QIcon("resources/icons/x.svg"))
         self.close_button.setFixedSize(30, 30)
-        self.close_button.move(465, 5)
+        self.close_button.move(455, 10)
         self.close_button.clicked.connect(self.close)
 
         # ---------- Stack de vistas ----------

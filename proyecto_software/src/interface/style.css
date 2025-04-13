@@ -1,4 +1,4 @@
-/* src/frontend/style.css */
+/* src/interface/style.css */
 
 QMainWindow {
     background-color: #4b5863;
@@ -52,10 +52,6 @@ QListWidget#MenuList::item {
 QLabel#SidebarLabel {
     font-size: 16px;
     margin-left: 5px;
-}
-
-QPushButtom#CloseButton {
-    background-color: #c0392b;
 }
 
 QPushButton#CloseButton:hover {

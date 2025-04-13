@@ -2,11 +2,10 @@
 
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,
-    QLabel, QStackedWidget, QListWidget, QListWidgetItem, QSizePolicy
+    QLabel, QStackedWidget, QListWidget, QListWidgetItem
 )
-from PyQt6.QtCore import Qt, QSize
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon, QPixmap
-import sys
 
 from interface.windows.main_gui.screens.home_screen import HomeScreen
 from interface.windows.main_gui.screens.item1_screen import Item1Screen
@@ -22,13 +21,13 @@ class MainWindow(QMainWindow):
         self.old_pos = None  # Para arrastrar ventana
 
         # Widget principal
-        central_widget = QWidget()
-        central_widget.setObjectName('MainContainer')
-        self.setCentralWidget(central_widget)
+        self.central_widget = QWidget()
+        self.central_widget.setObjectName('MainContainer')
+        self.setCentralWidget(self.central_widget)
 
         # Layout principal horizontal
         self.main_layout = QHBoxLayout()
-        central_widget.setLayout(self.main_layout)
+        self.central_widget.setLayout(self.main_layout)
 
         # Sidebar (menú lateral)
         self.sidebar = QWidget()
@@ -44,35 +43,35 @@ class MainWindow(QMainWindow):
         self.menu_list.setSpacing(6)
 
         # Home
-        home_widget = QWidget()
-        home_layout = QHBoxLayout()
-        home_layout.setContentsMargins(0, 0, 0, 0)
-        home_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        home_icon = QLabel()
-        pixmap = QPixmap("resources/icons/home.svg")
-        home_icon.setPixmap(pixmap.scaled(20, 20, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
-        home_label = QLabel("Home")
-        home_layout.addWidget(home_icon)
-        home_layout.addWidget(home_label)
-        home_widget.setLayout(home_layout)
-        home_item = QListWidgetItem()
-        home_item.setSizeHint(home_widget.sizeHint())
+        self.home_widget = QWidget()
+        self.home_layout = QHBoxLayout()
+        self.home_layout.setContentsMargins(0, 0, 0, 0)
+        self.home_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.home_icon = QLabel()
+        self.pixmap = QPixmap("resources/icons/home.svg")
+        self.home_icon.setPixmap(self.pixmap.scaled(20, 20, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+        self.home_label = QLabel("Home")
+        self.home_layout.addWidget(self.home_icon)
+        self.home_layout.addWidget(self.home_label)
+        self.home_widget.setLayout(self.home_layout)
+        self.home_item = QListWidgetItem()
+        self.home_item.setSizeHint(self.home_widget.sizeHint())
         
-        self.menu_list.addItem(home_item)
-        self.menu_list.setItemWidget(home_item, home_widget)
+        self.menu_list.addItem(self.home_item)
+        self.menu_list.setItemWidget(self.home_item, self.home_widget)
 
         # Item 1
-        item1_widget = QWidget()
-        item1_layout = QHBoxLayout()
-        item1_layout.setContentsMargins(0, 0, 0, 0)
-        item1_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        item1_label = QLabel("Item 1")
-        item1_layout.addWidget(item1_label)
-        item1_widget.setLayout(item1_layout)
-        item1_item = QListWidgetItem()
-        item1_item.setSizeHint(item1_widget.sizeHint())
-        self.menu_list.addItem(item1_item)
-        self.menu_list.setItemWidget(item1_item, item1_widget)
+        self.item1_widget = QWidget()
+        self.item1_layout = QHBoxLayout()
+        self.item1_layout.setContentsMargins(0, 0, 0, 0)
+        self.item1_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.item1_label = QLabel("Item 1")
+        self.item1_layout.addWidget(self.item1_label)
+        self.item1_widget.setLayout(self.item1_layout)
+        self.item1_item = QListWidgetItem()
+        self.item1_item.setSizeHint(self.item1_widget.sizeHint())
+        self.menu_list.addItem(self.item1_item)
+        self.menu_list.setItemWidget(self.item1_item, self.item1_widget)
 
         self.sidebar_layout.addWidget(self.menu_list)
 
@@ -103,18 +102,18 @@ class MainWindow(QMainWindow):
         self.btn_maximize.setFixedSize(30, 30)
         self.btn_maximize.clicked.connect(self.toggle_max_restore)
 
-        btn_close = QPushButton()
-        btn_close.setObjectName('CloseButton')
-        btn_close.setIcon(QIcon("resources/icons/x.svg"))
-        btn_close.setFixedSize(30, 30)
-        btn_close.clicked.connect(self.close)
+        self.btn_close = QPushButton()
+        self.btn_close.setObjectName('CloseButton')
+        self.btn_close.setIcon(QIcon("resources/icons/x.svg"))
+        self.btn_close.setFixedSize(30, 30)
+        self.btn_close.clicked.connect(self.close)
 
         self.header_layout.addStretch()
         self.header_layout.addWidget(self.header_label)
         self.header_layout.addStretch()
         self.header_layout.addWidget(self.btn_minimize)
         self.header_layout.addWidget(self.btn_maximize)
-        self.header_layout.addWidget(btn_close)
+        self.header_layout.addWidget(self.btn_close)
 
         # Área principal
         self.main_area = QWidget()
@@ -188,4 +187,5 @@ class MainWindow(QMainWindow):
             self.old_pos = event.globalPosition().toPoint()
 
     def mouseReleaseEvent(self, event):
+        '''Se encarga de soltar la ventana cuando se suelta el click'''
         self.old_pos = None

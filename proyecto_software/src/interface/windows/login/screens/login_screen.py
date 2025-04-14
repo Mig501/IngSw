@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushB
 from PyQt6.QtCore import QSize, Qt, pyqtSignal
 from PyQt6.QtGui import QPixmap, QIcon
 from PyQt6.QtWidgets import QMessageBox
-from model.vo.LoginVO import LoginVO
+from model.vo.LoginUserVO import LoginUserVO
 from model.BusinessObject import BusinessObject
 
 class LoginScreen(QWidget):
@@ -108,7 +108,7 @@ class LoginScreen(QWidget):
     #        QMessageBox.warning(self, "Campos vacíos", "Por favor, completa todos los campos.")
     #        return
 #
-    #    login_vo = LoginVO(username, password)
+    #    login_vo = LoginUserVO(username, password)
     #    result = BusinessObject().comprobarlogin(login_vo)
 #
     #    if not result:

@@ -1,11 +1,12 @@
 # src/main.py
-from model.BusinessObject import BusinessObject
 import sys
+from model.BusinessObject import BusinessObject
 from PyQt6.QtWidgets import QApplication
 from interface.windows.login.login_window import LoginWindow
 from controller.CoordinadorPrincipal import CoordinadorPrincipal
 
 def main():
+    # Crear la aplicación
     app = QApplication(sys.argv)
 
     # Cargar estilos
@@ -13,7 +14,6 @@ def main():
         app.setStyleSheet(f.read())
 
     #login.show()
-
     #sys.exit(app.exec())
     
     # Crear modelo y vista
@@ -27,6 +27,7 @@ def main():
     login_window.login_screen.login_clicked.connect(controlador.iniciarlogin)
     login_window.show()
 
+    # Ejecutar la aplicación
     sys.exit(app.exec())
 
 if __name__ == '__main__':

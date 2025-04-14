@@ -1,7 +1,7 @@
 # src/frontend/windows/login/screens/register_screen.py
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
 from PyQt6.QtCore import Qt, pyqtSignal
-from model.vo.UserVO import UserVO
+from model.vo.RegisterUserVO import RegisterUserVO
 from model.BusinessObject import BusinessObject
 
 class RegisterScreen(QWidget):
@@ -53,6 +53,7 @@ class RegisterScreen(QWidget):
         Si alguno falta, muestra un mensaje y no continúa.
         Si están todos, vuelve a la pantalla de login.
         '''
+        # Capturamos los valores introducidos por el usuario
         user = self.input_user.text().strip()
         password = self.input_pass.text().strip()
         email = self.input_email.text().strip()
@@ -69,20 +70,22 @@ class RegisterScreen(QWidget):
 
         try:
             # El id de usuario se genera automáticamente en la base de datos, así que no lo pasamos
-            user_vo = UserVO(None, user, password, email, phone)
-            rows = BusinessObject().insert(user_vo)
+            # Creamos el VO con los campos que requiere esta capa de datos
+            user_vo = RegisterUserVO(None, user, password, email, phone)
+            rows = BusinessObject().insert(user_vo) # Insertamos el usuario en la base de datos
             
+            # Si se ha insertado correctamente el usuario
             if rows > 0:
                 QMessageBox.information(self, "Registro exitoso", "Usuario registrado correctamente.")
                 print("Usuario registrado correctamente")
-                self.back_to_login.emit()
+                self.back_to_login.emit() #Volvemos al login
 
             else:
                 QMessageBox.critical(self, "Error", "No se pudo registrar el usuario.")
 
         except Exception as e:
-            if "Duplicate entry" in str(e):
+            if "Duplicate entry" in str(e): # En caso de que ya exista el usuario
                 QMessageBox.critical(self, "Usuario existente", "El nombre de usuario o el correo ya están registrados.")
-            else:
+            else: # Otros errores
                 QMessageBox.critical(self, "Error", f"Error al registrar el usuario:\n{str(e)}")
             return

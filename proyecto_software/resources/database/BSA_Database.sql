@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS User;
 CREATE TABLE Users (
 	UserID INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(15) CHARACTER SET utf8mb4 NOT NULL UNIQUE,
-    userpassword VARCHAR(20) NOT NULL, 
+    userpassword VARCHAR(60) NOT NULL, 
     email VARCHAR(90) CHARACTER SET utf8mb4 NOT NULL UNIQUE,
     phone_number CHAR(9)
 )

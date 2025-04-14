@@ -21,10 +21,12 @@
     - quitar atributos y tablas inecesarios
     - crear clase root de todos los usuarios "Users" y hacer que el resto de ususarios hereden del esa.
 
+  ### Codigo
+    - Implementar los atributos de clientes en default 0
 ---
 
 ## Consultas
-- Value object -> Login, Registro, por cada cosa es, son muchas
+- Value object -> Login, Registro, por cada grupo de datos que se tenga que solicitar a la base de datos, son      muchas
 - DAO -> uno por tabla
 - Login window y register window en vista
 

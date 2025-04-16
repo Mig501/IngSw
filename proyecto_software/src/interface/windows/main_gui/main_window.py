@@ -1,5 +1,3 @@
-# src/interface/windows/main_gui/main_window.py
-
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,
     QLabel, QStackedWidget, QListWidget, QListWidgetItem
@@ -11,21 +9,20 @@ from interface.windows.main_gui.screens.home_screen import HomeScreen
 from interface.windows.main_gui.screens.item1_screen import Item1Screen
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, is_admin=False):
         super().__init__()
         self.setWindowTitle("BSA App")
         self.setFixedSize(900, 600)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
 
-        self.old_pos = None  # Para arrastrar ventana
+        self.is_admin = is_admin
+        self.old_pos = None
 
-        # Widget principal
         self.central_widget = QWidget()
         self.central_widget.setObjectName('MainContainer')
         self.setCentralWidget(self.central_widget)
 
-        # Layout principal horizontal
         self.main_layout = QHBoxLayout()
         self.central_widget.setLayout(self.main_layout)
 
@@ -37,7 +34,6 @@ class MainWindow(QMainWindow):
         self.sidebar_layout.setContentsMargins(0, 60, 0, 0)
         self.sidebar.setLayout(self.sidebar_layout)
 
-        # Lista de opciones del menú
         self.menu_list = QListWidget()
         self.menu_list.setObjectName('MenuList')
         self.menu_list.setSpacing(6)
@@ -56,7 +52,6 @@ class MainWindow(QMainWindow):
         self.home_widget.setLayout(self.home_layout)
         self.home_item = QListWidgetItem()
         self.home_item.setSizeHint(self.home_widget.sizeHint())
-        
         self.menu_list.addItem(self.home_item)
         self.menu_list.setItemWidget(self.home_item, self.home_widget)
 
@@ -72,6 +67,20 @@ class MainWindow(QMainWindow):
         self.item1_item.setSizeHint(self.item1_widget.sizeHint())
         self.menu_list.addItem(self.item1_item)
         self.menu_list.setItemWidget(self.item1_item, self.item1_widget)
+
+        # Admin Panel (solo si is_admin = True)
+        if self.is_admin:
+            self.admin_widget = QWidget()
+            self.admin_layout = QHBoxLayout()
+            self.admin_layout.setContentsMargins(0, 0, 0, 0)
+            self.admin_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.admin_label = QLabel("Admin Panel")
+            self.admin_layout.addWidget(self.admin_label)
+            self.admin_widget.setLayout(self.admin_layout)
+            self.admin_item = QListWidgetItem()
+            self.admin_item.setSizeHint(self.admin_widget.sizeHint())
+            self.menu_list.addItem(self.admin_item)
+            self.menu_list.setItemWidget(self.admin_item, self.admin_widget)
 
         self.sidebar_layout.addWidget(self.menu_list)
 
@@ -89,9 +98,6 @@ class MainWindow(QMainWindow):
         self.header_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.header.setLayout(self.header_layout)
 
-        self.header_label = QLabel("BSA App")
-        self.header_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
         self.btn_minimize = QPushButton()
         self.btn_minimize.setIcon(QIcon("resources/icons/minus.svg"))
         self.btn_minimize.setFixedSize(30, 30)
@@ -108,8 +114,6 @@ class MainWindow(QMainWindow):
         self.btn_close.setFixedSize(30, 30)
         self.btn_close.clicked.connect(self.close)
 
-        self.header_layout.addStretch()
-        self.header_layout.addWidget(self.header_label)
         self.header_layout.addStretch()
         self.header_layout.addWidget(self.btn_minimize)
         self.header_layout.addWidget(self.btn_maximize)
@@ -142,7 +146,6 @@ class MainWindow(QMainWindow):
         self.menu_button.setObjectName("MenuButton")
         self.menu_button.clicked.connect(self.toggle_sidebar)
 
-        # Posicionar manualmente el botón encima de la sidebar
         self.menu_button.setParent(self.centralWidget())
         self.menu_button.move(30, 20)
         self.menu_button.raise_()
@@ -151,7 +154,6 @@ class MainWindow(QMainWindow):
         self.sidebar.setVisible(False)
 
     def toggle_sidebar(self):
-        '''Se encarga de cambiar el icono del boton de menu cuando este se pulse'''
         is_visible = not self.sidebar.isVisible()
         self.sidebar.setVisible(is_visible)
         icon = QIcon("resources/icons/chevron_left.svg") if is_visible else QIcon("resources/icons/menu.svg")
@@ -159,7 +161,6 @@ class MainWindow(QMainWindow):
         self.menu_button.setText("Menú")
 
     def toggle_max_restore(self):
-        '''Modifica el icono del boton de maximizar cuando este se pulse'''
         if self.isMaximized():
             self.showNormal()
             self.btn_maximize.setIcon(QIcon("resources/icons/chevron_up.svg"))
@@ -167,25 +168,18 @@ class MainWindow(QMainWindow):
             self.showMaximized()
             self.btn_maximize.setIcon(QIcon("resources/icons/chevron_down.svg"))
 
-    '''
-    Esta funcion no puede ir en la parte de interfaz, ya que se encarga de cambiar de vista cuando 
-    se seleccione una de las opciones de la barra lateral.
-    '''
     def display_page(self, index):
         self.stacked_widget.setCurrentIndex(index)
 
     def mousePressEvent(self, event):
-        '''Permite arrastar la ventana cuando se agarre la misma en la sección de header'''
         if event.button() == Qt.MouseButton.LeftButton and self.header.underMouse():
             self.old_pos = event.globalPosition().toPoint()
 
     def mouseMoveEvent(self, event):
-        '''Se encarga de mover la posicion de la ventana al ser arrastrada'''
         if self.old_pos:
             delta = event.globalPosition().toPoint() - self.old_pos
             self.move(self.x() + delta.x(), self.y() + delta.y())
             self.old_pos = event.globalPosition().toPoint()
 
     def mouseReleaseEvent(self, event):
-        '''Se encarga de soltar la ventana cuando se suelta el click'''
         self.old_pos = None

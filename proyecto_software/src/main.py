@@ -1,9 +1,7 @@
 # src/main.py
 import sys
-from model.BusinessObject import BusinessObject
 from PyQt6.QtWidgets import QApplication
 from interface.windows.login.login_window import LoginWindow
-from controller.CoordinadorPrincipal import CoordinadorPrincipal
 
 def main():
     # Crear la aplicación
@@ -13,18 +11,8 @@ def main():
     with open("src/interface/style.css", "r") as f:
         app.setStyleSheet(f.read())
 
-    #login.show()
-    #sys.exit(app.exec())
-    
-    # Crear modelo y vista
-    modelo = BusinessObject()
+    # Crear e iniciar ventana de login
     login_window = LoginWindow()
-
-    # Crear controlador
-    controlador = CoordinadorPrincipal(login_window, modelo)
-
-    # Conexión de la señal del botón de inicio de sesión al método iniciarlogin
-    login_window.login_screen.login_clicked.connect(controlador.iniciarlogin)
     login_window.show()
 
     # Ejecutar la aplicación

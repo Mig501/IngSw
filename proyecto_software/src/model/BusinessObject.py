@@ -3,6 +3,11 @@ import random
 from model.conexion.Conexion import Conexion
 from model.vo.RegisterUserVO import RegisterUserVO
 from model.dao.UserDao import UserDao
+from model.dao.UserDao import UserDao
+from model.dao.ClientDao import ClientDao
+from model.dao.EmployeeDao import EmployeeDao
+from model.dao.AdminDao import AdminDao
+from model.dao.ArchDao import ArchDao
 
 class BusinessObject():
     """Objeto que implementa la lógica de negocio"""
@@ -22,9 +27,32 @@ class BusinessObject():
 
     def delete_user(self, user_id:int) -> bool:
         """Método que elimina el usuario que tenga un id"""
-        user_dao = UserDao() # Instanciamos el dao que conecta con la base de datos
-        rows_deleted = user_dao.delete_user_by_id(user_id) # Llamamos a la función que borra el usuario con id específico
-        return rows_deleted > 0
+        try:
+            # Eliminar si es cliente
+            try:
+                ClientDao().delete_by_user_id(user_id)
+            
+            except Exception as e:
+                pass
+
+            # Eliminar si es empleado
+            try:
+                EmployeeDao().delete_by_user_id(user_id)
+
+            except Exception as e:
+                pass
+
+            # Eliminar si es admin
+            try:
+                AdminDao().delete_by_user_id(user_id)
+
+            except Exception as e:
+                pass
+
+            # Eliminar de users
+            return UserDao().delete_user_by_id(user_id)
+        except Exception as e:
+            raise Exception(f"Delete error user with ID {user_id}: {e}")       
     
     def comprobarlogin(self, loginVo) -> RegisterUserVO:
         """Método que comprueba si el usuario existe en la base de datos.
@@ -42,4 +70,57 @@ class BusinessObject():
         except Exception as e:
             raise Exception(f"Error in BusinessObject.insert: {e}")
 
+    def registrar_cliente(self, user_vo) -> bool:
+        """Método que registra un cliente en la base de datos."""
 
+        user_dao = UserDao()
+
+        if not user_dao.insert(user_vo):
+            return False
+        
+        user_id = user_dao.get_last_inserted_user_id()
+        
+        return ClientDao().insert_client(user_id)
+    
+    def registrar_empleado(self, user_vo, employee_vo) -> bool:
+        """Método que registra un empleado en la base de datos."""
+        
+        user_vo.rol = "empleado"
+        user_dao = UserDao()
+
+        if not user_dao.insert(user_vo):
+            return False
+        
+        user_id = user_dao.get_last_inserted_user_id()
+        
+        return EmployeeDao().insert(user_id, employee_vo)
+    
+    def registrar_admin(self, user_vo, admin_vo) -> bool:
+        """Método que registra un administrador en la base de datos."""
+        
+        user_vo.rol = "admin"
+        user_dao = UserDao()
+
+        if not user_dao.insert(user_vo):
+            return False
+        
+        user_id = user_dao.get_last_inserted_user_id()
+        
+        return AdminDao().insert(user_id, admin_vo)
+    
+    def registrar_arch(self, user_vo, arch_vo) -> bool:
+        """Método que registra un archivador en la base de datos."""
+
+        user_vo.rol = "arch"
+        user_dao = UserDao()
+
+        if not user_dao.insert(user_vo):
+            return False
+        
+        user_id = user_dao.get_last_inserted_user_id()
+        
+        return ArchDao().insert(user_id, arch_vo)
+    
+    def get_user_rol(self, user_id: int) -> str:
+        """Método que obtiene el rol del usuario."""
+        return UserDao().get_user_rol(user_id)

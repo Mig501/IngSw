@@ -1,5 +1,20 @@
 #src/deleteUsers.py
 from model.BusinessObject import BusinessObject
+from model.dao.UserDao import UserDao
+
+def reset_autoincrement_if_empty():
+    """Reinicia el autoincremento de la tabla users si está vacía."""
+    dao = UserDao()
+    cursor = dao.getCursor()
+    try:
+        cursor.execute("SELECT COUNT(*) FROM users")
+        count = cursor.fetchone()[0]
+        if count == 0:
+            cursor.execute("ALTER TABLE users AUTO_INCREMENT = 1")
+            print("🔄 Se ha reiniciado el autoincremento de la tabla users.")
+    finally:
+        cursor.close()
+        dao.closeConnection()
 
 def test_delete_users():
     """Función para eliminar los usuarios que tengan los ids
@@ -41,6 +56,6 @@ def test_delete_users():
         except Exception as e:
             print(f"Error al eliminar el usuario {user_id}: {e}")
 
-
 if __name__ == "__main__":
     test_delete_users()
+    reset_autoincrement_if_empty()

@@ -7,10 +7,23 @@ import jaydebeapi
 import bcrypt
 
 class UserDao(Conexion):
-    sql_select_users = "SELECT UserID, username, userpassword, email, phone_number FROM users"
-    sql_search = "SELECT UserID, username, userpassword, email, phone_number FROM users WHERE username = ?"
-    sql_insert = "INSERT INTO users (username, userpassword, email, phone_number) VALUES ( ?, ?, ?, ?)"
+    sql_select_users = "SELECT UserID, username, userpassword, email, phone_number, rol FROM users"
+    sql_search = "SELECT UserID, username, userpassword, email, phone_number, rol FROM users WHERE username = ?"
+    sql_insert = "INSERT INTO users (username, userpassword, email, phone_number, rol) VALUES ( ?, ?, ?, ?, ?)"
     sql_delete_users = "DELETE FROM users WHERE UserID = ?"
+
+    def reset_autoincrement_if_empty(self):
+        """Está función es sólo para hacer pruebas nosostros"""
+        cursor = self.getCursor()
+        try:
+            cursor.execute("SELECT COUNT(*) FROM users")
+            count = cursor.fetchone()[0]
+            if count == 0:
+                cursor.execute("ALTER TABLE users AUTO_INCREMENT = 1")
+        finally:
+            cursor.close()
+            self.closeConnection()
+
 
     def delete_user_by_id(self, user_id) -> int:
         """Método que elimina un usuario de la base de datos por su id"""
@@ -46,7 +59,7 @@ class UserDao(Conexion):
             for row in rows:
                 print("Row:", row) # para ver qué devuelve la consulta
                 row = list(row) # el fetchall devuelve una tupla, la convertimos a lista para poder acceder a los elementos
-                user = RegisterUserVO(row[0], row[1], row[2], row[3], row[4]) #se pone un row por cada columna que se seleccionó
+                user = RegisterUserVO(row[0], row[1], row[2], row[3], row[4], row[5]) #se pone un row por cada columna que se seleccionó
                 users.append(user)
 
         except jaydebeapi.DatabaseError as e:
@@ -97,7 +110,7 @@ class UserDao(Conexion):
         #if db_password != loginVO.userpassword:
         #    return None # contraseña incorrecta
         
-        return RegisterUserVO(row[0], row[1], row[2], row[3], row[4]) # devolvemos el objeto RegisterUserVO si la contraseña es correcta
+        return RegisterUserVO(row[0], row[1], row[2], row[3], row[4], row[5]) # devolvemos el objeto RegisterUserVO si la contraseña es correcta
 
     #def insert(self, userVO) -> int:
     #    """Método que inserta un usuario nuevo en la base de datos"""
@@ -129,17 +142,23 @@ class UserDao(Conexion):
 
     def insert(self, userVO) -> int:
         """Método que inserta un usuario nuevo en la base de datos"""
+        print("[DEBUG] Insertando usuario en la base de datos desde UserDao")
         cursor = self.getCursor()
         rows = 0
         
         try:
+            cursor.execute("SELECT COUNT(*) FROM users")
+            count = cursor.fetchone()[0]
+
+            if count == 0:
+                userVO.rol = "arch"  # Asignar rol "arch" si no hay usuarios en la tabla
+
             # Encriptar la contraseña antes de insertarla en la base de datos
             hashed_password = bcrypt.hashpw(userVO.userpassword.encode('utf-8'), bcrypt.gensalt())
             hashed_password = hashed_password.decode('utf-8')  # Convertir de bytes a string
             
-            print("Ejecutando el insert")
             cursor.execute(self.sql_insert, [userVO.username, hashed_password, 
-                                             userVO.email, userVO.phone] )
+                                             userVO.email, userVO.phone, userVO.rol] )
             #self.conexion.commit()
 
             rows = cursor.rowcount # el rowcount devuelve el número de filas afectadas por la consulta
@@ -158,3 +177,36 @@ class UserDao(Conexion):
 
             self.closeConnection()
             return rows
+        
+    def get_last_inserted_user_id(self) -> int:
+        """Obtiene el último ID de usuario insertado en la tabla users"""
+        cursor = self.getCursor()
+       
+        try:
+            cursor.execute("SELECT MAX(UserID) FROM users")
+            row = cursor.fetchone()
+       
+            return row[0] if row else None
+       
+        except Exception as e:
+            raise Exception(f"Error al obtener el último ID de usuario: {e}")
+        
+        finally:
+            cursor.close()
+            self.closeConnection()
+
+    def get_user_rol(self, user_id: int) -> str:
+        """Obtiene el rol de un usuario a partir de su ID"""
+        if user_id == 1:
+            return "arch"
+
+        cursor = self.getCursor()
+        
+        try:
+            cursor.execute("SELECT rol FROM users WHERE UserID = ?", [user_id])
+            row = cursor.fetchone()
+            return row[0] if row else "cliente"
+        
+        finally:
+            cursor.close()
+            self.closeConnection()

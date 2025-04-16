@@ -1,12 +1,13 @@
 class RegisterUserVO:
     """Clase que representa un registro de usuario"""
 
-    def __init__(self, user_id, username, userpassword, email, phone):
+    def __init__(self, user_id, username, userpassword, email, phone, rol='cliente') -> None:
         self.user_id = user_id
         self.username = username
         self.userpassword = userpassword
         self.email = email
         self.phone = phone
+        self.rol = rol
     
     @property
     def user_id(self):
@@ -47,6 +48,17 @@ class RegisterUserVO:
     @phone.setter
     def phone(self, phone):
         self._phone = phone
+
+    @property
+    def rol(self):
+        return self._rol
+
+    @rol.setter
+    def rol(self, rol):
+        if rol not in ['cliente', 'admin', 'arch', 'empleado']:
+            raise ValueError("Rol debe ser 'cliente', 'admin', 'arch' o 'empleado'")
+        
+        self._rol = rol
 
     def __str__(self) -> tuple:
         """Devuelve una string del registro de usuario"""

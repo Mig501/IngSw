@@ -257,9 +257,6 @@ class MainWindow(QMainWindow):
         self.header_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.header.setLayout(self.header_layout)
 
-        self.header_label = QLabel("BSA App")
-        self.header_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
         self.btn_minimize = QPushButton()
         self.btn_minimize.setIcon(QIcon("resources/icons/minus.svg"))
         self.btn_minimize.setFixedSize(30, 30)
@@ -277,7 +274,6 @@ class MainWindow(QMainWindow):
         self.btn_close.clicked.connect(self.close)
 
         self.header_layout.addStretch()
-        self.header_layout.addWidget(self.header_label)
         self.header_layout.addStretch()
         self.header_layout.addWidget(self.btn_minimize)
         self.header_layout.addWidget(self.btn_maximize)

@@ -1,3 +1,5 @@
+# src/interface/windows/main_gui/screens/archRegisterScreen.py
+
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QFormLayout, QLabel, QLineEdit,
     QPushButton, QComboBox, QMessageBox

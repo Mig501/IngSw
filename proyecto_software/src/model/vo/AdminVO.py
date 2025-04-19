@@ -1,3 +1,4 @@
+import re
 class AdminVO:
     def __init__(self, passport: str, ss_number: str, dwell_time: int, age: int, first_name: str, second_name: str) -> None:
         self.passport = passport
@@ -14,6 +15,9 @@ class AdminVO:
     
     @passport.setter
     def passport(self, passport: str) -> None:
+        if not re.match(r'^[A-Z]{3}[0-9]{6}$', passport):
+            raise ValueError("Passport must be in the format 'AAA123456'")
+
         self.__passport = passport
 
     @property
@@ -22,8 +26,9 @@ class AdminVO:
     
     @ss_number.setter
     def ss_number(self, ss_number: str) -> None:
-        if len(ss_number) == 0:
-            raise ValueError("SS number must be 9 digits long.")
+        if not re.match(r'^\d{12}$', ss_number):
+            raise ValueError("SS Number must have 12 digits'")
+
         self.__ss_number = ss_number
 
     @property

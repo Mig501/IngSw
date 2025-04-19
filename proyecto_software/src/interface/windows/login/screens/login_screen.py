@@ -122,5 +122,5 @@ class LoginScreen(QWidget):
     #    self.login_success.emit()
 
     def get_credentials(self):
-        '''Devuelve el nombre de usuario y la contraseña'''
+        '''Devuelve el nombre de usuario y la contraseña introducidos por el usuario'''
         return self.input_user.text().strip(), self.input_pass.text().strip()

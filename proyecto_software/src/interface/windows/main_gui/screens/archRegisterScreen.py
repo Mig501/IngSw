@@ -54,6 +54,7 @@ class ArchRegisterScreen(QWidget):
         self.boton_registrar.clicked.connect(self.registrar_usuario)
         self.layout.addWidget(self.boton_registrar)
 
+    #----------------------Muestra los camppos específicos según el rol----------------------
     def mostrar_campos_especificos(self, rol):
         while self.campos_especificos.count():
             self.campos_especificos.removeRow(0)
@@ -64,7 +65,8 @@ class ArchRegisterScreen(QWidget):
         self.extra_age = QLineEdit()
 
         if rol == "empleado":
-            self.extra_specialization = QLineEdit()
+            self.extra_specialization = QComboBox()
+            self.extra_specialization.addItems(["mecánico", "electricista", "informático"])
             self.extra_first_name = QLineEdit()
             self.extra_second_name = QLineEdit()
 
@@ -73,8 +75,7 @@ class ArchRegisterScreen(QWidget):
             self.campos_especificos.addRow("Dwell Time:", self.extra_dwell)
             self.campos_especificos.addRow("Edad:", self.extra_age)
             self.campos_especificos.addRow("Especialización:", self.extra_specialization)
-            self.campos_especificos.addRow("Nombre:", self.extra_first_name)
-            self.campos_especificos.addRow("Apellido:", self.extra_second_name)
+        
         else:
             self.extra_first_name = QLineEdit()
             self.extra_second_name = QLineEdit()
@@ -83,10 +84,13 @@ class ArchRegisterScreen(QWidget):
             self.campos_especificos.addRow("SS Number:", self.extra_ss)
             self.campos_especificos.addRow("Dwell Time:", self.extra_dwell)
             self.campos_especificos.addRow("Edad:", self.extra_age)
-            self.campos_especificos.addRow("Nombre:", self.extra_first_name)
-            self.campos_especificos.addRow("Apellido:", self.extra_second_name)
+    
+        self.campos_especificos.addRow("Nombre:", self.extra_first_name)
+        self.campos_especificos.addRow("Apellido:", self.extra_second_name)
 
+    #----------------------Registrar usuario----------------------
     def registrar_usuario(self):
+        # Recoger datos del formulario comunes
         username = self.input_username.text()
         password = self.input_password.text()
         email = self.input_email.text()
@@ -94,18 +98,21 @@ class ArchRegisterScreen(QWidget):
         rol = self.rol_selector.currentText()
 
         try:
+            # Instanciamos el objeto User con los datos comunes
             user_vo = RegisterUserVO(None, username, password, email, phone, rol)
 
+            # Registramos los datos específicos según el rol
             if rol == "empleado":
                 vo = EmployeeVO(
                     self.extra_passport.text(),
                     self.extra_ss.text(),
                     int(self.extra_dwell.text()),
                     int(self.extra_age.text()),
-                    self.extra_specialization.text(),
+                    self.extra_specialization.currentText(),
                     self.extra_first_name.text(),
                     self.extra_second_name.text(),
                 )
+                # Instanciamos al business object para que registre el empleado con todos los campos
                 BusinessObject().registrar_empleado(user_vo, vo)
 
             else:
@@ -119,6 +126,7 @@ class ArchRegisterScreen(QWidget):
                 )
                 BusinessObject().registrar_admin(user_vo, vo)
 
+            # Limpiamos los campos después de registrar
             QMessageBox.information(self, "Éxito", f"{rol.capitalize()} registrado correctamente.")
             self.input_username.clear()
             self.input_password.clear()
@@ -128,7 +136,10 @@ class ArchRegisterScreen(QWidget):
             self.extra_ss.clear()
             self.extra_dwell.clear()
             self.extra_age.clear()
-            self.extra_specialization.clear()
+            
+            if rol == 'empleado':
+                self.extra_specialization.clear()
+            
             self.extra_first_name.clear()
             self.extra_second_name.clear()
 

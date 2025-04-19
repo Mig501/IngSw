@@ -1,9 +1,9 @@
 # src/main.py
-import sys
 from model.BusinessObject import BusinessObject
 from PyQt6.QtWidgets import QApplication
 from interface.windows.login.login_window import LoginWindow
 from controller.CoordinadorPrincipal import CoordinadorPrincipal
+import sys
 
 def main():
     # Crear la aplicación

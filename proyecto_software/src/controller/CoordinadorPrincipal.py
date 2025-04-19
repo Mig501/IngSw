@@ -14,12 +14,15 @@ class CoordinadorPrincipal:
         """Método para iniciar la ventana de inicio de sesión."""
         username, password = self.ventana.login_screen.get_credentials()
 
+        # En caso de no ser correcta, muestra un mensaje para que el usuario complete
         if not username or not password:
             self.ventana.mostrar_mensaje("Por favor, completa todos los campos.")
             return
 
+        # Instanciamos el objeto VO con los datos requeridos en el formulario y comprobamos el login llamando
+        # al business object con el método comprobarlogin
         login_vo = LoginUserVO(username, password)
-        user = self.modelo.comprobarlogin(login_vo)
+        user = self.modelo.comprobarlogin(login_vo) #Devuelv el usuario si existe en la base de datos o NOne en caso contrario
 
         if user is None:
             self.ventana.mostrar_mensaje("Nombre de usuario o contraseña incorrectos.")
@@ -32,45 +35,8 @@ class CoordinadorPrincipal:
                 rol = "arch"
 
             else:
-                rol = self.modelo.get_user_rol(user.user_id)
+                rol = self.modelo.get_user_rol(user.user_id) # Obtengo el rol según el ID del usuario para la ventana principal
 
-            self.main_window = MainWindow(user_rol=rol)  # aquí se pasa el rol
+            self.main_window = MainWindow(user_rol=rol)  # aquí se pasa el rol para mostrar unas opciones u otras
             self.main_window.show()
             self.ventana.close()
-
-
-    #def iniciarlogin(self) -> None:
-    #    """Método para inciar la ventana de inicio de sesión."""
-    #    # Obtiene las credenciales del formulario de inicio de sesión introducidas por el usuario
-    #    username, password  = self.ventana.login_screen.get_credentials()
-    #    
-    #    # Validar que los campos no estén vacíos
-    #    if not username or not password:
-    #        self.ventana.mostrar_mensaje("Por favor, completa todos los campos.")
-    #        return
-    #    
-    #    # Instanciamos el objeto VO con los datos requeridos en el formulario
-    #    login_vo = LoginUserVO(username, password)
-    #    user = self.modelo.comprobarlogin(login_vo) # Comprobamos que existe ese usuario con esa contraseña
-#
-    #    if user is None:
-    #        self.ventana.mostrar_mensaje("Nombre de usuario o contraseña incorrectos.")
-#
-    #    else:
-    #        self.ventana.mostrar_mensaje("¡¡Inicio de sesión exitoso!!")
-    #        self.main_window = MainWindow() # Redirigimos a la ventana principal
-    #        self.main_window.show() # Mostramos la ventana principal
-    #        self.ventana.close() # Cerramos la ventana de inicio de sesión
-
-    #    #comprobaciones
-    #    # Aquí puedes implementar la lógica para iniciar sesión
-    #    # Por ejemplo, verificar el nombre de usuario y la contraseña
-    #    if self.modelo.validar_usuario(username):
-    #        self.ventana.mostrar_mensaje("Inicio de sesión exitoso")
-    #    else:
-    #        self.ventana.mostrar_mensaje("Nombre de usuario o contraseña incorrectos")
-#
-    #    loginVO = LoginUserVO(username, password)
-    #    resultado = self.modelo.comprobar_login(loginVO)
-    #    #ventana.hide()
-    #    #ventana.close()

@@ -85,7 +85,7 @@ class RegisterScreen(QWidget):
     
             if count == 0:
                 user_vo.rol = "arch"
-                arch_vo = ArchVO("ARCH-PAS", "ARCH-SSN", 10, 40, "Primer", "Usuario")
+                arch_vo = ArchVO("ARC000001", "559678146234", 10, 40, "Arch", "System")
                 success = BusinessObject().registrar_arch(user_vo, arch_vo)
             else:
                 user_vo.rol = "cliente"
@@ -95,6 +95,13 @@ class RegisterScreen(QWidget):
                 QMessageBox.information(self, "Registro exitoso", "Usuario registrado correctamente.")
                 print("Usuario registrado correctamente")
                 self.back_to_login.emit()  # Volvemos al login
+            
+                # Limpiar los campos después del registro
+                self.input_user.clear()
+                self.input_pass.clear()
+                self.input_email.clear()
+                self.phone_number.clear()
+
             else:
                 QMessageBox.critical(self, "Error", "No se pudo registrar el usuario.")
     

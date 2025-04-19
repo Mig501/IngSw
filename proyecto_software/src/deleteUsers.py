@@ -1,24 +1,42 @@
 #src/deleteUsers.py
 from model.BusinessObject import BusinessObject
 from model.dao.UserDao import UserDao
+from model.dao.ClientDao import ClientDao
+from model.dao.EmployeeDao import EmployeeDao
+from model.dao.ArchDao import ArchDao
+from model.dao.UserDao import UserDao
+from model.dao.AdminDao import AdminDao
 
 def reset_autoincrement_if_empty():
-    """Reinicia el autoincremento de la tabla users si está vacía."""
-    dao = UserDao()
-    cursor = dao.getCursor()
-    try:
-        cursor.execute("SELECT COUNT(*) FROM users")
-        count = cursor.fetchone()[0]
-        if count == 0:
-            cursor.execute("ALTER TABLE users AUTO_INCREMENT = 1")
-            print("🔄 Se ha reiniciado el autoincremento de la tabla users.")
-    finally:
-        cursor.close()
-        dao.closeConnection()
+    """Reinicia el autoincremento de la tabla users, clients, employees y
+     archs si están vacía."""
+    
+    tables = {
+        'users': UserDao(),
+        'clients': UserDao(),
+        'employees': EmployeeDao(),
+        'archs': ArchDao(),
+        'admins': AdminDao()
+    }
+
+    for table, dao in tables.items():
+        cursor = dao.getCursor() # Obtenemos el cursor de la tabla correspondiente
+
+        try:
+            cursor.execute(f"SELECT COUNT(*) FROM {table}")
+            count = cursor.fetchone()[0] # Obtenemos la cantidad de registros en la tabla
+
+            if count == 0:
+                cursor.execute(f"ALTER TABLE {table} AUTO_INCREMENT = 1")
+                print(f"Se ha reiniciado el autoincremento de la tabla {table}.")
+
+        finally:
+            cursor.close() # Cerramos el cursor
+            dao.closeConnection() # Cerramos la conexión a la base de datos
+
 
 def test_delete_users():
-    """Función para eliminar los usuarios que tengan los ids
-    que se indiquen"""
+    """Función que elimina los usuarios con ids ingresados por pantalla"""
     users_ids = []
 
     # Pedimos que se ingrese

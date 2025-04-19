@@ -9,7 +9,7 @@ CREATE TABLE Users (
     username VARCHAR(15) CHARACTER SET utf8mb4 NOT NULL UNIQUE,
     userpassword VARCHAR(60) NOT NULL, 
     email VARCHAR(90) CHARACTER SET utf8mb4 NOT NULL UNIQUE,
-    phone_number CHAR(9)
+    phone_number CHAR(9) UNIQUE
 )
 
 ALTER TABLE users
@@ -26,23 +26,27 @@ CREATE TABLE clients (
 CREATE TABLE employees (
     EmployeeID INT AUTO_INCREMENT PRIMARY KEY,     -- Identificador propio del empleado
     UsrEmpID INT UNIQUE NOT NULL,                    -- Referencia a la tabla users
-    employee_passport VARCHAR(30),
-    ss_number VARCHAR(30),
+    employee_passport CHAR(9) UNIQUE,
+    ss_number CHAR(12) UNIQUE,
     dwell_time INT,
     age INT,
     specialization VARCHAR(50),
     first_name VARCHAR(50),
     second_name VARCHAR(50),
     FOREIGN KEY (UsrEmpID) REFERENCES users(UserID)
+    CHECK (specialization IN ('mecáncio', 'electricista', 'informático'))
 );
-
+-- El check ponerlo así en el workbench
+ALTER TABLE employees
+ADD CONSTRAINT chk_specialization 
+CHECK (specialization IN ('mecánico', 'informático', 'electricista'));
 
 
 CREATE TABLE admins (
     AdminID INT AUTO_INCREMENT PRIMARY KEY,
     UsrAdminID INT UNIQUE NOT NULL,
-    passport VARCHAR(30),
-    ss_number VARCHAR(30),
+    passport CHAR(9) UNIQUE,
+    ss_number CHAR(12) UNIQUE,
     dwell_time INT,
     age INT,
     first_name VARCHAR(50),
@@ -55,8 +59,8 @@ CREATE TABLE admins (
 CREATE TABLE archs (
     ArchID INT AUTO_INCREMENT PRIMARY KEY,
     UsrArchID INT UNIQUE NOT NULL,
-    passport VARCHAR(30),
-    ss_number VARCHAR(30),
+    passport CHAR(9) UNIQUE,
+    ss_number CHAR(12) UNIQUE,
     dwell_time INT,
     age INT,
     first_name VARCHAR(50),

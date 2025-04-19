@@ -2,16 +2,16 @@ from model.conexion.Conexion import Conexion
 from model.vo.AdminVO import AdminVO
 
 class AdminDao(Conexion):
+    
+    sql_insert = "INSERT INTO admins (UsrAdminID, passport, ss_number, dwell_time, age, first_name, second_name) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    sql_delete = "DELETE FROM admins WHERE UsrAdminID = ?"
+
     def insert(self, user_id: int, vo:AdminVO) -> bool:
         "Inserta un nuevo admin en la base de datos"
-        
-        sql = """ INSERT INTO admins (UsrAdminID, passport, ss_number, dwell_time, age, first_name, second_name)
-                VALUES (?, ?, ?, ?, ?, ?, ?)"""
-        
         cursor = self.getCursor()
         
         try:
-            cursor.execute(sql, [user_id, vo.passport, 
+            cursor.execute(self.sql_insert, [user_id, vo.passport, 
                                  vo.ss_number, vo.dwell_time, 
                                  vo.age, vo.first_name, vo.second_name])
         
@@ -25,10 +25,13 @@ class AdminDao(Conexion):
             self.closeConnection()
 
     def delete_by_user_id(self, user_id: int) -> bool:
+        """Elimina un admin de la base de datos dado su ID de usuario."""
         cursor = self.getCursor()
+        
         try:
-            cursor.execute("DELETE FROM admins WHERE UsrAdminID = ?", [user_id])
+            cursor.execute(self.sql_delete, [user_id])
             return cursor.rowcount > 0
+        
         finally:
             cursor.close()
             self.closeConnection()

@@ -1,3 +1,5 @@
+import re
+
 class EmployeeVO:
     def __init__(self, passport:str, ss_number:str, dwell_time:int, age:int, specialization:str, first_name:str, second_name:str) -> None:
         self.passport = passport
@@ -14,9 +16,9 @@ class EmployeeVO:
         return self.__passport
 
     @passport.setter
-    def passport(self, passport:str) -> None:
-        if len(passport) == 0:
-            raise ValueError("Passport cannot be empty")
+    def passport(self, passport:str) -> None:        
+        if not re.match(r'^[A-Z]{3}[0-9]{6}$', passport):
+            raise ValueError("Passport must be in the format 'AAA123456'")
         
         self.__passport = passport  
 
@@ -26,8 +28,8 @@ class EmployeeVO:
     
     @ss_number.setter
     def ss_number(self, ss_number:str) -> None:
-        if len(ss_number) == 0:
-            raise ValueError("SS Number cannot be empty")
+        if not re.match(r'^\d{12}$', ss_number):
+            raise ValueError("SS Number must have 12 digits'")
         
         self.__ss_number = ss_number
 

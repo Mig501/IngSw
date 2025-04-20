@@ -201,6 +201,7 @@ from PyQt6.QtGui import QIcon, QPixmap
 from interface.windows.main_gui.screens.home_screen import HomeScreen
 from interface.windows.main_gui.screens.item1_screen import Item1Screen
 from interface.windows.main_gui.screens.archRegisterScreen import ArchRegisterScreen
+from interface.windows.main_gui.screens.adminRegisterScreen import AdminRegisterEmployeeScreen
 
 class MainWindow(QMainWindow):
     def __init__(self, user_rol=None):
@@ -241,7 +242,11 @@ class MainWindow(QMainWindow):
 
         # Arch only: Registrar usuarios
         if self.user_rol == "arch":
-            self.add_sidebar_item("Registrar", ArchRegisterScreen())
+            self.add_sidebar_item("Registrar usuarios", ArchRegisterScreen())
+
+        # Admin only: Registrar empleados
+        if self.user_rol == "admin":
+            self.add_sidebar_item("Registrar empleados", AdminRegisterEmployeeScreen())
 
         self.sidebar_layout.addWidget(self.menu_list)
 

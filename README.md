@@ -1,5 +1,5 @@
 # 🛠️ DESARROLLO
-
+- Mirar si se puede escalar los register screen de arch y admin con una clase abstracta
 ---
 
 ## ❓ Preguntas sobre posibles funcionalidades

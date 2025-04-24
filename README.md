@@ -52,7 +52,7 @@ El desarrollo del sistema BSA se ha llevado a cabo utilizando las siguientes tec
 El sistema BSA ha sido desarrollado por el **Grupo 6** para la asignatura de Ingeniería del Software. A continuación, se detallan los integrantes del equipo, sus roles y responsabilidades:
 
 - **David Morán Gorgojo**  
-  *Rol:* Analista de Requsitos  
+  *Rol:* Analista y Supervisor del Proyecto
   *Responsabilidades:* Supervisión general, planificación, obtención y validación de requisitos.  
   *Correo:* dmorag03@estudiantes.unileon.es
 
@@ -78,4 +78,4 @@ El sistema BSA ha sido desarrollado por el **Grupo 6** para la asignatura de Ing
 Puedes consultar los términos completos en el archivo [`LICENSE`](./LICENSE).
 
 ## Cosas a hacer
-añadir el main para ejecutar los test
+Añadir el main para ejecutar los test

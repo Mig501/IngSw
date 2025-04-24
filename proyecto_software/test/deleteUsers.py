@@ -1,11 +1,11 @@
 #src/deleteUsers.py
-from model.BusinessObject import BusinessObject
-from model.dao.UserDao import UserDao
-from model.dao.ClientDao import ClientDao
-from model.dao.EmployeeDao import EmployeeDao
-from model.dao.ArchDao import ArchDao
-from model.dao.UserDao import UserDao
-from model.dao.AdminDao import AdminDao
+from src.model.BusinessObject import BusinessObject
+from src.model.dao.UserDao import UserDao
+from src.model.dao.ClientDao import ClientDao
+from src.model.dao.EmployeeDao import EmployeeDao
+from src.model.dao.ArchDao import ArchDao
+from src.model.dao.UserDao import UserDao
+from src.model.dao.AdminDao import AdminDao
 
 def reset_autoincrement_if_empty():
     """Reinicia el autoincremento de la tabla users, clients, employees y

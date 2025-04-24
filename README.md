@@ -76,3 +76,6 @@ El sistema BSA ha sido desarrollado por el **Grupo 6** para la asignatura de Ing
 ## Licencia
   
 Puedes consultar los términos completos en el archivo [`LICENSE`](./LICENSE).
+
+## Cosas a hacer
+añadir el main para ejecutar los test

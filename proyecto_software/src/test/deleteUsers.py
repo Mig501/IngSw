@@ -1,11 +1,11 @@
 #src/deleteUsers.py
-from src.model.BusinessObject import BusinessObject
-from src.model.dao.UserDao import UserDao
-from src.model.dao.ClientDao import ClientDao
-from src.model.dao.EmployeeDao import EmployeeDao
-from src.model.dao.ArchDao import ArchDao
-from src.model.dao.UserDao import UserDao
-from src.model.dao.AdminDao import AdminDao
+from model.BusinessObject import BusinessObject
+from model.dao.UserDao import UserDao
+from model.dao.ClientDao import ClientDao
+from model.dao.EmployeeDao import EmployeeDao
+from model.dao.ArchDao import ArchDao
+from model.dao.UserDao import UserDao
+from model.dao.AdminDao import AdminDao
 
 def reset_autoincrement_if_empty():
     """Reinicia el autoincremento de la tabla users, clients, employees y
@@ -73,7 +73,3 @@ def test_delete_users():
         
         except Exception as e:
             print(f"Error al eliminar el usuario {user_id}: {e}")
-
-if __name__ == "__main__":
-    test_delete_users()
-    reset_autoincrement_if_empty()

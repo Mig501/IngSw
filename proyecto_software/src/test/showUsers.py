@@ -14,6 +14,3 @@ def test_show_all_users() -> None:
     
         for user in usuarios:
             print(f"ID: {user.user_id}, Usuario: {user.username}, Contraseña: {user.userpassword}, Email: {user.email}, Teléfono: {user.phone}, Rol: {user.rol}")
-
-if __name__ == '__main__':
-    test_show_all_users()

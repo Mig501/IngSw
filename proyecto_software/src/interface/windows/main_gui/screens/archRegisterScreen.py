@@ -9,6 +9,7 @@ from model.BusinessObject import BusinessObject
 from model.vo.RegisterUserVO import RegisterUserVO
 from model.vo.EmployeeVO import EmployeeVO
 from model.vo.AdminVO import AdminVO
+from model.loggerSingleton import LoggerSingleton
 
 class ArchRegisterScreen(QWidget):
     def __init__(self):
@@ -17,6 +18,7 @@ class ArchRegisterScreen(QWidget):
 
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
+        self.logger = LoggerSingleton()
 
         title = QLabel("Registrar nuevo usuario")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -126,6 +128,8 @@ class ArchRegisterScreen(QWidget):
                 )
                 BusinessObject().registrar_admin(user_vo, vo)
 
+            self.logger.add_log_activity(f"{user_vo} registrado como {rol.capitalize()} correctamente por arch.")
+            
             # Limpiamos los campos después de registrar
             QMessageBox.information(self, "Éxito", f"{rol.capitalize()} registrado correctamente.")
             self.input_username.clear()
@@ -136,7 +140,7 @@ class ArchRegisterScreen(QWidget):
             self.extra_ss.clear()
             self.extra_dwell.clear()
             self.extra_age.clear()
-            
+
             if rol == 'empleado':
                 self.extra_specialization.clear()
             

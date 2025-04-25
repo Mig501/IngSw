@@ -6,6 +6,7 @@ from PyQt6.QtCore import Qt
 from model.BusinessObject import BusinessObject
 from model.vo.RegisterUserVO import RegisterUserVO
 from model.vo.EmployeeVO import EmployeeVO
+from model.loggerSingleton import LoggerSingleton
 
 class AdminRegisterEmployeeScreen(QWidget):
     def __init__(self):
@@ -14,6 +15,7 @@ class AdminRegisterEmployeeScreen(QWidget):
 
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
+        self.logger = LoggerSingleton()
 
         title = QLabel("Registrar nuevo empleado")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -81,6 +83,8 @@ class AdminRegisterEmployeeScreen(QWidget):
             )
 
             BusinessObject().registrar_empleado(user_vo, vo)
+
+            self.logger.add_log_activity(f"Empleado registrado: {username} correctamente por administrador.")
 
             QMessageBox.information(self, "Éxito", "Empleado registrado correctamente.")
             self.input_username.clear()

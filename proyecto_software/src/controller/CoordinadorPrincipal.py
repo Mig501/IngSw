@@ -1,6 +1,7 @@
 from model.vo.LoginUserVO import LoginUserVO
 from interface.windows.login.login_window import LoginWindow
 from interface.windows.main_gui.main_window import MainWindow
+from model.loggerSingleton import LoggerSingleton
 
 class CoordinadorPrincipal:
     def __init__(self,ventanalogin,modelo) -> None:
@@ -9,6 +10,7 @@ class CoordinadorPrincipal:
         usuario interactúa con la interfaz"""
         self.ventana = ventanalogin
         self.modelo = modelo
+        self.logger = LoggerSingleton()
     
     def iniciarlogin(self) -> None:
         """Método para iniciar la ventana de inicio de sesión."""
@@ -26,9 +28,11 @@ class CoordinadorPrincipal:
 
         if user is None:
             self.ventana.mostrar_mensaje("Nombre de usuario o contraseña incorrectos.")
-        
+            self.logger.add_log_activity(f"Intento de inicio de sesión fallido para el usuario {username}.")
+
         else:
             self.ventana.mostrar_mensaje("¡¡Inicio de sesión exitoso!!")
+            self.logger.add_log_activity(f"Usuario {user.username} ha iniciado sesión.")
 
             # Asigno el rol según ID
             if user.user_id == 1:

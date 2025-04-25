@@ -5,6 +5,7 @@ from model.vo.RegisterUserVO import RegisterUserVO
 from model.BusinessObject import BusinessObject
 from model.dao.UserDao import UserDao
 from model.vo.ArchVO import ArchVO
+from model.loggerSingleton import LoggerSingleton
 
 class RegisterScreen(QWidget):
     # Señal para volver a la pantalla de login
@@ -20,6 +21,7 @@ class RegisterScreen(QWidget):
         self.title = QLabel("Registro de usuario")
         self.title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.title)
+        self.logger = LoggerSingleton()
 
         # Campo: Nombre de usuario
         self.input_user = QLineEdit()
@@ -92,6 +94,7 @@ class RegisterScreen(QWidget):
                 success = BusinessObject().registrar_cliente(user_vo)
     
             if success:
+                self.logger.add_log_activity(f"{user_vo.rol} regitrado como {user_vo.username} correctamente.")
                 QMessageBox.information(self, "Registro exitoso", "Usuario registrado correctamente.")
                 print("Usuario registrado correctamente")
                 self.back_to_login.emit()  # Volvemos al login

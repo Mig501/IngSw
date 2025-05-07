@@ -59,4 +59,12 @@
 
 > *Nota:* Todos los artefactos deben estar correctamente nombrados y organizados en la estructura del `.zip`.
 
-**Estado:** En desarrollo
+**Estado:** Entregado
+
+---
+
+## Entrega 3 -
+
+**Fecha de entrega:** [21 de mayo, 2025]
+
+### Contenido a entregar:

@@ -30,6 +30,7 @@ class MainWindow(QMainWindow):
         self.main_layout = QHBoxLayout()
         self.central_widget.setLayout(self.main_layout)
 
+        # Sidebar (menú lateral)
         self.sidebar = QWidget()
         self.sidebar.setObjectName('Sidebar')
         self.sidebar.setFixedWidth(140)
@@ -63,6 +64,7 @@ class MainWindow(QMainWindow):
         self.right_section_layout = QVBoxLayout()
         self.right_section.setLayout(self.right_section_layout)
 
+        # Header
         self.header = QWidget()
         self.header.setObjectName('Header')
         self.header.setFixedHeight(40)
@@ -72,9 +74,10 @@ class MainWindow(QMainWindow):
         self.header.setLayout(self.header_layout)
 
         # Imagen BSA
-        self.bsa_logo = QLabel(self.header)  # Agregamos un QLabel en la barra superior
-        self.bsa_logo.setPixmap(QPixmap('resources/images/BSA_name.png').scaled(50, 50, Qt.AspectRatioMode.KeepAspectRatio))
-        self.bsa_logo.setAlignment(Qt.AlignmentFlag.AlignLeft)  # Alineamos a la izquierda
+        self.bsa_logo = QLabel()
+        pixmap = QPixmap("resources/images/BSA_name.png")
+        self.bsa_logo.setPixmap(pixmap.scaledToWidth(80, Qt.TransformationMode.SmoothTransformation))
+        self.bsa_logo.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
         self.header_layout.addWidget(self.bsa_logo)
 
         self.btn_minimize = QPushButton()
@@ -116,6 +119,7 @@ class MainWindow(QMainWindow):
         self.main_layout.addWidget(self.sidebar)
         self.main_layout.addWidget(self.right_section)
 
+        # Botón menú
         self.menu_button = QPushButton("Menú")
         self.menu_button.setIcon(QIcon("resources/icons/menu.svg"))
         self.menu_button.setFixedWidth(100)
@@ -147,6 +151,7 @@ class MainWindow(QMainWindow):
         self.screens.append(screen)
 
     def toggle_sidebar(self):
+        '''Se encarga de cambiar el icono del boton de menu cuando este se pulse'''
         is_visible = not self.sidebar.isVisible()
         self.sidebar.setVisible(is_visible)
         icon = QIcon("resources/icons/chevron_left.svg") if is_visible else QIcon("resources/icons/menu.svg")
@@ -154,6 +159,7 @@ class MainWindow(QMainWindow):
         self.menu_button.setText("Menú")
 
     def toggle_max_restore(self):
+        '''Modifica el icono del boton de maximizar cuando este se pulse'''
         if self.isMaximized():
             self.showNormal()
             self.btn_maximize.setIcon(QIcon("resources/icons/chevron_up.svg"))
@@ -165,14 +171,18 @@ class MainWindow(QMainWindow):
         self.stacked_widget.setCurrentIndex(index)
 
     def mousePressEvent(self, event):
+        '''Permite arrastrar la ventana cuando se agarre la misma en la sección de header'''
         if event.button() == Qt.MouseButton.LeftButton and self.header.underMouse():
             self.old_pos = event.globalPosition().toPoint()
 
     def mouseMoveEvent(self, event):
+        '''Se encarga de mover la posicion de la ventana al ser arrastrada'''
         if self.old_pos:
             delta = event.globalPosition().toPoint() - self.old_pos
             self.move(self.x() + delta.x(), self.y() + delta.y())
             self.old_pos = event.globalPosition().toPoint()
 
     def mouseReleaseEvent(self, event):
+        '''Se encarga de soltar la ventana cuando se suelta el click'''
         self.old_pos = None
+

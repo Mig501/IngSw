@@ -79,20 +79,20 @@ CREATE TABLE products (
     pimage VARCHAR(255) NULL,
 )
 
-CREATE TABLE automoviles (
+CREATE TABLE automovil (
     ProductID BIGINT AUTO_INCREMENT PRIMARY KEY,
-    kilometers INT NO NULL,
-    engine VARCHAR(50) NOT NULL,
-    consume DECIMAL(2, 1) NOT NULL,
-    autonomy SMALLINT NOT NULL,
-    enviormental_label VARCHAR(3) NOT NULL,
+    kilometers INT NOT NULL,
+    engine VARCHAR(50) NULL,
+    consume DECIMAL(2, 1) NULL,
+    autonomy SMALLINT NULL,
+    enviormental_label CHAR(3) NULL,
     FOREIGN KEY (ProductID) REFERENCES products(ProductID),
     CHECK (enviormental_label IN ('ECO', '0', 'B', 'C'))
 )
 
-CREATE TABLE otros(
+CREATE TABLE others(
     ProductID BIGINT AUTO_INCREMENT PRIMARY KEY,
-    Size SMALLINT NOT NULL,
-    UsedFor VARCHAR(50) NOT NULL,
+    size_of SMALLINT NOT NULL,
+    used_for VARCHAR(50) NOT NULL,
     FOREIGN KEY (ProductID) REFERENCES products(ProductID),
 )

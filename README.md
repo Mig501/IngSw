@@ -79,3 +79,5 @@ Puedes consultar los términos completos en el archivo [`LICENSE`](./LICENSE).
 
 ## Cosas a hacer
 Añadir la ventana de gráficos para que el arch pueda ver los logs
+
+Añadir etiqueta ECO,... a la columna de vehículos

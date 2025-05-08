@@ -55,7 +55,6 @@ CREATE TABLE admins (
 );
 
 
-
 CREATE TABLE archs (
     ArchID INT AUTO_INCREMENT PRIMARY KEY,
     UsrArchID INT UNIQUE NOT NULL,
@@ -67,3 +66,30 @@ CREATE TABLE archs (
     second_name VARCHAR(50),
     FOREIGN KEY (UsrArchID) REFERENCES users(UserID)
 );
+
+CREATE TABLE products (
+    ProductID BIGINT AUTO_INCREMENT PRIMARY KEY,
+    price DECIMAL(10, 2) NOT NULL,
+    brand VARCHAR(30) NOT NULL,
+    model VARCHAR(70) NOT NULL,
+    year_manufacture CHAR(4) NOT NULL,
+    plocation POINT ,--POINT(40.7128-74.0060)
+    ptype VARCHAR(25) NOT NULL,
+    pdescription TEXT NULL,
+    pimage VARCHAR(255) NULL,
+)
+
+CREATE TABLE automoviles (
+    ProductID BIGINT AUTO_INCREMENT PRIMARY KEY,
+    kilometers INT NO NULL,
+    engine VARCHAR(50) NOT NULL,
+    consume DECIMAL(2, 1) NOT NULL,
+    autonomy SMALLINT NOT NULL,
+    enviormental_label VARCHAR(3) NOT NULL,
+    FOREIGN KEY (ProductID) REFERENCES products(ProductID),
+    CHECK (enviormental_label IN ('ECO', '0', 'B', 'C'))
+)
+
+CREATE TABLE otros(
+
+)

@@ -7,21 +7,21 @@ class ProductDao(Conexion):
 
     # Be aware fo the names, due to this table is not created yet
     sql_insert = "INSERT INTO products (data) VALUES (?....)" 
-    sql_delete = "DELETE FROM products WHERE zip_code = ?"
+    sql_delete = "DELETE FROM products WHERE product_Id = ?"
     # This query (update) could be used or not (depneds on the time left)
-    sql_update = "UPDATE products SET data = ? WHERE zip_code = ?"
+    sql_update = "UPDATE products SET data = ? WHERE product_Id = ?"
     # Los select depnderán de las consultas que se hagan en la apliación
 
 
 
-    # We have to add the data type of the zip_code
-    def insert(self, zip_code,  vo:ProductVO) -> bool:
+    # We have to add the data type of the product_Id
+    def insert(self, product_Id:int,  vo:ProductVO) -> bool:
         """Inserta un nuevo producto en la base de datos""" 
     
         cursor = self.getCursor()
     
         try:
-            cursor.execute(self.sql_insert, [zip_code, vo.price, "rest of the data"])
+            cursor.execute(self.sql_insert, [product_Id, vo.price, "rest of the data"])
 
 
         except Exception as e:
@@ -31,20 +31,20 @@ class ProductDao(Conexion):
             cursor.close()
         self.closeConnection()
 
-    def delete_by_zip_code(self, zip_code:¿?) -> ¿?:
-        """Elimina un producto de la base de datos dado su zip_code."""
+    def delete_by_zip_code(self, product_Id:int) -> int:
+        """Elimina un producto de la base de datos dado su product_Id."""
         cursor = self.getCursor()
         rows = 0
 
         try:
-            cursor.execute(self.sql_delete, [zip_code])
+            cursor.execute(self.sql_delete, [product_Id])
             rows = cursor.rowcount
 
         except jaydebeapi.DatabaseError as e:
-            raise jaydebeapi.DatabaseError(f"Delete error product with zip_code {zip_code}: {e}")
+            raise jaydebeapi.DatabaseError(f"Delete error product with product_Id {product_Id}: {e}")
         
         except Exception as e:
-            raise Exception(f"Delete error product with zip_code {zip_code}: {e}")
+            raise Exception(f"Delete error product with product_Id {product_Id}: {e}")
         
         finally:
             if cursor:
@@ -58,7 +58,7 @@ class ProductDao(Conexion):
         Se pueden pasar varios parámetros, y se generará una consulta SQL con los filtros correspondientes.
         args: diccionario con los parámetros de búsqueda.
         """
-        # args = {"zip_code": "12345", "price": 100, ...}
+        # args = {"product_Id": "12345", "price": 100, ...}
         cursor = self.getCursor()
         columns = list(args.keys())
         values = list(args.values())

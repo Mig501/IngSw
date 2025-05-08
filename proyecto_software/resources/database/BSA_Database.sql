@@ -80,20 +80,33 @@ CREATE TABLE products (
     CHECK (ptype IN ('automóviles', 'otros'))
 )
 
-CREATE TABLE automoviles (
+CREATE TABLE automovil (
     ProductID BIGINT AUTO_INCREMENT PRIMARY KEY,
     kilometers INT NOT NULL,
+<<<<<<< HEAD
     engine VARCHAR(50) NOT NULL,
     consume DECIMAL(2, 1) NOT NULL,
     autonomy SMALLINT NOT NULL,
     enviormental_label VARCHAR(3) NOT NULL,
+=======
+    engine VARCHAR(50) NULL,
+    consume DECIMAL(2, 1) NULL,
+    autonomy SMALLINT NULL,
+    enviormental_label CHAR(3) NULL,
+>>>>>>> a905633a667b820b9d1f6f17edbd0d700911275a
     FOREIGN KEY (ProductID) REFERENCES products(ProductID),
     CHECK (enviormental_label IN ('ECO', '0', 'B', 'C'))
 )
 
-CREATE TABLE otros(
+CREATE TABLE others(
     ProductID BIGINT AUTO_INCREMENT PRIMARY KEY,
+<<<<<<< HEAD
     size DECIMAL(7, 2) NOT NULL, --Tamaño en cm
     usedFor VARCHAR(50) NOT NULL,
     FOREIGN KEY (ProductID) REFERENCES products(ProductID)
+=======
+    size_of SMALLINT NOT NULL,
+    used_for VARCHAR(50) NOT NULL,
+    FOREIGN KEY (ProductID) REFERENCES products(ProductID),
+>>>>>>> a905633a667b820b9d1f6f17edbd0d700911275a
 )

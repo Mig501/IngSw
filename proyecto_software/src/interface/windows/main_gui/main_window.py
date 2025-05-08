@@ -8,7 +8,7 @@
 #from PyQt6.QtGui import QIcon, QPixmap
 #
 #from interface.windows.main_gui.screens.home_screen import HomeScreen
-#from interface.windows.main_gui.screens.item1_screen import Item1Screen
+#from interface.windows.main_gui.screens.Vehicle_screen import VehicleScreen
 #
 #class MainWindow(QMainWindow):
 #    def __init__(self):
@@ -61,17 +61,17 @@
 #        self.menu_list.setItemWidget(self.home_item, self.home_widget)
 #
 #        # Item 1
-#        self.item1_widget = QWidget()
-#        self.item1_layout = QHBoxLayout()
-#        self.item1_layout.setContentsMargins(0, 0, 0, 0)
-#        self.item1_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-#        self.item1_label = QLabel("Item 1")
-#        self.item1_layout.addWidget(self.item1_label)
-#        self.item1_widget.setLayout(self.item1_layout)
-#        self.item1_item = QListWidgetItem()
-#        self.item1_item.setSizeHint(self.item1_widget.sizeHint())
-#        self.menu_list.addItem(self.item1_item)
-#        self.menu_list.setItemWidget(self.item1_item, self.item1_widget)
+#        self.Vehicle_widget = QWidget()
+#        self.Vehicle_layout = QHBoxLayout()
+#        self.Vehicle_layout.setContentsMargins(0, 0, 0, 0)
+#        self.Vehicle_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+#        self.Vehicle_label = QLabel("Item 1")
+#        self.Vehicle_layout.addWidget(self.Vehicle_label)
+#        self.Vehicle_widget.setLayout(self.Vehicle_layout)
+#        self.Vehicle_item = QListWidgetItem()
+#        self.Vehicle_item.setSizeHint(self.Vehicle_widget.sizeHint())
+#        self.menu_list.addItem(self.Vehicle_item)
+#        self.menu_list.setItemWidget(self.Vehicle_item, self.Vehicle_widget)
 #
 #        self.sidebar_layout.addWidget(self.menu_list)
 #
@@ -122,7 +122,7 @@
 #        self.main_area.setLayout(self.main_area_layout)
 #
 #        self.stacked_widget = QStackedWidget()
-#        self.pages = [HomeScreen(), Item1Screen()]
+#        self.pages = [HomeScreen(), VehicleScreen()]
 #        for page in self.pages:
 #            self.stacked_widget.addWidget(page)
 #
@@ -199,7 +199,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon, QPixmap
 
 from interface.windows.main_gui.screens.home_screen import HomeScreen
-from interface.windows.main_gui.screens.item1_screen import Item1Screen
+from interface.windows.main_gui.screens.vehicle_screen import VehicleScreen
 from interface.windows.main_gui.screens.archRegisterScreen import ArchRegisterScreen
 from interface.windows.main_gui.screens.adminRegisterScreen import AdminRegisterEmployeeScreen
 
@@ -237,8 +237,8 @@ class MainWindow(QMainWindow):
         # Home
         self.add_sidebar_item("Home", HomeScreen())
 
-        # Item1
-        self.add_sidebar_item("Item 1", Item1Screen())
+        # Vehicle
+        self.add_sidebar_item("Vehículos", VehicleScreen())
 
         # Arch only: Registrar usuarios
         if self.user_rol == "arch":

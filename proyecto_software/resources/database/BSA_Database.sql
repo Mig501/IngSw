@@ -91,5 +91,8 @@ CREATE TABLE automoviles (
 )
 
 CREATE TABLE otros(
-
+    ProductID BIGINT AUTO_INCREMENT PRIMARY KEY,
+    Size SMALLINT NOT NULL,
+    UsedFor VARCHAR(50) NOT NULL,
+    FOREIGN KEY (ProductID) REFERENCES products(ProductID),
 )

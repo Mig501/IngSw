@@ -77,11 +77,12 @@ CREATE TABLE products (
     ptype VARCHAR(25) NOT NULL,
     pdescription TEXT NULL,
     pimage VARCHAR(255) NULL,
+    CHECK (ptype IN ('automóviles', 'otros'))
 )
 
 CREATE TABLE automoviles (
     ProductID BIGINT AUTO_INCREMENT PRIMARY KEY,
-    kilometers INT NO NULL,
+    kilometers INT NOT NULL,
     engine VARCHAR(50) NOT NULL,
     consume DECIMAL(2, 1) NOT NULL,
     autonomy SMALLINT NOT NULL,
@@ -92,7 +93,7 @@ CREATE TABLE automoviles (
 
 CREATE TABLE otros(
     ProductID BIGINT AUTO_INCREMENT PRIMARY KEY,
-    Size SMALLINT NOT NULL,
-    UsedFor VARCHAR(50) NOT NULL,
-    FOREIGN KEY (ProductID) REFERENCES products(ProductID),
+    size DECIMAL(7, 2) NOT NULL, --Tamaño en cm
+    usedFor VARCHAR(50) NOT NULL,
+    FOREIGN KEY (ProductID) REFERENCES products(ProductID)
 )

@@ -4,7 +4,7 @@ import re
 
 class AutomobileVO(ProductVO):
     def __init__(self, product_Id:int, price:float, brand:str, model:str, year_manufacture:str, plocation:str, ptype:str, pdescription:str, pimage,
-                 kilometers:int, engine:str, consume:float, autonomy:int, enviromental_label:str) -> None:
+                 kilometers:int, engine:str, consume:float, autonomy:int, environmental_label:str) -> None:
         
         # Llamamos al constructor de la clase padre (ProductVO)
         super().__init__(product_Id, price, brand, model, year_manufacture, plocation, ptype, pdescription, pimage)
@@ -13,7 +13,7 @@ class AutomobileVO(ProductVO):
         self.engine = engine
         self.consume = consume
         self.autonomy = autonomy
-        self.enviromental_label = enviromental_label
+        self.environmental_label = environmental_label
 
     @property
     def kilometers(self) -> int:
@@ -60,12 +60,11 @@ class AutomobileVO(ProductVO):
         self._autonomy = autonomy
 
     @property
-    def enviromental_label(self) -> str:
-        return self._enivormental_label
+    def environmental_label(self) -> str:
+        return self._environmental_label
     
-    @enviromental_label.setter
-    def enviromental_label(self, enviromental_label:str) -> str:
-        if enviromental_label not in ['ECO', 'C', '0', 'B']:
-            raise ValueError("Enviromental label debe ser ECO, C, 0 o B.")
-
-        self._enviromental_label = enviromental_label
+    @environmental_label.setter
+    def environmental_label(self, environmental_label:str) -> str:
+        if environmental_label not in ['ECO', 'C', '0', 'B']:
+            raise ValueError("Environmental label must be 'ECO', 'C', '0' or 'B'.")
+        self._environmental_label = environmental_label

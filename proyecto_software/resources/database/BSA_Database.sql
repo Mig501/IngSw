@@ -97,3 +97,21 @@ CREATE TABLE other(
     usedFor VARCHAR(50) NOT NULL,
     FOREIGN KEY (ProductID) REFERENCES products(ProductID)
 )
+
+CREATE TABLE services (
+    ServiceID INT AUTO_INCREMENT PRIMARY KEY,
+    price DECIMAL(10, 2) NOT NULL,
+    ser_name VARCHAR(50) NOT NULL,
+    ser_description TEXT NULL,
+)
+
+CREATE TABLE workshop (
+    WS_zip_code CHAR(5) NOT NULL,
+    size_of DECIMAL(7, 2) NOT NULL,
+    phone_number CHAR(9) UNIQUE,
+    Inv_parking_slot VARCHAR(50) NOT NULL,
+    Inv_num_pieces INT NOT NULL,
+    add_street VARCHAR(50) NOT NULL,
+    add_number INT NOT NULL,
+    add_city INT NOT NULL,
+)

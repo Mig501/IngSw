@@ -9,21 +9,25 @@ CREATE TABLE Users (
     username VARCHAR(15) CHARACTER SET utf8mb4 NOT NULL UNIQUE,
     userpassword VARCHAR(60) NOT NULL, 
     email VARCHAR(90) CHARACTER SET utf8mb4 NOT NULL UNIQUE,
-    phone_number CHAR(9) UNIQUE
+    phone_number CHAR(9) UNIQUE,
     rol VARCHAR(20) NOT NULL DEFAULT 'cliente';
 )
 
 CREATE TABLE clients (
 	ClientID INT PRIMARY KEY,
+    WS_zip_code CHAR(5) NOT NULL,
     num_ventas INT DEFAULT 0,
     num_compras INT DEFAULT 0,
     saldo DECIMAL(10,2) DEFAULT 0.00,
-    FOREIGN KEY (ClientID) REFERENCES users(UserID)
+    FOREIGN KEY (ClientID) REFERENCES users(UserID),
+    FOREIGN KEY (WS_zip_code) REFERENCES workshop(WS_zip_code),
 );
 
 CREATE TABLE employees (
-    EmployeeID INT AUTO_INCREMENT PRIMARY KEY,     -- Identificador propio del empleado
-    UsrEmpID INT UNIQUE NOT NULL,                    -- Referencia a la tabla users
+    EmployeeID INT AUTO_INCREMENT PRIMARY KEY,     
+    UsrEmpID INT UNIQUE NOT NULL,
+    AdminID INT UNIQUE NOT NULL,
+    WS_zip_code CHAR(5) NOT NULL,
     employee_passport CHAR(9) UNIQUE,
     ss_number CHAR(12) UNIQUE,
     dwell_time INT,
@@ -31,7 +35,9 @@ CREATE TABLE employees (
     specialization VARCHAR(50),
     first_name VARCHAR(50),
     second_name VARCHAR(50),
-    FOREIGN KEY (UsrEmpID) REFERENCES users(UserID)
+    FOREIGN KEY (UsrEmpID) REFERENCES users(UserID),
+    FOREIGN KEY (AdminID) REFERENCES admins(AdminID),
+    FOREIGN KEY (WS_zip_code) REFERENCES workshop(WS_zip_code),
     CHECK (specialization IN ('mecáncio', 'electricista', 'informático'))
 );
 -- El check ponerlo así en el workbench
@@ -42,6 +48,7 @@ CHECK (specialization IN ('mecánico', 'informático', 'electricista'));
 CREATE TABLE admins (
     AdminID INT AUTO_INCREMENT PRIMARY KEY,
     UsrAdminID INT UNIQUE NOT NULL,
+    ArchID INT UNIQUE NOT NULL,
     passport CHAR(9) UNIQUE,
     ss_number CHAR(12) UNIQUE,
     dwell_time INT,
@@ -49,8 +56,12 @@ CREATE TABLE admins (
     first_name VARCHAR(50),
     second_name VARCHAR(50),
     FOREIGN KEY (UsrAdminID) REFERENCES users(UserID)
+    FOREIGN KEY (ArchID) REFERENCES archs(ArchID)
 );
-
+-- Relacionar `admins` con `archs`
+ALTER TABLE admins 
+    ADD CONSTRAINT fk_arch_id 
+    FOREIGN KEY (ArchID) REFERENCES archs(ArchID);
 
 CREATE TABLE archs (
     ArchID INT AUTO_INCREMENT PRIMARY KEY,
@@ -102,9 +113,11 @@ CREATE TABLE other(
 
 CREATE TABLE services (
     ServiceID INT AUTO_INCREMENT PRIMARY KEY,
+    AdminID INT UNIQUE NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     ser_name VARCHAR(50) NOT NULL,
-    ser_description TEXT NULL,
+    ser_description TEXT,
+    FOREIGN KEY (AdminID) REFERENCES admins(AdminID),
 )
 
 CREATE TABLE workshop (
@@ -115,7 +128,7 @@ CREATE TABLE workshop (
     Inv_num_pieces INT NOT NULL,
     add_street VARCHAR(50) NOT NULL,
     add_number INT NOT NULL,
-    add_city INT NOT NULL,
+    add_city VARCHAR(50) NOT NULL,
 )
 
 CREATE TABLE client_services (

@@ -95,13 +95,14 @@ CREATE TABLE pimage (
 
 CREATE TABLE automovil (
     ProductID BIGINT AUTO_INCREMENT PRIMARY KEY,
-    kilometers INT NOT NULL,
-    engine VARCHAR(50) NOT NULL,
-    consume DECIMAL(2, 1) NOT NULL,
-    autonomy SMALLINT NOT NULL,
-    enviormental_label VARCHAR(3) NOT NULL,
+    kilometers INT NOT NULL, -- km del vehiculo
+    engine VARCHAR(50) NOT NULL, -- tipo de motor
+    consume DECIMAL(2, 1) NOT NULL, -- consumo por cada 100 km
+    autonomy SMALLINT NOT NULL, -- autonomia
+    enviormental_label VARCHAR(3) NOT NULL, -- etiqueta medioambiental
     FOREIGN KEY (ProductID) REFERENCES products(ProductID),
     CHECK (enviormental_label IN ('ECO', '0', 'B', 'C'))
+    CHECK (engine IN ('Gasolina', 'Diesel', 'Electrico', 'Hibrido', "Hibrido enchufable", "Hidrogeno", 'Biocombustible')) -- restricción de tipos de motor
 )
 
 CREATE TABLE other(

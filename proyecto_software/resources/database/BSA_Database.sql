@@ -10,10 +10,8 @@ CREATE TABLE Users (
     userpassword VARCHAR(60) NOT NULL, 
     email VARCHAR(90) CHARACTER SET utf8mb4 NOT NULL UNIQUE,
     phone_number CHAR(9) UNIQUE
+    rol VARCHAR(20) NOT NULL DEFAULT 'cliente';
 )
-
-ALTER TABLE users
-ADD rol VARCHAR(20) NOT NULL DEFAULT 'cliente';
 
 CREATE TABLE clients (
 	ClientID INT PRIMARY KEY,
@@ -40,7 +38,6 @@ CREATE TABLE employees (
 ALTER TABLE employees
 ADD CONSTRAINT chk_specialization 
 CHECK (specialization IN ('mecánico', 'informático', 'electricista'));
-
 
 CREATE TABLE admins (
     AdminID INT AUTO_INCREMENT PRIMARY KEY,
@@ -73,11 +70,16 @@ CREATE TABLE products (
     brand VARCHAR(30) NOT NULL,
     model VARCHAR(70) NOT NULL,
     year_manufacture CHAR(4) NOT NULL,
-    plocation POINT ,--POINT(40.7128-74.0060)
+    plocation POINT ,
     ptype VARCHAR(25) NOT NULL,
     pdescription TEXT NULL,
-    pimage VARCHAR(255) NULL,
     CHECK (ptype IN ('automóviles', 'otros'))
+)
+
+CREATE TABLE pimage (
+    ProductID BIGINT NOT NULL,
+    pimage VARCHAR(255) NOT NULL,
+    FOREIGN KEY (ProductID) REFERENCES products(ProductID)
 )
 
 CREATE TABLE automovil (
@@ -114,4 +116,45 @@ CREATE TABLE workshop (
     add_street VARCHAR(50) NOT NULL,
     add_number INT NOT NULL,
     add_city INT NOT NULL,
+)
+
+CREATE TABLE client_services (
+    ClientID INT NOT NULL,
+    ServiceID INT NOT NULL,
+    Service_date DATE NOT NULL,
+    Service_time TIME NOT NULL,
+    FOREIGN KEY (ClientID) REFERENCES clients(ClientID),
+    FOREIGN KEY (ServiceID) REFERENCES services(ServiceID)
+)
+
+CREATE TABLE client_products (
+    ClientID INT NOT NULL,
+    ProductID BIGINT NOT NULL,
+    Purchase_date DATE NOT NULL,
+    Purchase_time TIME NOT NULL,
+    FOREIGN KEY (ClientID) REFERENCES clients(ClientID),
+    FOREIGN KEY (ProductID) REFERENCES products(ProductID)
+)
+
+CREATE TABLE employee_services (
+    EmployeeID INT NOT NULL,
+    ServiceID INT NOT NULL,
+    Service_date DATE NOT NULL,
+    Service_time TIME NOT NULL,
+    FOREIGN KEY (EmployeeID) REFERENCES employees(EmployeeID),
+    FOREIGN KEY (ServiceID) REFERENCES services(ServiceID)
+)
+
+CREATE TABLE employee_workshop (
+    EmployeeID INT NOT NULL,
+    WS_zip_code CHAR(5) NOT NULL,
+    FOREIGN KEY (EmployeeID) REFERENCES employees(EmployeeID),
+    FOREIGN KEY (WS_zip_code) REFERENCES workshop(WS_zip_code)
+)
+
+CREATE TABLE workshop_products (
+    WS_zip_code CHAR(5) NOT NULL,
+    ProductID BIGINT NOT NULL,
+    FOREIGN KEY (WS_zip_code) REFERENCES workshop(WS_zip_code),
+    FOREIGN KEY (ProductID) REFERENCES products(ProductID)
 )

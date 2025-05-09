@@ -1,4 +1,5 @@
 # src/main.py
+
 from model.BusinessObject import BusinessObject
 from PyQt6.QtWidgets import QApplication
 from interface.windows.login.login_window import LoginWindow

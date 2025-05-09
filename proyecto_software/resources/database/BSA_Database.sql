@@ -88,7 +88,7 @@ CREATE TABLE products (
 )
 
 CREATE TABLE pimage (
-    ProductID BIGINT NOT NULL,
+    ProductID BIGINT NOT NULL PRIMARY KEY,
     pimage VARCHAR(255) NOT NULL,
     FOREIGN KEY (ProductID) REFERENCES products(ProductID)
 )
@@ -121,7 +121,7 @@ CREATE TABLE services (
 )
 
 CREATE TABLE workshop (
-    WS_zip_code CHAR(5) NOT NULL,
+    WS_zip_code CHAR(5) NOT NULL PRIMARY KEY,
     size_of DECIMAL(7, 2) NOT NULL,
     phone_number CHAR(9) UNIQUE,
     Inv_parking_slot VARCHAR(50) NOT NULL,
@@ -137,7 +137,8 @@ CREATE TABLE client_services (
     Service_date DATE NOT NULL,
     Service_time TIME NOT NULL,
     FOREIGN KEY (ClientID) REFERENCES clients(ClientID),
-    FOREIGN KEY (ServiceID) REFERENCES services(ServiceID)
+    FOREIGN KEY (ServiceID) REFERENCES services(ServiceID),
+    PRIMARY KEY (ClientID, ServiceID),
 )
 
 CREATE TABLE client_products (
@@ -146,7 +147,8 @@ CREATE TABLE client_products (
     Purchase_date DATE NOT NULL,
     Purchase_time TIME NOT NULL,
     FOREIGN KEY (ClientID) REFERENCES clients(ClientID),
-    FOREIGN KEY (ProductID) REFERENCES products(ProductID)
+    FOREIGN KEY (ProductID) REFERENCES products(ProductID),
+    PRIMARY KEY (ClientID, ProductID),
 )
 
 CREATE TABLE employee_services (
@@ -155,19 +157,22 @@ CREATE TABLE employee_services (
     Service_date DATE NOT NULL,
     Service_time TIME NOT NULL,
     FOREIGN KEY (EmployeeID) REFERENCES employees(EmployeeID),
-    FOREIGN KEY (ServiceID) REFERENCES services(ServiceID)
+    FOREIGN KEY (ServiceID) REFERENCES services(ServiceID),
+    PRIMARY KEY (EmployeeID, ServiceID),
 )
 
 CREATE TABLE employee_workshop (
     EmployeeID INT NOT NULL,
     WS_zip_code CHAR(5) NOT NULL,
     FOREIGN KEY (EmployeeID) REFERENCES employees(EmployeeID),
-    FOREIGN KEY (WS_zip_code) REFERENCES workshop(WS_zip_code)
+    FOREIGN KEY (WS_zip_code) REFERENCES workshop(WS_zip_code),
+    PRIMARY KEY (EmployeeID, WS_zip_code),
 )
 
 CREATE TABLE workshop_products (
     WS_zip_code CHAR(5) NOT NULL,
     ProductID BIGINT NOT NULL,
     FOREIGN KEY (WS_zip_code) REFERENCES workshop(WS_zip_code),
-    FOREIGN KEY (ProductID) REFERENCES products(ProductID)
+    FOREIGN KEY (ProductID) REFERENCES products(ProductID),
+    PRIMARY KEY (WS_zip_code, ProductID),
 )

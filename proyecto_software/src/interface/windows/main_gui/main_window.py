@@ -15,6 +15,7 @@ from interface.windows.main_gui.screens.adminRegisterScreen import AdminRegister
 class MainWindow(QMainWindow):
     def __init__(self, user_rol=None):
         super().__init__()
+        
         self.setWindowTitle("BSA App")
         self.setFixedSize(900, 600)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)

@@ -3,18 +3,34 @@ from model.vo.AdminVO import AdminVO
 
 class AdminDao(Conexion):
     
-    sql_insert = "INSERT INTO admins (UsrAdminID, passport, ss_number, dwell_time, age, first_name, second_name) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    sql_insert = "INSERT INTO admins (UsrAdminID, ArchID, passport, ss_number, dwell_time, age, first_name, second_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
     sql_delete = "DELETE FROM admins WHERE UsrAdminID = ?"
 
-    def insert(self, user_id: int, vo:AdminVO) -> bool:
-        "Inserta un nuevo admin en la base de datos"
+    def reset_autoincrement_if_empty(self):
+        """Esta función es solo para hacer pruebas nosotros"""
+        cursor = self.getCursor()
+
+        try:
+            cursor.execute("SELECT COUNT(*) FROM admins")
+            count = cursor.fetchone()[0]
+
+            if count == 0:  # Si no hay registros en la tabla, reiniciamos el autoincremento
+                cursor.execute("ALTER TABLE admins AUTO_INCREMENT = 1")
+
+        finally:
+            cursor.close()
+            self.closeConnection()
+
+
+    def insert(self, user_id:int, arch_id:int, vo: AdminVO) -> bool:
+        """Inserta un nuevo admin en la base de datos usando los datos del AdminVO."""
         cursor = self.getCursor()
         
         try:
-            cursor.execute(self.sql_insert, [user_id, vo.passport, 
-                                 vo.ss_number, vo.dwell_time, 
-                                 vo.age, vo.first_name, vo.second_name])
-        
+            
+            cursor.execute(self.sql_insert, [user_id, arch_id, vo.passport, vo.ss_number, 
+                                            vo.dwell_time, vo.age, vo.first_name, vo.second_name])
+            
             return cursor.rowcount > 0
         
         except Exception as e:
@@ -23,15 +39,17 @@ class AdminDao(Conexion):
         finally:
             cursor.close()
             self.closeConnection()
+    
+
 
     def delete_by_user_id(self, user_id: int) -> bool:
-        """Elimina un admin de la base de datos dado su ID de usuario."""
+        """Elimina un admin de la base de datos dado su ID de usuario"""
         cursor = self.getCursor()
-        
+
         try:
             cursor.execute(self.sql_delete, [user_id])
             return cursor.rowcount > 0
-        
+
         finally:
             cursor.close()
             self.closeConnection()

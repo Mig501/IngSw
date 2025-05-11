@@ -46,7 +46,7 @@ CREATE TABLE workshop (
     WS_zip_code CHAR(5) NOT NULL PRIMARY KEY,
     size_of DECIMAL(7, 2) NOT NULL,
     phone_number CHAR(9) UNIQUE,
-    Inv_parking_slot VARCHAR(50) NOT NULL,
+    Inv_parking_slot INT NOT NULL,
     Inv_num_pieces INT NOT NULL,
     add_street VARCHAR(50) NOT NULL,
     add_number INT NOT NULL,

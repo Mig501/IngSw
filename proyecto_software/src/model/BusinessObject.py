@@ -7,6 +7,8 @@ from model.dao.ClientDao import ClientDao
 from model.dao.EmployeeDao import EmployeeDao
 from model.dao.AdminDao import AdminDao
 from model.dao.ArchDao import ArchDao
+from model.vo.WorkshopVO import WorkshopVO
+from model.dao.WorkshopDAO import WorkshopDao
 
 class BusinessObject():
     """Objeto que implementa la lógica de negocio"""
@@ -80,7 +82,7 @@ class BusinessObject():
         
         return ClientDao().insert_client(user_id)
     
-    def registrar_empleado(self, user_vo, employee_vo) -> bool:
+    def registrar_empleado(self, user_vo, employee_vo, admin_id) -> bool:
         """Método que registra un empleado en la base de datos."""
         user_vo.rol = "empleado"
         user_dao = UserDao()
@@ -90,7 +92,7 @@ class BusinessObject():
         
         user_id = user_dao.get_last_inserted_user_id()
         
-        return EmployeeDao().insert(user_id, employee_vo)
+        return EmployeeDao().insert(user_id, admin_id, employee_vo)
     
     def registrar_admin(self, user_vo, admin_vo) -> bool:
         """Método que registra un administrador en la base de datos."""
@@ -120,3 +122,13 @@ class BusinessObject():
         """Método que obtiene el rol del usuario.
         Está función la usaremos para mostrar una ventana u otra dependiendo del rol."""
         return UserDao().get_user_rol(user_id)
+
+    def register_workshop(self, workshop_vo:WorkshopVO) -> bool:
+        """Método que registra un taller en la base de datos."""
+        try:
+            workshop_dao = WorkshopDao()
+
+            return workshop_dao.insert_workshop(workshop_vo)
+    
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.register_workshop: {e}")

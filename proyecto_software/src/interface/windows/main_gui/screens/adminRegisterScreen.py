@@ -47,6 +47,7 @@ class AdminRegisterEmployeeScreen(QWidget):
         self.extra_specialization.addItems(["mecánico", "electricista", "informático"])
         self.extra_first_name = QLineEdit()
         self.extra_second_name = QLineEdit()
+        self.admin_id = QLineEdit()
 
         self.campos_especificos.addRow("Pasaporte:", self.extra_passport)
         self.campos_especificos.addRow("SS Number:", self.extra_ss)
@@ -55,6 +56,7 @@ class AdminRegisterEmployeeScreen(QWidget):
         self.campos_especificos.addRow("Especialización:", self.extra_specialization)
         self.campos_especificos.addRow("Nombre:", self.extra_first_name)
         self.campos_especificos.addRow("Apellido:", self.extra_second_name)
+        self.campos_especificos.addRow("ID Admin:", self.admin_id)
 
         self.layout.addLayout(self.campos_especificos)
 
@@ -82,7 +84,7 @@ class AdminRegisterEmployeeScreen(QWidget):
                 self.extra_second_name.text()
             )
 
-            BusinessObject().registrar_empleado(user_vo, vo)
+            BusinessObject().registrar_empleado(user_vo, vo, int(self.admin_id.text()))
 
             self.logger.add_log_activity(f"Empleado registrado: {username} correctamente por administrador.")
 
@@ -98,6 +100,7 @@ class AdminRegisterEmployeeScreen(QWidget):
             self.extra_specialization.setCurrentIndex(0)
             self.extra_first_name.clear()
             self.extra_second_name.clear()
+            self.admin_id.clear()
 
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))

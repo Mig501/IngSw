@@ -1,100 +1,98 @@
-#src/model/dao/ProductDao.py
 from model.conexion.Conexion import Conexion
 from model.vo.ProductVO import ProductVO
-import jaydebeapi
+from model.vo.AutomobileVO import AutomobileVO
+from model.vo.OtherProdVO import OtherProductVO
+from model.dao.WorkshopDAO import WorkshopDao
 
 class ProductDao(Conexion):
 
-    # Be aware fo the names, due to this table is not created yet
-    sql_insert = "INSERT INTO products (data) VALUES (?....)" 
-    sql_delete = "DELETE FROM products WHERE product_Id = ?"
-    # This query (update) could be used or not (depneds on the time left)
-    sql_update = "UPDATE products SET data = ? WHERE product_Id = ?"
-    # Los select depnderán de las consultas que se hagan en la apliación
+    # SQL de inserción en diferentes tablas
+    sql_insert_user_product = """
+        INSERT INTO user_products (ProductID, ClientID, price, brand, model, year_manufacture, plocation, ptype, pdescription)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """
 
+    sql_insert_workshop_product = """
+        INSERT INTO workshop_products (ProductID, WS_zip_code)
+        VALUES (?, ?)
+    """
 
+    sql_insert_automobile = """
+        INSERT INTO automovil (ProductID, kilometers, engine, consume, autonomy, enviormental_label)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """
 
-    # We have to add the data type of the product_Id
-    def insert(self, product_Id:int,  vo:ProductVO) -> bool:
-        """Inserta un nuevo producto en la base de datos""" 
-    
+    sql_insert_other_product = """
+        INSERT INTO other_product (ProductID, size_of, used_for)
+        VALUES (?, ?, ?)
+    """
+
+    sql_insert_image = """
+        INSERT INTO pimage (ProductID, pimage)
+        VALUES (?, ?)
+    """
+
+    def insert_product(self, product_vo: ProductVO) -> bool:
+        """Inserta un producto en la base de datos."""
         cursor = self.getCursor()
-    
         try:
-            cursor.execute(self.sql_insert, [product_Id, vo.price, "rest of the data"])
+            # Insertar en la tabla de productos de usuario
+            cursor.execute(self.sql_insert_user_product, (
+                product_vo.product_id,
+                product_vo.client_id,
+                product_vo.price,
+                product_vo.brand,
+                product_vo.model,
+                product_vo.year_manufacture,
+                product_vo.plocation,
+                product_vo.ptype,
+                product_vo.pdescription
+            ))
 
+            # Obtener el ProductID generado automáticamente
+            cursor.execute("SELECT MAX(ProductID) FROM user_products")
+            product_id = cursor.fetchone()[0]
+            print(f"Product ID: {product_id}")
+
+            # Insertar en la tabla de productos del taller
+            cursor.execute(self.sql_insert_workshop_product, (
+                product_id,
+                WorkshopDao().get_zip_code()  # Obtener el código postal del taller
+            ))
+
+            # Insertar en la tabla específica según el tipo de producto
+            if isinstance(product_vo, AutomobileVO):
+                # Producto es un automóvil, insertamos en la tabla automovil
+                cursor.execute(self.sql_insert_automobile, (
+                    product_id,
+                    product_vo.kilometers,
+                    product_vo.engine,
+                    product_vo.consume,
+                    product_vo.autonomy,
+                    product_vo.environnmental_label
+                ))
+
+            elif isinstance(product_vo, OtherProductVO):
+                # Producto es otro tipo de producto, insertamos en la tabla other_product
+                cursor.execute(self.sql_insert_other_product, (
+                    product_id,
+                    product_vo.size_of,
+                    product_vo.used_for
+                ))
+
+            # Insertar la imagen del producto
+            cursor.execute(self.sql_insert_image, (
+                product_id,
+                product_vo.image_path
+            ))
+
+            return True  # Si todo fue exitoso, devolvemos True
 
         except Exception as e:
-            raise Exception(f"Error insertando producto: {e}")
-
+            print(f"Error insertando producto: {e}")
+            return False  # Si hubo un error, devolvemos False
+        
         finally:
             cursor.close()
-        self.closeConnection()
-
-    def delete_by_zip_code(self, product_Id:int) -> int:
-        """Elimina un producto de la base de datos dado su product_Id."""
-        cursor = self.getCursor()
-        rows = 0
-
-        try:
-            cursor.execute(self.sql_delete, [product_Id])
-            rows = cursor.rowcount
-
-        except jaydebeapi.DatabaseError as e:
-            raise jaydebeapi.DatabaseError(f"Delete error product with product_Id {product_Id}: {e}")
-        
-        except Exception as e:
-            raise Exception(f"Delete error product with product_Id {product_Id}: {e}")
-        
-        finally:
-            if cursor:
-                cursor.close()
             self.closeConnection()
 
-        return rows
-
-    def consult_product_by_params(self, **args) -> list:
-        """Consulta los productos de la base de datos según los parámetros/filtros que se le pasen.
-        Se pueden pasar varios parámetros, y se generará una consulta SQL con los filtros correspondientes.
-        args: diccionario con los parámetros de búsqueda.
-        """
-        # args = {"product_Id": "12345", "price": 100, ...}
-        cursor = self.getCursor()
-        columns = list(args.keys())
-        values = list(args.values())
-        query_products = []
-
-        # Creamos la consulta SQL con los filtros que se le pasen
-        sql_query = "SELECT * FROM products WHERE "
-        for i, column in enumerate(columns):
-            sql_query += f"{column} = ?"
-            if i < len(columns) - 1:
-                sql_query += " AND "
-
-        try:
-            cursor.execute(self.sql_select_consult_args, args)
-            rows = cursor.fetchall()
-
-            for row in rows:
-                row = list(row)
-                product = ProductVO(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
-                query_products.append(product)
-
-        except jaydebeapi.DatabaseError as e:
-            raise jaydebeapi.DatabaseError(f"Error in SELECT query: {e}")
-
-        except Exception as e:
-            raise Exception(f"Error in SELECT query: {e}")
-
-        finally:
-            if cursor:
-                cursor.close()
-            self.closeConnection()
-            
-        if not query_products:
-            print("No se han encontrado productos con los parámetros dados.")
-            return None
-
-        print(f"Se han encontrado {len(query_products)}.")
-
-        return query_products

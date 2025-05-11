@@ -1,35 +1,32 @@
-#src/model/vo/AutomobileVO.py
-from model.vo.ProductVO import ProductVO
-import re
-
-class OtherProdVO(ProductVO):
-    def __init__(self, product_Id:int, price:float, brand:str, model:str, year_manufacture:str, plocation:str, ptype:str, pdescription:str, pimage,
-                 size_of:float, usedFor:str) -> None:
-        
-        # Llamamos al constructor de la clase padre (ProductVO)
-        super().__init__(product_Id, price, brand, model, year_manufacture, plocation, ptype, pdescription, pimage)
-
+class OtherProductVO:
+    def __init__(self, product_id: int, client_id: int, price: float, brand: str, model: str, year_manufacture: str, 
+                 plocation: str, ptype: str, pdescription: str, size_of: float, used_for: str, image_path) -> None:
+        self.product_id = product_id
+        self.client_id = client_id
+        self.price = price
+        self.brand = brand
+        self.model = model
+        self.year_manufacture = year_manufacture
+        self.plocation = plocation
+        self.ptype = ptype
+        self.pdescription = pdescription
         self.size_of = size_of
-        self.usedFor = usedFor
+        self.used_for = used_for
+        self.image_path = image_path
 
+    # Getters and Setters for all fields
     @property
     def size_of(self) -> float:
         return self._size_of
     
     @size_of.setter
-    def size_of(self, size_of:float) -> float:
-        if size_of <= 0:
-            raise ValueError("El tamaño debe ser un número positivo.")
-        
+    def size_of(self, size_of: float) -> None:
         self._size_of = size_of
 
     @property
-    def usedFor(self) -> str:
-        return self._usedFor
+    def used_for(self) -> str:
+        return self._used_for
     
-    @usedFor.setter
-    def usedFor(self, usedFor:str) -> str:
-        if not usedFor or len(usedFor) < 1:
-            raise ValueError("El uso no puede estar vacío.")
-        
-        self._usedFor = usedFor
+    @used_for.setter
+    def used_for(self, used_for: str) -> None:
+        self._used_for = used_for

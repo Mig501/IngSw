@@ -92,7 +92,7 @@ CREATE TABLE user_products (
     brand VARCHAR(30) NOT NULL,
     model VARCHAR(70) NOT NULL,
     year_manufacture CHAR(4) NOT NULL,
-    plocation POINT ,
+    plocation VARCHAR(50) NOT NULL, -- Mäs fácil de buscar
     ptype VARCHAR(25) NOT NULL,
     pdescription TEXT NULL,
     CHECK (ptype IN ('automóviles', 'otros')),
@@ -109,7 +109,7 @@ CREATE TABLE automovil (
     ProductID BIGINT AUTO_INCREMENT PRIMARY KEY,
     kilometers INT NOT NULL, -- km del vehiculo
     engine VARCHAR(50) NOT NULL, -- tipo de motor
-    consume DECIMAL(2, 1) NOT NULL, -- consumo por cada 100 km
+    consume DECIMAL(3, 1) NOT NULL, -- consumo por cada 100 km
     autonomy SMALLINT NOT NULL, -- autonomia
     enviormental_label VARCHAR(3) NOT NULL, -- etiqueta medioambiental
     FOREIGN KEY (ProductID) REFERENCES user_products(ProductID),

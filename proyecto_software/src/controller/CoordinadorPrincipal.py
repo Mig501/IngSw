@@ -41,6 +41,8 @@ class CoordinadorPrincipal:
             else:
                 rol = self.modelo.get_user_rol(user.user_id) # Obtengo el rol según el ID del usuario para la ventana principal
 
-            self.main_window = MainWindow(user_rol=rol)  # aquí se pasa el rol para mostrar unas opciones u otras
+            # Obtenemos el ID del cliente en caso de que el usuario sea un cliente
+
+            self.main_window = MainWindow(user_rol=rol, client_id=user.user_id)  # aquí se pasa el rol para mostrar unas opciones u otras
             self.main_window.show()
             self.ventana.close()

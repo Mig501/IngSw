@@ -25,3 +25,16 @@ class WorkshopDao(Conexion):
         finally:
             cursor.close()
             self.closeConnection()
+
+    def get_zip_code(self) -> str:
+        """Método que obtiene el código postal del taller."""
+        cursor = self.getCursor()
+        try:
+            cursor.execute("SELECT WS_zip_code FROM workshop")
+            result = cursor.fetchone()
+            return result[0] if result else None
+        except Exception as e:
+            raise Exception(f"Error obteniendo el código postal del taller: {e}")
+        finally:
+            cursor.close()
+            self.closeConnection()

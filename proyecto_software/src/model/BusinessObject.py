@@ -9,6 +9,10 @@ from model.dao.AdminDao import AdminDao
 from model.dao.ArchDao import ArchDao
 from model.vo.WorkshopVO import WorkshopVO
 from model.dao.WorkshopDAO import WorkshopDao
+from model.vo.ProductVO import ProductVO
+from model.dao.ProductDao import ProductDao
+from model.vo.AutomobileVO import AutomobileVO
+from model.vo.OtherProdVO import OtherProductVO
 
 class BusinessObject():
     """Objeto que implementa la lógica de negocio"""
@@ -132,3 +136,26 @@ class BusinessObject():
     
         except Exception as e:
             raise Exception(f"Error in BusinessObject.register_workshop: {e}")
+        
+    def register_product(self, product_vo:ProductVO) -> bool:
+        """Método que registra un producto en la base de datos."""
+        try:
+            product_dao = ProductDao()
+
+            if product_dao.insert_product(product_vo):
+                return True
+            
+            else:
+                return False
+        
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.register_product: {e}")
+        
+    def get_client_id(self, user_id: int) -> int:
+        """Método que obtiene el ID del cliente a partir del ID del usuario."""
+        try:
+            client_dao = ClientDao()
+            return client_dao.get_client_id(user_id)
+        
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_client_id: {e}")

@@ -12,9 +12,10 @@ from interface.windows.main_gui.screens.vehicle_screen import VehicleScreen
 from interface.windows.main_gui.screens.archRegisterScreen import ArchRegisterScreen
 from interface.windows.main_gui.screens.adminRegisterScreen import AdminRegisterEmployeeScreen
 from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
+from interface.windows.main_gui.screens.clientRegisterProdScreen import ProductRegisterScreen
 
 class MainWindow(QMainWindow):
-    def __init__(self, user_rol=None):
+    def __init__(self, user_rol=None, client_id=None):
         super().__init__()
         
         self.setWindowTitle("BSA App")
@@ -24,6 +25,7 @@ class MainWindow(QMainWindow):
 
         self.old_pos = None
         self.user_rol = user_rol
+        self.client_id = client_id
 
         self.central_widget = QWidget()
         self.central_widget.setObjectName('MainContainer')
@@ -60,6 +62,9 @@ class MainWindow(QMainWindow):
         if self.user_rol == "admin":
             self.add_sidebar_item("Registrar empleados", AdminRegisterEmployeeScreen())
             self.add_sidebar_item("Gestionar taller", AdminManageWorkshop())
+
+        if self.user_rol == "cliente":
+            self.add_sidebar_item("Registrar producto", ProductRegisterScreen(self.client_id))
 
         self.sidebar_layout.addWidget(self.menu_list)
 

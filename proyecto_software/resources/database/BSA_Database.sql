@@ -85,8 +85,9 @@ ALTER TABLE employees
 ADD CONSTRAINT chk_specialization 
 CHECK (specialization IN ('mecánico', 'informático', 'electricista'));
 
-CREATE TABLE products (
+CREATE TABLE user_products (
     ProductID BIGINT AUTO_INCREMENT PRIMARY KEY,
+    ClientID INT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     brand VARCHAR(30) NOT NULL,
     model VARCHAR(70) NOT NULL,
@@ -94,13 +95,14 @@ CREATE TABLE products (
     plocation POINT ,
     ptype VARCHAR(25) NOT NULL,
     pdescription TEXT NULL,
-    CHECK (ptype IN ('automóviles', 'otros'))
+    CHECK (ptype IN ('automóviles', 'otros')),
+    FOREIGN KEY (ClientID) REFERENCES clients(ClientID)
 );
 
 CREATE TABLE pimage (
     ProductID BIGINT NOT NULL PRIMARY KEY,
     pimage VARCHAR(255) NOT NULL,
-    FOREIGN KEY (ProductID) REFERENCES products(ProductID)
+    FOREIGN KEY (ProductID) REFERENCES user_products(ProductID)
 );
 
 CREATE TABLE automovil (
@@ -110,7 +112,7 @@ CREATE TABLE automovil (
     consume DECIMAL(2, 1) NOT NULL, -- consumo por cada 100 km
     autonomy SMALLINT NOT NULL, -- autonomia
     enviormental_label VARCHAR(3) NOT NULL, -- etiqueta medioambiental
-    FOREIGN KEY (ProductID) REFERENCES products(ProductID),
+    FOREIGN KEY (ProductID) REFERENCES user_products(ProductID),
     CHECK (enviormental_label IN ('ECO', '0', 'B', 'C')),
     CHECK (engine IN ('Gasolina', 'Diesel', 'Electrico', 'Hibrido', "Hibrido enchufable", "Hidrogeno", 'Biocombustible')) -- restricción de tipos de motor
 );
@@ -119,7 +121,7 @@ CREATE TABLE other(
     ProductID BIGINT AUTO_INCREMENT PRIMARY KEY,
     size_of DECIMAL(7, 2) NOT NULL, -- Tamaño en cm
     usedFor VARCHAR(50) NOT NULL,
-    FOREIGN KEY (ProductID) REFERENCES products(ProductID)
+    FOREIGN KEY (ProductID) REFERENCES user_products(ProductID)
 );
 
 CREATE TABLE services (
@@ -141,13 +143,13 @@ CREATE TABLE client_services (
     PRIMARY KEY (ClientID, ServiceID)
 );
 
-CREATE TABLE client_products (
+CREATE TABLE product_purchase (
     ClientID INT NOT NULL,
     ProductID BIGINT NOT NULL,
     Purchase_date DATE NOT NULL,
     Purchase_time TIME NOT NULL,
     FOREIGN KEY (ClientID) REFERENCES clients(ClientID),
-    FOREIGN KEY (ProductID) REFERENCES products(ProductID),
+    FOREIGN KEY (ProductID) REFERENCES user_products(ProductID),
     PRIMARY KEY (ClientID, ProductID)
 );
 
@@ -173,6 +175,6 @@ CREATE TABLE workshop_products (
     WS_zip_code CHAR(5) NOT NULL,
     ProductID BIGINT NOT NULL,
     FOREIGN KEY (WS_zip_code) REFERENCES workshop(WS_zip_code),
-    FOREIGN KEY (ProductID) REFERENCES products(ProductID),
+    FOREIGN KEY (ProductID) REFERENCES user_products(ProductID),
     PRIMARY KEY (WS_zip_code, ProductID)
 );

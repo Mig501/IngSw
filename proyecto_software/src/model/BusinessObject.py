@@ -159,3 +159,20 @@ class BusinessObject():
         
         except Exception as e:
             raise Exception(f"Error in BusinessObject.get_client_id: {e}")
+        
+    
+    def get_filtered_cars(self, price_range=None, kilometers_range=None, fuel_type=None,
+                          consume_range=None, autonomy_range=None, environmental_label=None,
+                          brand=None, model=None, search_text=None):
+        
+        return ProductDao().get_filtered_cars(
+            price_range=price_range,
+            kilometers_range=kilometers_range,
+            fuel_type=fuel_type,
+            consume_range=consume_range,
+            autonomy_range=autonomy_range,
+            environmental_label=environmental_label,
+            brand=brand,
+            model=model,
+            search_text=search_text
+        )

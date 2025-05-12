@@ -96,3 +96,58 @@ class ProductDao(Conexion):
             cursor.close()
             self.closeConnection()
 
+    def get_filtered_cars(self, price_range=None, kilometers_range=None, fuel_type=None,
+                          consume_range=None, autonomy_range=None, environmental_label=None,
+                          brand=None, model=None, search_text=None):
+        
+        cursor = self.getCursor()
+        query = """
+            SELECT up.*, pi.pimage, a.*
+            FROM user_products up
+            JOIN automovil a ON up.ProductID = a.ProductID
+            LEFT JOIN pimage pi ON up.ProductID = pi.ProductID
+            WHERE 1=1
+        """
+        params = []
+
+        if price_range:
+            query += " AND up.price BETWEEN ? AND ?"
+            params.extend(price_range)
+
+        if kilometers_range:
+            query += " AND a.kilometers BETWEEN ? AND ?"
+            params.extend(kilometers_range)
+
+        if fuel_type:
+            query += " AND LOWER(a.engine) = ?"
+            params.append(fuel_type.lower())
+
+        if consume_range:
+            query += " AND a.consume BETWEEN ? AND ?"
+            params.extend(consume_range)
+
+        if autonomy_range:
+            query += " AND a.autonomy BETWEEN ? AND ?"
+            params.extend(autonomy_range)
+
+        if environmental_label:
+            query += " AND a.environmental_label = ?"
+            params.append(environmental_label)
+
+        if brand:
+            query += " AND LOWER(up.brand) LIKE ?"
+            params.append(f"%{brand.lower()}%")
+
+        if model:
+            query += " AND LOWER(up.model) LIKE ?"
+            params.append(f"%{model.lower()}%")
+
+        if search_text:
+            query += " AND (LOWER(up.brand) LIKE ? OR LOWER(up.model) LIKE ?)"
+            params.append(f"%{search_text.lower()}%")
+            params.append(f"%{search_text.lower()}%")
+
+        cursor.execute(query, params)
+        columns = [col[0] for col in cursor.description]
+        results = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        return results

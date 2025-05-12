@@ -111,12 +111,12 @@ class ProductRegisterScreen(QWidget):
             QMessageBox.critical(self, "Error", "El precio debe ser un número válido.")
             return
 
-        brand = self.input_brand.text().strip()
+        brand = self.input_brand.text().strip().lower()
         if not brand:
             QMessageBox.critical(self, "Error", "La marca es un campo obligatorio.")
             return
 
-        model = self.input_model.text().strip()
+        model = self.input_model.text().strip().lower()
         if not model:
             QMessageBox.critical(self, "Error", "El modelo es un campo obligatorio.")
             return

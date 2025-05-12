@@ -1,5 +1,5 @@
 class ClientVO:
-    def __init__(self, client_id: str, username: str, client_email: str, phone_number: int, password: str, num_sells: int = 0, num_buys: int = 0) -> None:
+    def __init__(self, client_id: str, username: str, client_email: str, phone_number: int, password: str, num_sells: int = 0, num_buys: int = 0, cash: int = 0) -> None:
         self.client_id = client_id
         self.username = username
         self.client_email = client_email
@@ -7,6 +7,7 @@ class ClientVO:
         self.password = password
         self.num_sells = num_sells
         self.num_buys = num_buys
+        self.cash = cash
      
 
     def __str__(self):
@@ -54,11 +55,19 @@ class ClientVO:
     @num_sells.setter
     def num_sells(self, num_sells: int) -> None:
         self._num_sells = num_sells
-        
+
     @property
     def num_buys(self) -> int:
         return self._num_buys
     @num_buys.setter
     def num_buys(self, num_buys: int) -> None:
         self._num_buys = num_buys
+    
+    @property
+    def cash(self) -> int:
+        return self._cash
+    @cash.setter
+    def cash(self, cash: int) -> None:
+        self._cash = cash
+        
     

@@ -24,7 +24,7 @@ CREATE TABLE archs (
 CREATE TABLE admins (
     AdminID INT AUTO_INCREMENT PRIMARY KEY,
     UsrAdminID INT UNIQUE NOT NULL,
-    ArchID INT UNIQUE NOT NULL,
+    ArchID INT NULL,
     passport CHAR(9) UNIQUE,
     ss_number CHAR(12) UNIQUE,
     dwell_time INT,
@@ -64,7 +64,7 @@ CREATE TABLE clients (
 CREATE TABLE employees (
     EmployeeID INT AUTO_INCREMENT PRIMARY KEY,     
     UsrEmpID INT UNIQUE NOT NULL,
-    AdminID INT UNIQUE NOT NULL,
+    AdminID INT NULL,
     WS_zip_code CHAR(5) NOT NULL,
     employee_passport CHAR(9) UNIQUE,
     ss_number CHAR(12) UNIQUE,

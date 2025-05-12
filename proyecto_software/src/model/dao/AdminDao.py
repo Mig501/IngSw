@@ -22,7 +22,7 @@ class AdminDao(Conexion):
             self.closeConnection()
 
 
-    def insert(self, user_id:int, arch_id:int, vo: AdminVO) -> bool:
+    def insert(self, user_id:int, vo: AdminVO, arch_id:int=1) -> bool:
         """Inserta un nuevo admin en la base de datos usando los datos del AdminVO."""
         cursor = self.getCursor()
         
@@ -39,8 +39,6 @@ class AdminDao(Conexion):
         finally:
             cursor.close()
             self.closeConnection()
-    
-
 
     def delete_by_user_id(self, user_id: int) -> bool:
         """Elimina un admin de la base de datos dado su ID de usuario"""

@@ -1,4 +1,4 @@
-from ProductVO import ProductVO
+from model.vo.ProductVO import ProductVO
 class AutomobileVO(ProductVO):
 
     def __init__(self, product_id: int, client_id: int, price: float, brand: str, model: str, year_manufacture: str,

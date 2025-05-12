@@ -86,7 +86,7 @@ class BusinessObject():
         
         return ClientDao().insert_client(user_id)
     
-    def registrar_empleado(self, user_vo, employee_vo, admin_id) -> bool:
+    def registrar_empleado(self, user_vo, employee_vo, admin_id=None) -> bool:
         """Método que registra un empleado en la base de datos."""
         user_vo.rol = "empleado"
         user_dao = UserDao()
@@ -96,7 +96,7 @@ class BusinessObject():
         
         user_id = user_dao.get_last_inserted_user_id()
         
-        return EmployeeDao().insert(user_id, admin_id, employee_vo)
+        return EmployeeDao().insert(user_id, employee_vo, admin_id)
     
     def registrar_admin(self, user_vo, admin_vo) -> bool:
         """Método que registra un administrador en la base de datos."""

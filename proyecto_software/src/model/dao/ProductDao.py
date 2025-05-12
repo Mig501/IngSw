@@ -131,7 +131,7 @@ class ProductDao(Conexion):
             params.extend(autonomy_range)
 
         if environmental_label:
-            query += " AND a.environmental_label = ?"
+            query += " AND a.enviormental_label = ?"
             params.append(environmental_label)
 
         if brand:

@@ -1,20 +1,14 @@
-class AutomobileVO:
-    def __init__(self, product_id: int, client_id: int, price: float, brand: str, model: str, year_manufacture: str, 
-                 plocation: str, ptype: str, pdescription: str, kilometers: int, engine: str, consume: float, autonomy: int, environmental_label, image_path) -> None:
-        self.product_id = product_id
-        self.client_id = client_id
-        self.price = price
-        self.brand = brand
-        self.model = model
-        self.year_manufacture = year_manufacture
-        self.plocation = plocation
-        self.ptype = ptype
-        self.pdescription = pdescription
-        self.kilometers = kilometers
-        self.engine = engine
-        self.consume = consume
-        self.autonomy = autonomy
-        self.image_path = image_path
+from ProductVO import ProductVO
+class AutomobileVO(ProductVO):
+
+    def __init__(self, product_id: int, client_id: int, price: float, brand: str, model: str, year_manufacture: str,
+                 plocation: str, ptype: str, pdescription: str, kilometers: int, engine: str, consume: float,
+                 autonomy: int, environmental_label, image_path) -> None:
+        super().__init__(product_id, client_id, price, brand, model, year_manufacture, plocation, ptype, pdescription, image_path)
+        self._kilometers = kilometers
+        self._engine = engine
+        self._consume = consume
+        self._autonomy = autonomy
         self.environnmental_label = environmental_label
 
     # Getters and Setters for all fields

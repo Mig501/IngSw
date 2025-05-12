@@ -52,7 +52,7 @@ class ProductVO:
     @plocation.setter
     def plocation(self, plocation: str) -> None:
         self._plocation = plocation
-
+ 
     @property
     def ptype(self) -> str:
         return self._ptype

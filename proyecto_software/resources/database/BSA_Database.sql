@@ -1,4 +1,4 @@
-﻿USE BSA_Database_ISW;
+﻿USE bsa_database_isw;
 
 CREATE TABLE Users (
 	UserID INT PRIMARY KEY AUTO_INCREMENT,

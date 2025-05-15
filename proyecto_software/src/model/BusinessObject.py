@@ -176,3 +176,17 @@ class BusinessObject():
             model=model,
             search_text=search_text
         )
+    
+    def register_service(self, service_vo) -> bool:
+        """Método que registra un servicio en la base de datos."""
+        try:
+            product_dao = ProductDao()
+
+            if product_dao.insert(service_vo):
+                return True
+            
+            else:
+                return False
+        
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.register_service: {e}")

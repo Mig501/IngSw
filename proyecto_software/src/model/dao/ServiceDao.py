@@ -63,7 +63,7 @@ class ServiceDao(Conexion):
             return services
         
         finally:
-            cursor.close()
+            cursor.close() 
             self.closeConnection()
 
     def get_employee_by_service_id(self, service_id: int) -> EmployeeVO:

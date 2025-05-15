@@ -6,6 +6,9 @@ from model.BusinessObject import BusinessObject
 from model.dao.UserDao import UserDao
 from model.vo.ArchVO import ArchVO
 from model.loggerSingleton import LoggerSingleton
+from utils.email.jwt_utils_email import generar_token_verificacion
+from utils.email.send_verify_email import send_verification_email
+
 
 class RegisterScreen(QWidget):
     # Señal para volver a la pantalla de login
@@ -73,45 +76,43 @@ class RegisterScreen(QWidget):
             return  # Si falta algo, no continúa
     
         try:
-            user_vo = RegisterUserVO(None, user, password, email, phone)
-    
             # Verificar si es el primer usuario
-            from model.dao.UserDao import UserDao
-            from model.vo.ArchVO import ArchVO
             user_dao = UserDao()
             cursor = user_dao.getCursor()
             cursor.execute("SELECT COUNT(*) FROM users")
             count = cursor.fetchone()[0]
             cursor.close()
             user_dao.closeConnection()
-    
-            if count == 0:
-                user_vo.rol = "arch"
-                arch_vo = ArchVO("ARC000001", "559678146234", 10, 40, "Arch", "System")
-                success = BusinessObject().registrar_arch(user_vo, arch_vo)
-            else:
-                user_vo.rol = "cliente"
-                success = BusinessObject().registrar_cliente(user_vo)
-    
-            if success:
-                self.logger.add_log_activity(f"{user_vo.rol} regitrado como {user_vo.username} correctamente.")
-                QMessageBox.information(self, "Registro exitoso", "Usuario registrado correctamente.")
-                print("Usuario registrado correctamente")
-                self.back_to_login.emit()  # Volvemos al login
-            
-                # Limpiar los campos después del registro
-                self.input_user.clear()
-                self.input_pass.clear()
-                self.input_email.clear()
-                self.phone_number.clear()
 
-            else:
-                QMessageBox.critical(self, "Error", "No se pudo registrar el usuario.")
-    
+            # Definir el rol
+            rol = "arch" if count == 0 else "cliente"
+
+            # Preparar los datos para el token
+            user_data = {
+                "username": user,
+                "password": password,
+                "email": email,
+                "phone": phone,
+                "rol": rol
+            }
+
+            # Generar token JWT
+            token = generar_token_verificacion(user_data)
+
+            # Enviar correo
+            send_verification_email(email, user, token)
+
+            QMessageBox.information(
+                self,
+                "Verificación enviada",
+                f"Hemos enviado un correo a {email}. Haz clic en el enlace para verificar tu cuenta."
+            )
+
+            # Limpiar los campos después del registro
+            self.input_user.clear()
+            self.input_pass.clear()
+            self.input_email.clear()
+            self.phone_number.clear()
+
         except Exception as e:
-            if "Duplicate entry" in str(e):
-                QMessageBox.critical(self, "Usuario existente", "El nombre de usuario o el correo ya están registrados.")
-            else:
-                QMessageBox.critical(self, "Error", f"Error al registrar el usuario:\n{str(e)}")
-            return
-    
+            QMessageBox.critical(self, "Error", f"Error durante el registro:\n{str(e)}")

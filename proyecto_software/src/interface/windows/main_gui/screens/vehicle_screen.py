@@ -8,7 +8,6 @@ class VehicleScreen(QWidget):
         super().__init__()
 
         self.business_object = BusinessObject()
-        self.filters = {}
 
         self.setLayout(self.setup_ui())
 
@@ -122,38 +121,37 @@ class VehicleScreen(QWidget):
         brand = parts[0] if parts else ""
         model = " ".join(parts[1:]) if len(parts) > 1 else ""
 
+        filters = {}
 
-        if 'brand' not in self.filters.keys():
-            self.filters["brand"] = brand
+        if 'brand' not in filters.keys():
+            filters["brand"] = brand
 
-        if 'model' not in self.filters.keys():
-            self.filters["model"] = model
+        if 'model' not in filters.keys():
+            filters["model"] = model
 
-        # Aplicar los filtros según la selección del combo (sólo los modificados por el usuario)
-        if self.filter_combo.currentText() == "Kilómetros":
-            self.filters["kilometers_range"] = (self.min_km.value(), self.max_km.value())
+        # Añadir filtros según el tipo de filtro seleccionado
+        if self.min_km.value() != 0 or self.max_km.value() != 0:
+            filters["kilometers_range"] = (self.min_km.value(), self.max_km.value())
 
-        if self.filter_combo.currentText() == "Consumo":
-            self.filters["consume_range"] = (self.min_consume.value(), self.max_consume.value())
+        if self.min_consume.value() != 0 or self.max_consume.value() != 0:
+            filters["consume_range"] = (self.min_consume.value(), self.max_consume.value())
 
-        if self.filter_combo.currentText() == "Autonomía":
-            self.filters["autonomy_range"] = (self.min_autonomy.value(), self.max_autonomy.value())
+        if self.min_autonomy.value() != 0 or self.max_autonomy.value() != 0:
+            filters["autonomy_range"] = (self.min_autonomy.value(), self.max_autonomy.value())
 
-        if self.filter_combo.currentText() == "Combustible":
-            self.filters["fuel_type"] = self.fuel_type.currentText()
+        if self.fuel_type.currentText() != "":
+            filters["fuel_type"] = self.fuel_type.currentText()
 
-        if self.filter_combo.currentText() == "Etiqueta Medioambiental":
-            self.filters["environmental_label"] = self.env_label.currentText()
+        if self.env_label.currentText() != "":
+            filters["environmental_label"] = self.env_label.currentText()
 
-        if self.filter_combo.currentText() == "Precio":
-            self.filters["price_range"] = (self.min_price.value(), self.max_price.value())
+        if self.min_price.value() != 0 or self.max_price.value() != 0:
+            filters["price_range"] = (self.min_price.value(), self.max_price.value())
 
         # Print para depuración
-        print(self.filters)
+        print(filters)
         
-        query_filters = self.filters.copy()
-        
-        results = self.business_object.get_filtered_cars(**query_filters)
+        results = self.business_object.get_filtered_cars(**filters)
 
         if not results:
             # Si no hay resultados, mostramos un mensaje de error
@@ -179,7 +177,7 @@ class VehicleScreen(QWidget):
             title.setFont(QFont("Arial", 10, QFont.Weight.Bold))
             title.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-            desc = QLabel(f"{car['kilometers']} km | {car['enviormental_label']} | {car['price']}€")
+            desc = QLabel(f"{car['kilometers']} km | {car['enviormental_label']} | {car['price']}€ | {car['consume']} L/100km | Autonomy: {car['autonomy']} km")
             desc.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
             layout.addWidget(image_label)
@@ -203,9 +201,6 @@ class VehicleScreen(QWidget):
 
         # Limpiar la lista de coches
         self.car_list.clear()
-
-        # Limpiar los filtros guardados
-        self.filters.clear()
 
         # Restablecer los filtros a los valores predeterminados
         self.min_km.setValue(0)

@@ -114,7 +114,7 @@ CREATE TABLE automovil (
     enviormental_label VARCHAR(3) NOT NULL, -- etiqueta medioambiental
     FOREIGN KEY (ProductID) REFERENCES user_products(ProductID),
     CHECK (enviormental_label IN ('ECO', '0', 'B', 'C')),
-    CHECK (engine IN ('Gasolina', 'Diesel', 'Electrico', 'Hibrido', "Hibrido enchufable", "Hidrogeno", 'Biocombustible')) -- restricción de tipos de motor
+    CHECK (engine IN ("Gasolina", "Diésel", "Eléctrico", "Híbrido")) -- restricción de tipos de motor
 );
 
 CREATE TABLE other(

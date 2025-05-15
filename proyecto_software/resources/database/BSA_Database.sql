@@ -97,8 +97,8 @@ CREATE TABLE user_products (
     FOREIGN KEY (ClientID) REFERENCES clients(ClientID)
 );
 
---Caropeta en un principio incesaria ya que solo se trabaja con una sola imagen, pero asi se deja el 
---camino abierto para futuras ampliaciones para manejaar varias imagenes.
+-- Carpeta en un principio incesaria ya que solo se trabaja con una sola imagen, pero asi se deja el 
+-- camino abierto para futuras ampliaciones para manejaar varias imagenes.
 CREATE TABLE pimage (
     ProductID BIGINT NOT NULL PRIMARY KEY,
     pimage VARCHAR(255) NOT NULL,

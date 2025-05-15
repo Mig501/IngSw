@@ -1,12 +1,13 @@
 # src/interface/windows/login/login_window.py
 
-from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget
+from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QStackedWidget, QMessageBox
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
+
 from interface.windows.login.screens.login_screen import LoginScreen
 from interface.windows.login.screens.register_screen import RegisterScreen
 from interface.windows.main_gui.main_window import MainWindow
-from PyQt6.QtWidgets import QMessageBox
+
 
 class LoginWindow(QMainWindow):
     def __init__(self):
@@ -15,7 +16,7 @@ class LoginWindow(QMainWindow):
         self.setFixedSize(500, 600)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
-        self.old_pos = None  # para arrastrar ventana
+        self.old_pos = None  # Para arrastrar ventana
 
         # ---------- Contenedor central ----------
         self.central_widget = QWidget()
@@ -38,7 +39,6 @@ class LoginWindow(QMainWindow):
         self.minimize_button.setObjectName('MinimizeButton')
         self.minimize_button.setIcon(QIcon("resources/icons/minus.svg"))
         self.minimize_button.setFixedSize(30, 30)
-
         self.minimize_button.move(420, 10)
         self.minimize_button.clicked.connect(self.showMinimized)
 
@@ -52,19 +52,19 @@ class LoginWindow(QMainWindow):
 
         # ---------- Stack de vistas ----------
         self.stack = QStackedWidget()
-        self.main_layout.addSpacing(40)  # espacio para que no solape con la barra
+        self.main_layout.addSpacing(40)  # Espacio para barra
         self.main_layout.addWidget(self.stack)
 
         # Crear pantallas
         self.login_screen = LoginScreen()
         self.register_screen = RegisterScreen()
 
-        # Añadir al stack
+        # Añadir pantallas al stack
         self.stack.addWidget(self.login_screen)
         self.stack.addWidget(self.register_screen)
         self.stack.setCurrentWidget(self.login_screen)
 
-        # Conexiones
+        # Conexiones entre pantallas
         self.login_screen.register_clicked.connect(self.show_register_screen)
         self.register_screen.back_to_login.connect(self.show_login_screen)
 
@@ -82,6 +82,7 @@ class LoginWindow(QMainWindow):
     def mostrar_mensaje(self, mensaje):
         QMessageBox.information(self, "Información", mensaje)
 
+    # -------- Movimiento de ventana --------
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton and self.title_bar.underMouse():
             self.old_pos = event.globalPosition().toPoint()

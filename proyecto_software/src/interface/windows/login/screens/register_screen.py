@@ -1,4 +1,5 @@
 # src/frontend/windows/login/screens/register_screen.py
+
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
 from PyQt6.QtCore import Qt, pyqtSignal
 from model.vo.RegisterUserVO import RegisterUserVO
@@ -17,6 +18,8 @@ class RegisterScreen(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.logger = LoggerSingleton()
+
         # Layout principal vertical
         layout = QVBoxLayout()
 
@@ -24,7 +27,6 @@ class RegisterScreen(QWidget):
         self.title = QLabel("Registro de usuario")
         self.title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.title)
-        self.logger = LoggerSingleton()
 
         # Campo: Nombre de usuario
         self.input_user = QLineEdit()
@@ -50,15 +52,24 @@ class RegisterScreen(QWidget):
         # Botón de registro
         self.button_register = QPushButton("Registrarse")
         self.button_register.clicked.connect(self.validate)
-    
         layout.addWidget(self.button_register)
+
+        # Botón de retroceso al login
+        self.button_back = QPushButton("Atrás")
+        self.button_back.clicked.connect(self.emitir_senal_volver)
+        layout.addWidget(self.button_back)
+
         self.setLayout(layout)
+
+    def emitir_senal_volver(self):
+        '''Emitimos la señal para volver a la pantalla de login'''
+        self.back_to_login.emit()
 
     def validate(self):
         '''
         Comprueba que los campos obligatorios estén completos.
         Si alguno falta, muestra un mensaje y no continúa.
-        Si están todos, vuelve a la pantalla de login.
+        Si están todos, envía el correo de verificación.
         '''
         # Capturamos los valores introducidos por el usuario
         user = self.input_user.text().strip()
@@ -73,7 +84,7 @@ class RegisterScreen(QWidget):
                 "Campos obligatorios",
                 "Por favor, completa los campos obligatorios restantes."
             )
-            return  # Si falta algo, no continúa
+            return
     
         try:
             # Verificar si es el primer usuario

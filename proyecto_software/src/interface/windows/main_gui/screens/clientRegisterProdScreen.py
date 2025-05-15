@@ -131,7 +131,7 @@ class ProductRegisterScreen(QWidget):
         pdescription = self.input_description.text().strip()
         ptype = self.product_type_selector.currentText()
         image_path = self.input_image_path.text().strip()
-        engine = self.input_engine.currentText()
+        #engine = self.input_engine.currentText()
 
         # Verificación para tipo de producto 'automóviles' o 'otros'
         if ptype == 'automóviles':
@@ -151,6 +151,12 @@ class ProductRegisterScreen(QWidget):
                 autonomy = int(self.input_autonomy.text())
             except ValueError:
                 QMessageBox.critical(self, "Error", "La autonomía debe ser un número válido.")
+                return
+            
+            try:
+                engine = self.input_engine.currentText()
+            except ValueError:
+                QMessageBox.critical(self, "Error", "El motor debe ser un número válido.")
                 return
 
             env_label = self.input_label.currentText()

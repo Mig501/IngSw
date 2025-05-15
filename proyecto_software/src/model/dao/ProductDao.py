@@ -23,7 +23,7 @@ class ProductDao(Conexion):
     """
 
     sql_insert_other_product = """
-        INSERT INTO other_product (ProductID, size_of, used_for)
+        INSERT INTO other (ProductID, size_of, usedFor)
         VALUES (?, ?, ?)
     """
 

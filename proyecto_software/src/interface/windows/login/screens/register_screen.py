@@ -6,8 +6,8 @@ from model.BusinessObject import BusinessObject
 from model.dao.UserDao import UserDao
 from model.vo.ArchVO import ArchVO
 from model.loggerSingleton import LoggerSingleton
-from src.utils.email.jwt_utils_email import generar_token_verificacion
-from src.utils.email.send_verify_email import send_verification_email
+from utils.email.jwt_utils_email import generar_token_verificacion
+from utils.email.send_verify_email import send_verification_email
 
 
 class RegisterScreen(QWidget):

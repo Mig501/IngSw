@@ -4,7 +4,7 @@ from model.BusinessObject import BusinessObject
 from interface.windows.login.login_window import LoginWindow
 from controller.CoordinadorPrincipal import CoordinadorPrincipal
 import multiprocessing
-from src.utils.server.verify_server import run_server
+from utils.server.verify_server import run_server
 
 def main():
     # Iniciar servidor Flask en segundo plano

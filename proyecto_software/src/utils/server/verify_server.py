@@ -1,7 +1,7 @@
 # src/utils/server/verify_server.py
 
 from flask import Flask, request
-from src.utils.email.jwt_utils_email import verificar_token
+from utils.email.jwt_utils_email import verificar_token
 from model.vo.RegisterUserVO import RegisterUserVO
 from model.vo.ArchVO import ArchVO
 from model.BusinessObject import BusinessObject

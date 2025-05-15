@@ -11,7 +11,7 @@ def send_test_email():
     # Configuración básica
     from_email = os.getenv("EMAIL_HOST_USER")
     password = os.getenv("EMAIL_HOST_PASSWORD")
-    to_email = from_email  # Puedes cambiar esto por otro correo tuyo si prefieres
+    to_email = 'Chatogeteunileon@gmail.com' # Puedes cambiar esto por otro correo tuyo si prefieres
 
     # Crear el mensaje
     subject = "📧 Correo de prueba desde BSA"

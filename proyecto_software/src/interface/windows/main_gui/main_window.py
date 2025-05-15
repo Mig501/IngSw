@@ -68,7 +68,10 @@ class MainWindow(QMainWindow):
             self.add_sidebar_item("Registrar producto", ProductRegisterScreen(self.client_id))
 
         # Cuenta
-        self.add_sidebar_item('Cuenta', ProfileScreen())
+        self.profile_screen = ProfileScreen()
+        self.profile_screen.logout_requested.connect(self.logout)  # conectar señal correctamente
+        self.add_sidebar_item('Cuenta', self.profile_screen)
+
 
         self.sidebar_layout.addWidget(self.menu_list)
 
@@ -198,3 +201,8 @@ class MainWindow(QMainWindow):
         '''Se encarga de soltar la ventana cuando se suelta el click'''
         self.old_pos = None
 
+    def logout(self):
+        self.close()  # Cierra la ventana principal
+        from interface.windows.login.login_window import LoginWindow
+        self.login_window = LoginWindow()
+        self.login_window.show()

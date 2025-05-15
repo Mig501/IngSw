@@ -13,6 +13,7 @@ from interface.windows.main_gui.screens.archRegisterScreen import ArchRegisterSc
 from interface.windows.main_gui.screens.adminRegisterScreen import AdminRegisterEmployeeScreen
 from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
 from interface.windows.main_gui.screens.clientRegisterProdScreen import ProductRegisterScreen
+from interface.windows.main_gui.screens.profile_screen import ProfileScreen
 
 class MainWindow(QMainWindow):
     def __init__(self, user_rol=None, client_id=None):
@@ -65,6 +66,9 @@ class MainWindow(QMainWindow):
 
         if self.user_rol == "cliente":
             self.add_sidebar_item("Registrar producto", ProductRegisterScreen(self.client_id))
+
+        # Cuenta
+        self.add_sidebar_item('Cuenta', ProfileScreen())
 
         self.sidebar_layout.addWidget(self.menu_list)
 

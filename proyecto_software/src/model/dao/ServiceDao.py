@@ -16,7 +16,7 @@ class ServiceDao(Conexion):
 
     sql_select_all = "SELECT * FROM services"
     
-    def insert(self, service_id: int, service_vo: ServiceVO) -> bool:
+    def insert_service(self, service_id: int, service_vo: ServiceVO) -> bool:
         """Inserta un nuevo servicio en la base de datos."""
         cursor = self.getCursor()
         

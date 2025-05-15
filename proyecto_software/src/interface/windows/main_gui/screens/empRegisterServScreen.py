@@ -59,7 +59,6 @@ class ServiceRegisterScreen(QWidget):
 
         # Verificación para tipo de producto 'automóviles' o 'otros'
         if ptype == 'mecáncio':
-            env_label = self.input_label.currentText()
 
             service_vo = ServiceVO(
                 None,  # El ProductID se asigna automáticamente
@@ -67,7 +66,6 @@ class ServiceRegisterScreen(QWidget):
                 price,
                 name,
                 pdescription,
-                env_label,
             )
         elif ptype == 'electricista':
 
@@ -77,7 +75,6 @@ class ServiceRegisterScreen(QWidget):
                 price,
                 name,
                 pdescription,
-                env_label,
             )
         elif ptype == 'informático':
 
@@ -87,7 +84,6 @@ class ServiceRegisterScreen(QWidget):
                 price,
                 name,
                 pdescription,
-                env_label,
             )
 
         # Intentar registrar el producto

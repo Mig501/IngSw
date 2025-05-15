@@ -13,6 +13,12 @@ from model.vo.ProductVO import ProductVO
 from model.dao.ProductDao import ProductDao
 from model.vo.AutomobileVO import AutomobileVO
 from model.vo.OtherProdVO import OtherProductVO
+from model.dao.ServiceDao import ServiceDao
+from model.vo.ServiceVO import ServiceVO
+from model.vo.EmployeeVO import EmployeeVO
+from model.vo.ClientVO import ClientVO
+from model.vo.AdminVO import AdminVO
+from model.vo.ArchVO import ArchVO
 
 class BusinessObject():
     """Objeto que implementa la lógica de negocio"""
@@ -151,6 +157,21 @@ class BusinessObject():
         except Exception as e:
             raise Exception(f"Error in BusinessObject.register_product: {e}")
         
+    
+    def register_service(self, service_vo:ServiceVO) -> bool:
+        """Método que registra un servicio en la base de datos."""
+        try:
+            service_dao = ServiceDao()
+
+            if service_dao.insert_service(service_vo):
+                return True
+            
+            else:
+                return False
+        
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.register_service: {e}")
+        
     def get_client_id(self, user_id: int) -> int:
         """Método que obtiene el ID del cliente a partir del ID del usuario."""
         try:
@@ -177,16 +198,4 @@ class BusinessObject():
             search_text=search_text
         )
     
-    def register_service(self, service_vo) -> bool:
-        """Método que registra un servicio en la base de datos."""
-        try:
-            product_dao = ProductDao()
-
-            if product_dao.insert(service_vo):
-                return True
-            
-            else:
-                return False
-        
-        except Exception as e:
-            raise Exception(f"Error in BusinessObject.register_service: {e}")
+    

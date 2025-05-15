@@ -13,6 +13,7 @@ from interface.windows.main_gui.screens.archRegisterScreen import ArchRegisterSc
 from interface.windows.main_gui.screens.adminRegisterScreen import AdminRegisterEmployeeScreen
 from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
 from interface.windows.main_gui.screens.clientRegisterProdScreen import ProductRegisterScreen
+from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
 
 class MainWindow(QMainWindow):
     def __init__(self, user_rol=None, client_id=None):
@@ -57,6 +58,7 @@ class MainWindow(QMainWindow):
         # Arch only: Registrar usuarios
         if self.user_rol == "arch":
             self.add_sidebar_item("Registrar usuarios", ArchRegisterScreen())
+            self.add_sidebar_item("Gestionar taller", AdminManageWorkshop())
 
         # Admin only: Registrar empleados
         if self.user_rol == "admin":

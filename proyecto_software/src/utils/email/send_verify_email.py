@@ -4,7 +4,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
 
-load_dotenv()  # Carga las variables desde .env si lo estás usando
+load_dotenv()  # Carga las variables desde .env
 
 def send_verification_email(to_email, username, token):
     subject = "Verificación de tu cuenta en BSA"

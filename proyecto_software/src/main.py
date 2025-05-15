@@ -1,12 +1,16 @@
-# src/main.py
-
-from model.BusinessObject import BusinessObject
+import sys
 from PyQt6.QtWidgets import QApplication
+from model.BusinessObject import BusinessObject
 from interface.windows.login.login_window import LoginWindow
 from controller.CoordinadorPrincipal import CoordinadorPrincipal
-import sys
+import multiprocessing
+from src.utils.server.verify_server import run_server
 
 def main():
+    # Iniciar servidor Flask en segundo plano
+    flask_process = multiprocessing.Process(target=run_server)
+    flask_process.start()
+
     # Crear la aplicación
     app = QApplication(sys.argv)
 
@@ -14,9 +18,6 @@ def main():
     with open("src/interface/style.css", "r") as f:
         app.setStyleSheet(f.read())
 
-    #login.show()
-    #sys.exit(app.exec())
-    
     # Crear modelo y vista
     modelo = BusinessObject()
     login_window = LoginWindow()
@@ -29,7 +30,13 @@ def main():
     login_window.show()
 
     # Ejecutar la aplicación
-    sys.exit(app.exec())
+    exit_code = app.exec()
+
+    # Al cerrar la app, detener el servidor Flask
+    flask_process.terminate()
+    flask_process.join()
+
+    sys.exit(exit_code)
 
 if __name__ == '__main__':
     main()

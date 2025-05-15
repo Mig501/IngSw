@@ -126,11 +126,11 @@ CREATE TABLE other(
 
 CREATE TABLE services (
     ServiceID INT AUTO_INCREMENT PRIMARY KEY,
-    AdminID INT UNIQUE NOT NULL,
+    EmployeeID INT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     ser_name VARCHAR(50) NOT NULL,
     ser_description TEXT,
-    FOREIGN KEY (AdminID) REFERENCES admins(AdminID)
+    FOREIGN KEY (EmployeeID) REFERENCES employees(EmployeeID),
 );
 
 CREATE TABLE client_services (

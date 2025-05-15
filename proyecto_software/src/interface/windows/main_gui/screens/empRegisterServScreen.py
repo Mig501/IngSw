@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QComboBox, QFileDialog, QMessageBox, QLabel
-from model.vo.AutomobileVO import ServiceVO
+from model.vo.ServiceVO import ServiceVO
 from model.BusinessObject import BusinessObject
 from PyQt6.QtCore import Qt
 
@@ -70,7 +70,6 @@ class ServiceRegisterScreen(QWidget):
                 env_label,
             )
         elif ptype == 'electricista':
-            env_label = self.input_label.currentText()
 
             service_vo = ServiceVO(
                 None,  # El ProductID se asigna automáticamente
@@ -81,7 +80,6 @@ class ServiceRegisterScreen(QWidget):
                 env_label,
             )
         elif ptype == 'informático':
-            env_label = self.input_label.currentText()
 
             service_vo = ServiceVO(
                 None,  # El ProductID se asigna automáticamente

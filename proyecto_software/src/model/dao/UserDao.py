@@ -12,6 +12,8 @@ class UserDao(Conexion):
     sql_delete_users = "DELETE FROM users WHERE UserID = ?"
     sql_count_users = "SELECT COUNT(*) FROM users"
     sql_get_last_id = "SELECT MAX(UserID) FROM users"
+    sql_update_profile = "UPDATE users SET username = ?, email = ?, phone_number = ? WHERE UserID = ?"
+    sql_get_psw = "SELECT userpassword FROM users WHERE username = %s"
 
     def reset_autoincrement_if_empty(self):
         """Está función es sólo para hacer pruebas nosostros"""
@@ -181,3 +183,28 @@ class UserDao(Conexion):
         finally:
             cursor.close()
             self.closeConnection()
+
+    def update_user_profile(self, user_id:int, username:str, email:str, phone:str):
+        """Actualiza el perfil de un usuario en la base de datos"""
+
+        cursor = self.getCursor()
+
+        try:
+            cursor.execute(self.sql_update_profile, [username, email, phone, user_id])
+            rows = cursor.rowcount
+
+            return rows > 0, "Actualizado"
+
+        except jaydebeapi.DatabaseError as e:
+            raise jaydebeapi.DatabaseError(f"Error al actualizar el perfil: {e}")
+        
+        except Exception as e:
+            raise Exception(f"Error al actualizar el perfil: {e}")
+        
+    def get_user_password_by_username(self, username):
+        try:
+            self.cursor.execute(self.sql_get_psw, (username,))
+            result = self.cursor.fetchone()
+            return result[0] if result else None
+        except Exception as e:
+            raise Exception(f"Error al obtener contraseña por username: {e}")

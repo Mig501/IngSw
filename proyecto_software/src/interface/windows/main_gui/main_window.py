@@ -15,9 +15,10 @@ from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWo
 from interface.windows.main_gui.screens.clientRegisterProdScreen import ProductRegisterScreen
 from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
 from interface.windows.main_gui.screens.archBackupScreen import BackupScreen
+from interface.windows.main_gui.screens.editProfileScreen import EditProfileScreen
 
 class MainWindow(QMainWindow):
-    def __init__(self, user_rol=None, client_id=None):
+    def __init__(self, user_rol=None, client_id=None, user_vo=None):
         super().__init__()
         
         self.setWindowTitle("BSA App")
@@ -28,6 +29,7 @@ class MainWindow(QMainWindow):
         self.old_pos = None
         self.user_rol = user_rol
         self.client_id = client_id
+        self.user_vo = user_vo
 
         self.central_widget = QWidget()
         self.central_widget.setObjectName('MainContainer')
@@ -69,6 +71,10 @@ class MainWindow(QMainWindow):
 
         if self.user_rol == "cliente":
             self.add_sidebar_item("Registrar producto", ProductRegisterScreen(self.client_id))
+
+        # Modify users data
+        if self.user_vo:
+            self.add_sidebar_item("Modificar datos", EditProfileScreen(self.user_vo))
 
         self.sidebar_layout.addWidget(self.menu_list)
 

@@ -4,7 +4,7 @@ from interface.windows.main_gui.main_window import MainWindow
 from model.loggerSingleton import LoggerSingleton
 
 class CoordinadorPrincipal:
-    def __init__(self,ventanalogin,modelo) -> None:
+    def __init__(self,ventanalogin, modelo) -> None:
         """Constructor de la clase CoordinadorPrincipal.
         Este se encarga coordinar lo que ocurre cuando el
         usuario interactúa con la interfaz"""
@@ -43,6 +43,7 @@ class CoordinadorPrincipal:
 
             # Obtenemos el ID del cliente en caso de que el usuario sea un cliente
 
-            self.main_window = MainWindow(user_rol=rol, client_id=user.user_id)  # aquí se pasa el rol para mostrar unas opciones u otras
+            self.main_window = MainWindow(user_rol=rol, client_id=user.user_id,
+                                          user_vo=user)  # aquí se pasa el rol para mostrar unas opciones u otras
             self.main_window.show()
             self.ventana.close()

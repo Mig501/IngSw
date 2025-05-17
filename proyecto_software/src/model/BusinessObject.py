@@ -198,4 +198,13 @@ class BusinessObject():
             search_text=search_text
         )
     
+    def update_user_profile(self, user_id:int, username:str, email:str, phone:str) -> bool:
+        """Método que actualiza el perfil del usuario."""
+        try:
+            user_dao = UserDao()
+            return user_dao.update_user_profile(user_id, username, email, phone)
+        
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.update_user_profile: {e}")
+    
     

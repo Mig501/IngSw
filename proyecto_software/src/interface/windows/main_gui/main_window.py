@@ -14,6 +14,7 @@ from interface.windows.main_gui.screens.adminRegisterScreen import AdminRegister
 from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
 from interface.windows.main_gui.screens.clientRegisterProdScreen import ProductRegisterScreen
 from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
+from interface.windows.main_gui.screens.archBackupScreen import BackupScreen
 
 class MainWindow(QMainWindow):
     def __init__(self, user_rol=None, client_id=None):
@@ -59,6 +60,7 @@ class MainWindow(QMainWindow):
         if self.user_rol == "arch":
             self.add_sidebar_item("Registrar usuarios", ArchRegisterScreen())
             self.add_sidebar_item("Gestionar taller", AdminManageWorkshop())
+            self.add_sidebar_item("Realizar Copia de Seguridad", BackupScreen("bsa_database_isw", "root", "changeme"))
 
         # Admin only: Registrar empleados
         if self.user_rol == "admin":

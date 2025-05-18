@@ -119,6 +119,9 @@ class RegisterScreen(QWidget):
                 f"Hemos enviado un correo a {email}. Haz clic en el enlace para verificar tu cuenta."
             )
 
+            # Añadimos el log
+            self.logger.add_log_activity(f"Registro exitoso para el usuario: {user} con rol: {rol} ")
+
             # Limpiar los campos después del registro
             self.input_user.clear()
             self.input_pass.clear()

@@ -1,13 +1,14 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QLineEdit, QPushButton, QListWidget, QListWidgetItem, QLabel, QFormLayout, QSpinBox
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QLineEdit, QPushButton, QListWidget, QListWidgetItem, QLabel, QFormLayout, QSpinBox, QMessageBox
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QPixmap, QFont
 from model.BusinessObject import BusinessObject
 
 class VehicleScreen(QWidget):
-    def __init__(self):
+    def __init__(self, user_vo):
         super().__init__()
 
         self.business_object = BusinessObject()
+        self.user_vo = user_vo
 
         self.setLayout(self.setup_ui())
 
@@ -183,6 +184,17 @@ class VehicleScreen(QWidget):
             layout.addWidget(image_label)
             layout.addWidget(title)
             layout.addWidget(desc)
+
+            # Botón de compra
+            owner_id = self.business_object.get_owner_id(car['ProductID'])
+            client_id = self.business_object.get_client_id(self.user_vo.user_id)
+
+
+            if owner_id != client_id:
+                buy_button = QPushButton("Comprar")
+                buy_button.clicked.connect(lambda _, product_id=car['ProductID']: self.buy_product(product_id))
+                layout.addWidget(buy_button)
+
             layout.setContentsMargins(8, 8, 8, 8)
             layout.setSpacing(4)
 
@@ -213,3 +225,41 @@ class VehicleScreen(QWidget):
         self.env_label.setCurrentText("")
         self.min_price.setValue(0)
         self.max_price.setValue(100000000)
+
+    def buy_product(self, product_id:int):
+        confirm = QMessageBox.question(self,"Confirmar compra",
+            "¿Estás seguro de que quieres comprar este vehículo?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+            )
+        
+        if confirm == QMessageBox.StandardButton.Yes:
+            client_id = self.business_object.get_client_id(self.user_vo.user_id)
+        
+            # Evitar que compre su propio coche
+            owner = self.business_object.get_owner_id(product_id)
+            
+            if client_id is None or owner is None:
+                QMessageBox.critical(self, "Error", "Error interno al validar la compra.")
+                return
+
+            
+            if owner == client_id:
+                QMessageBox.critical(self, "Error", "No puedes comprar tu propio coche.")
+                return
+
+            try:
+                success = self.business_object.buy_product(product_id, client_id)
+                
+                if success:
+                    QMessageBox.information(self, "Compra exitosa", "Has comprado el vehículo con éxito.")
+                    self.car_list.clear()
+                    self.search_cars()
+                else:
+                    QMessageBox.critical(self, "Error", "No se ha podido completar la compra.")
+            
+            except Exception as e:
+                if "Saldo insuficiente" in str(e):
+                    QMessageBox.warning(self, "Saldo insuficiente", "No tienes suficiente saldo para comprar este vehículo.")
+            
+                else:
+                    QMessageBox.critical(self, "Error", f"Error inesperado:\n{e}")

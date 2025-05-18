@@ -105,11 +105,14 @@ CREATE TABLE `user_products` (
    `plocation` varchar(50) DEFAULT NULL,
    `ptype` varchar(25) NOT NULL,
    `pdescription` text,
+   `vendido` BOOLEAN NOT NULL DEFAULT FALSE,
    PRIMARY KEY (`ProductID`),
    KEY `ClientID` (`ClientID`),
    CONSTRAINT `user_products_ibfk_1` FOREIGN KEY (`ClientID`) REFERENCES `clients` (`ClientID`),
    CONSTRAINT `user_products_chk_1` CHECK ((`ptype` in (_utf8mb4'automóviles',_utf8mb4'otros')))
  );
+ ALTER TABLE user_products ADD vendido BOOLEAN NOT NULL DEFAULT FALSE;
+
  
   CREATE TABLE `services` (
    `ServiceID` int NOT NULL AUTO_INCREMENT,

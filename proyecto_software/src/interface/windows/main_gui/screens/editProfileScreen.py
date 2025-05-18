@@ -30,6 +30,22 @@ class EditProfileScreen(QWidget):
         layout.addWidget(QLabel("Teléfono"))
         layout.addWidget(self.phone_input)
 
+        print(f"Rol del usuario: {self.user_vo.rol}")
+        # Modificar saldo para el cliente
+        if self.user_vo.rol == "cliente":
+            try:
+                client_id = self.bo.get_client_id(self.user_vo.user_id)
+                saldo_actual = self.bo.get_saldo_cliente(client_id)
+
+                self.saldo_input = QLineEdit(str(saldo_actual))
+                self.saldo_input.setPlaceholderText("Saldo actual (€)")
+                layout.addWidget(QLabel("Saldo (€)"))
+                layout.addWidget(self.saldo_input)
+
+            except Exception as e:
+                print(f"Error al obtener el saldo: {e}")
+
+
         # Botón guardar
         save_btn = QPushButton("Guardar cambios")
         save_btn.clicked.connect(self.save_changes)
@@ -72,5 +88,18 @@ class EditProfileScreen(QWidget):
                 self.user_vo.username = username
                 self.user_vo.email = email
                 self.user_vo.phone = phone
+
+                if self.user_vo.rol == "cliente":
+                    try:
+                        nuevo_saldo = float(self.saldo_input.text().strip())
+                        if nuevo_saldo < 0:
+                            raise ValueError("El saldo no puede ser negativo.")
+                        
+                        client_id = self.bo.get_client_id(self.user_vo.user_id)
+                        self.bo.update_client_stats(client_id, nuevo_saldo)
+
+                    except Exception as e:
+                        QMessageBox.critical(self, "Error", f"Error al actualizar el saldo:\n{str(e)}")
+
             else:
                 QMessageBox.critical(self, "Error", f"Error al actualizar: {msg}")

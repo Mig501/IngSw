@@ -60,7 +60,7 @@ class MainWindow(QMainWindow):
         self.add_sidebar_item("Home", HomeScreen())
 
         # Vehicle
-        self.add_sidebar_item("Vehículos", VehicleScreen())
+        self.add_sidebar_item("Vehículos", VehicleScreen(self.user_vo))
 
         # Arch only: Registrar usuarios
         if self.user_rol == "arch":

@@ -225,3 +225,40 @@ class BusinessObject():
 
         except Exception as e:
             raise Exception(f"Error in BusinessObject.delete_product: {e}")
+        
+    def buy_product(self, product_id:int, client_id:int) -> bool:
+        """Registra la compra de un producto por parte de un cliente."""
+        try:
+            product_dao = ProductDao()
+            return product_dao.buy_product(client_id, product_id)
+        
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.buy_product: {e}")
+        
+    def get_owner_id(self, product_id: int) -> int:
+        """Obtiene el ID del propietario de un producto."""
+        
+        try:
+            product_dao = ProductDao()
+            return product_dao.get_owner_id(product_id)
+
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_owner_id: {e}")
+        
+    def get_saldo_cliente(self, client_id:int) -> float:
+        """Obtiene el saldo de un cliente."""
+        try:
+            client_dao = ClientDao()
+            return client_dao.get_saldo(client_id)
+
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_saldo_cliente: {e}")
+        
+    def update_client_stats(self, user_id:int, nuevo_saldo:float) -> bool:
+        """Actualiza las estadísticas de un cliente."""
+        try:
+            client_dao = ClientDao()
+            return client_dao.update_saldo(user_id, nuevo_saldo)
+
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.update_client_stats: {e}")

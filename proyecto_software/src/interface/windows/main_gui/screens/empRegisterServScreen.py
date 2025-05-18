@@ -9,7 +9,7 @@ class ServiceRegisterScreen(QWidget):
         self.employee_id = employee_id  # Guardar el ID del empleado
         self.setWindowTitle("Registrar servicio")
         self.setGeometry(100, 100, 500, 400)
-
+ 
         # Layout principal
         self.main_layout = QVBoxLayout()  # Asegúrate de que `main_layout` sea un QVBoxLayout
         self.setLayout(self.main_layout)

@@ -50,3 +50,10 @@ class EmployeeDao(Conexion):
         finally:
             cursor.close()
             self.closeConnection()
+    
+    def get_employee_id_from_user_id(self, user_id: int) -> int:
+        cursor = self.getCursor()
+        cursor.execute("SELECT EmployeeID FROM employees WHERE UsrEmpID = ?", (user_id,))
+        row = cursor.fetchone()
+        cursor.close()
+        return row[0] if row else None

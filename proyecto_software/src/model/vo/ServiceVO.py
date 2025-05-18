@@ -4,16 +4,16 @@ class ServiceVO:
     It contains attributes for the service's name, type, and status.
     """
 
-    def __init__(self, serviceid: int, adminID:int, name: str, description: str, price: float):
+    def __init__(self, serviceid: int, employeeid:int, price: float, name: str, description: str):
         """
         Initializes the ServiceVO instance with the given name, type, and status.
 
         :param name: The name of the service.
         :param service_type: The type of the service.
         :param status: The status of the service.
-        """
+        """ 
         self._serviceid = serviceid
-        self._adminID = adminID
+        self._employeeid = employeeid
         self._name = name
         self._description = description
         self._price = price
@@ -30,11 +30,12 @@ class ServiceVO:
         self._serviceid = serviceid
         
     @property
-    def adminID(self) -> int:
-        return self._adminID
-    @adminID.setter
-    def adminID(self, adminID: int) -> None:
-        self._adminID = adminID
+    def employeeid(self) -> int:
+        return self._employeeid
+
+    @employeeid.setter
+    def employeeid(self, employeeid: int) -> None:
+        self._employeeid = employeeid
 
     @property
     def name(self) -> str:

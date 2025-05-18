@@ -8,23 +8,19 @@ from model.vo.ClientVO import ClientVO
 class ServiceDao(Conexion):
     """Clase para manejar la tabla de servicios en la base de datos."""
     
-    sql_insert = """INSERT INTO services (ServiceID, ServiceType, ServiceDate, ServiceTime, 
-                    ServiceDescription, EmployeeID, ClientID) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?)"""
+    sql_insert = """INSERT INTO services (EmployeeID, price, ser_name, ser_description) 
+                    VALUES (?, ?, ?, ?)"""
     
     sql_delete = "DELETE FROM services WHERE ServiceID = ?"
 
     sql_select_all = "SELECT * FROM services"
     
-    def insert_service(self, service_id: int, service_vo: ServiceVO) -> bool:
+    def insert_service(self, service_vo: ServiceVO) -> bool:
         """Inserta un nuevo servicio en la base de datos."""
         cursor = self.getCursor()
         
-        try:
-            cursor.execute(self.sql_insert, [service_id, service_vo.service_type,
-                                             service_vo.service_date, service_vo.service_time,
-                                             service_vo.service_description, service_vo.employee_id,
-                                             service_vo.client_id])
+        try: 
+            cursor.execute(self.sql_insert, [service_vo.employeeid, service_vo.price, service_vo.name, service_vo.description])
             
             return cursor.rowcount > 0
         
@@ -57,7 +53,7 @@ class ServiceDao(Conexion):
             
             services = []
             for row in rows:
-                service = ServiceVO(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
+                service = ServiceVO(row[0], row[1], row[2], row[3], row[4], row[5])
                 services.append(service)
             
             return services

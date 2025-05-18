@@ -6,12 +6,10 @@ from model.dao.WorkshopDAO import WorkshopDao
 
 class ProductDao(Conexion):
 
-    # SQL de inserción en diferentes tablas
     sql_insert_user_product = """
         INSERT INTO user_products (ProductID, ClientID, price, brand, model, year_manufacture, plocation, ptype, pdescription)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     """
-
     sql_insert_workshop_product = """
         INSERT INTO workshop_products (ProductID, WS_zip_code)
         VALUES (?, ?)
@@ -26,11 +24,20 @@ class ProductDao(Conexion):
         INSERT INTO other (ProductID, size_of, usedFor)
         VALUES (?, ?, ?)
     """
-
     sql_insert_image = """
         INSERT INTO pimage (ProductID, pimage)
         VALUES (?, ?)
     """
+    sql_get_product_by_client_id = """
+        SELECT * FROM user_products
+        WHERE ClientID = ?
+    """
+
+    sql_delete_automobile = """DELETE FROM automovil WHERE ProductID = ?"""
+    sql_delete_other_product = """DELETE FROM other WHERE ProductID = ?"""
+    sql_delete_image = """DELETE FROM pimage WHERE ProductID = ?"""
+    sql_delete_user_product = """DELETE FROM user_products WHERE ProductID = ?"""
+    sql_delete_workshop_product = """DELETE FROM workshop_products WHERE ProductID = ?"""
 
     def insert_product(self, product_vo: ProductVO) -> bool:
         """Inserta un producto en la base de datos."""
@@ -148,6 +155,58 @@ class ProductDao(Conexion):
             params.append(f"%{search_text.lower()}%")
 
         cursor.execute(query, params)
-        columns = [col[0] for col in cursor.description]
+        columns = [col[0] for col in cursor.description] # Obtengo los nombres de las columnas
         results = [dict(zip(columns, row)) for row in cursor.fetchall()]
         return results
+    
+    def get_client_products(self, client_id):
+        """Obtiene los productos de un cliente específico"""
+
+        cursor = self.getCursor()
+        try:
+            cursor.execute(self.sql_get_product_by_client_id, (client_id,))
+            columns = [col[0] for col in cursor.description]
+            results = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            return results
+        
+        except Exception as e:
+            print(f"Error obteniendo productos del cliente: {e}")
+            return []
+
+    def delete_product(self, product_id) -> bool:
+        """Elimina un producto de la base de datos."""
+        cursor = self.getCursor()
+        try:
+            # Comprobamos el tipo de producto
+            cursor.execute("SELECT ptype FROM user_products WHERE ProductID = ?", (product_id,))
+            p_type = cursor.fetchone()
+
+            if not p_type:
+                print(f"Producto con ID {product_id} no encontrado.")
+                return False
+            
+            p_type = p_type[0]
+
+            # Borramos las tablas dependientes
+            cursor.execute(self.sql_delete_image, (product_id,))
+            cursor.execute(self.sql_delete_workshop_product, (product_id,))
+            
+            # Borramos la tabla de producto en función del tipo
+            if p_type == "automóviles":
+                cursor.execute(self.sql_delete_automobile, (product_id,))
+            
+            else:
+                cursor.execute(self.sql_delete_other_product, (product_id,))
+
+            # Borramos el producto del usuario
+            cursor.execute(self.sql_delete_user_product, (product_id,))
+            
+            return cursor.rowcount > 0
+
+        except Exception as e:
+            print(f"Error eliminando producto: {e}")
+            return False
+        
+        finally:
+            cursor.close()
+            self.closeConnection()

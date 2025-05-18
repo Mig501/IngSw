@@ -16,6 +16,7 @@ from interface.windows.main_gui.screens.clientRegisterProdScreen import ProductR
 from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
 from interface.windows.main_gui.screens.archBackupScreen import BackupScreen
 from interface.windows.main_gui.screens.editProfileScreen import EditProfileScreen
+from interface.windows.main_gui.screens.clientMyProductsScreen import MyProductsScreen
 
 class MainWindow(QMainWindow):
     def __init__(self, user_rol=None, client_id=None, user_vo=None):
@@ -71,6 +72,7 @@ class MainWindow(QMainWindow):
 
         if self.user_rol == "cliente":
             self.add_sidebar_item("Registrar producto", ProductRegisterScreen(self.client_id))
+            self.add_sidebar_item("Mis productos", MyProductsScreen(self.client_id))
 
         # Modify users data
         if self.user_vo:

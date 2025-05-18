@@ -207,4 +207,21 @@ class BusinessObject():
         except Exception as e:
             raise Exception(f"Error in BusinessObject.update_user_profile: {e}")
     
-    
+    def get_client_products(self, client_id:int) -> ProductDao:
+        """Obtiene los productos del cliente"""
+
+        try:
+            product_dao = ProductDao()
+            return product_dao.get_client_products(client_id)
+        
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_client_products: {e}")
+        
+    def delete_product(self, product_id:int) -> bool:
+        """Elimina un producto de la base de datos."""
+        try:
+            product_dao = ProductDao()
+            return product_dao.delete_product(product_id)
+
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.delete_product: {e}")

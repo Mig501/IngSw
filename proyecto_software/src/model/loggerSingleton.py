@@ -1,4 +1,5 @@
 # src/model/loggerSingleton.py
+from datetime import datetime
 
 class LoggerSingleton:
 
@@ -15,7 +16,9 @@ class LoggerSingleton:
         """
         Añade un mensaje de actividad al log.
         """
-        self._logs.append(message)
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        msg = f"[{timestamp}] {message}"
+        self._logs.append(msg)
 
     def print_log(self) -> None:
         """

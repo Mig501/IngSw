@@ -11,6 +11,7 @@ from model.vo.WorkshopVO import WorkshopVO
 from model.dao.WorkshopDAO import WorkshopDao
 from model.vo.ProductVO import ProductVO
 from model.dao.ProductDao import ProductDao
+from model.dao.ReportDao import ReportDao
 from model.vo.AutomobileVO import AutomobileVO
 from model.vo.OtherProdVO import OtherProductVO
 from model.dao.ServiceDao import ServiceDao
@@ -262,3 +263,47 @@ class BusinessObject():
 
         except Exception as e:
             raise Exception(f"Error in BusinessObject.update_client_stats: {e}")
+        
+    def get_top_buyer(self, start_date: str, end_date: str):
+        """Obtiene el cliente que más ha comprado entre dos fechas."""
+        try:
+            report_dao = ReportDao()
+            return report_dao.get_top_buyer(start_date, end_date)
+        
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_top_buyer: {e}")
+
+    def get_top_seller(self, start_date: str, end_date: str):
+        try:
+            report_dao = ReportDao()
+            return report_dao.get_top_seller(start_date, end_date)
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_top_seller: {e}")
+
+    def get_top_brand(self, start_date: str, end_date: str):
+        try:
+            report_dao = ReportDao()
+            return report_dao.get_top_brand(start_date, end_date)
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_top_brand: {e}")
+
+    def get_daily_sales(self, start_date: str, end_date: str):
+        try:
+            report_dao = ReportDao()
+            return report_dao.get_daily_sales(start_date, end_date)
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_daily_sales: {e}")
+
+    def get_totals(self, start_date: str, end_date: str):
+        try:
+            report_dao = ReportDao()
+            return report_dao.get_totals(start_date, end_date)
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_totals: {e}")
+
+    def get_purchase_date(self, start_date: str, end_date: str):
+        try:
+            report_dao = ReportDao()
+            return report_dao.get_purchase_date(start_date, end_date)
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_purchase_date: {e}")

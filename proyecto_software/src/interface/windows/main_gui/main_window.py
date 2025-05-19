@@ -20,6 +20,7 @@ from interface.windows.main_gui.screens.clientMyProductsScreen import MyProducts
 from interface.windows.main_gui.screens.empRegisterServScreen import ServiceRegisterScreen
 from model.dao.EmployeeDao import EmployeeDao
 from interface.windows.main_gui.screens.logViewerScreen import LogViewerScreen
+from interface.windows.main_gui.screens.adminReportScreen import AdminReportScreen
 
 class MainWindow(QMainWindow):
     def __init__(self, user_rol=None, client_id=None, user_vo=None):
@@ -59,9 +60,6 @@ class MainWindow(QMainWindow):
         # Home
         self.add_sidebar_item("Home", HomeScreen())
 
-        # Vehicle
-        self.add_sidebar_item("Vehículos", VehicleScreen(self.user_vo))
-
         # Arch only: Registrar usuarios
         if self.user_rol == "arch":
             self.add_sidebar_item("Registrar usuarios", ArchRegisterScreen())
@@ -73,10 +71,12 @@ class MainWindow(QMainWindow):
         if self.user_rol == "admin":
             self.add_sidebar_item("Registrar empleados", AdminRegisterEmployeeScreen())
             self.add_sidebar_item("Gestionar taller", AdminManageWorkshop())
+            self.add_sidebar_item("Redactor de informes", AdminReportScreen())
 
         if self.user_rol == "cliente":
             self.add_sidebar_item("Registrar producto", ProductRegisterScreen(self.client_id))
             self.add_sidebar_item("Mis productos", MyProductsScreen(self.client_id))
+            self.add_sidebar_item("Vehículos", VehicleScreen(self.user_vo))
         
         #employee only: Registrar servicio
         if self.user_rol == "empleado":

@@ -32,6 +32,7 @@ class ProductDao(Conexion):
     sql_get_product_by_client_id = """
         SELECT * FROM user_products
         WHERE ClientID = ?
+        AND vendido = FALSE
     """
 
     sql_delete_automobile = """DELETE FROM automovil WHERE ProductID = ?"""

@@ -120,6 +120,7 @@ CREATE TABLE `user_products` (
    `price` decimal(10,2) NOT NULL,
    `ser_name` varchar(50) NOT NULL,
    `ser_description` text,
+   `estado` varchar(20) NOT NULL DEFAULT 'pendiente',
    PRIMARY KEY (`ServiceID`),
    KEY `EmployeeID` (`EmployeeID`),
    CONSTRAINT `services_ibfk_1` FOREIGN KEY (`EmployeeID`) REFERENCES `employees` (`EmployeeID`)
@@ -147,17 +148,6 @@ CREATE TABLE `user_products` (
    KEY `ServiceID` (`ServiceID`),
    CONSTRAINT `client_services_ibfk_1` FOREIGN KEY (`ClientID`) REFERENCES `clients` (`ClientID`),
    CONSTRAINT `client_services_ibfk_2` FOREIGN KEY (`ServiceID`) REFERENCES `services` (`ServiceID`)
- );
-
- CREATE TABLE `employee_services` (
-   `EmployeeID` int NOT NULL,
-   `ServiceID` int NOT NULL,
-   `Service_date` date NOT NULL,
-   `Service_time` time NOT NULL,
-   PRIMARY KEY (`EmployeeID`,`ServiceID`),
-   KEY `ServiceID` (`ServiceID`),
-   CONSTRAINT `employee_services_ibfk_1` FOREIGN KEY (`EmployeeID`) REFERENCES `employees` (`EmployeeID`),
-   CONSTRAINT `employee_services_ibfk_2` FOREIGN KEY (`ServiceID`) REFERENCES `services` (`ServiceID`)
  );
 
 CREATE TABLE `employee_workshop` (

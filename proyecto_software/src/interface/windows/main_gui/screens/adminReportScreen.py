@@ -74,6 +74,20 @@ class AdminReportScreen(QWidget):
             total_compras_ventas = self.business.get_totals(start, end)
             daily_sales = self.business.get_daily_sales(start, end)
 
+            # Verificamos si hay datos
+            if total_compras_ventas == 0:
+                summary = f"""
+Informe de Ventas del {start} al {end}:
+
+Total de compra-ventas: {total_compras_ventas}
+ID Mayor comprador: N/A
+ID Mayor vendedor: N/A
+Marca más comprada: N/A
+"""
+                self.results_label.setText(summary)
+                self.plot_graph([]) # Mostrar gráfica vacía
+                return
+            
             summary = f"""
 Informe de Ventas del {start} al {end}:
 
@@ -94,14 +108,24 @@ Informe de Ventas del {start} al {end}:
         self.figure.clear()
         ax = self.figure.add_subplot(111)
 
-        fechas = [row[0] for row in data]
-        cantidades = [row[1] for row in data]
+        # Manejamos el caso de que no haya datos
+        if not data:
+            ax.text(0.5, 0.5, "No hay datos en el rango seleccionado",
+                    ha="center", va="center", fontsize=12,
+                    transform=ax.transAxes)
+            ax.set_xticks([])
+            ax.set_yticks([])
 
-        ax.plot(fechas, cantidades, marker='o')
-        ax.set_title("Compra-Ventas por Día")
-        ax.set_xlabel("Fecha")
-        ax.set_ylabel("Cantidad")
-        ax.grid(True)
+        else:
+            fechas = [row[0] for row in data]
+            cantidades = [row[1] for row in data]
+    
+            ax.plot(fechas, cantidades, marker='o')
+            ax.set_title("Compra-Ventas por Día")
+            ax.set_xlabel("Fecha")
+            ax.set_ylabel("Cantidad")
+            ax.grid(True)
+        
         self.canvas.draw()
 
     def export_pdf(self):

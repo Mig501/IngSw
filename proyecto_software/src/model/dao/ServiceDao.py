@@ -10,10 +10,10 @@ class ServiceDao(Conexion):
     
     sql_insert = """INSERT INTO services (EmployeeID, price, ser_name, ser_description) 
                     VALUES (?, ?, ?, ?)"""
-    
     sql_delete = "DELETE FROM services WHERE ServiceID = ?"
-
     sql_select_all = "SELECT * FROM services"
+    sql_select_by_id = "SELECT * FROM services WHERE EmployeeID = ?"
+    sql_delete_by_id = "DELETE FROM services WHERE ServiceID = ?"
     
     def insert_service(self, service_vo: ServiceVO) -> bool:
         """Inserta un nuevo servicio en la base de datos."""
@@ -111,3 +111,29 @@ class ServiceDao(Conexion):
             cursor.close()
             self.closeConnection()
             
+    def get_employee_services(self, employee_id: int) -> list:
+        """Obtiene todos los servicios asociados a un empleado dado su ID."""
+        cursor = self.getCursor()
+        
+        try:
+            cursor.execute(self.sql_select_by_id, [employee_id])
+            cols = [column[0] for column in cursor.description] # Obtener nombres de columnas
+            results = [dict(zip(cols, row)) for row in cursor.fetchall()] # Obtener filas como diccionarios
+
+            return results
+
+        finally:
+            cursor.close()
+            self.closeConnection()
+
+    def delete_service(self, service_id:int) -> bool:
+        """Elimina un servicio dado su ID."""
+        cursor = self.getCursor()
+        
+        try:
+            cursor.execute(self.sql_delete, [service_id])
+            return cursor.rowcount > 0
+        
+        finally:
+            cursor.close()
+            self.closeConnection()

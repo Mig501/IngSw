@@ -22,6 +22,7 @@ from interface.windows.main_gui.screens.empRegisterServScreen import ServiceRegi
 from model.dao.EmployeeDao import EmployeeDao
 from interface.windows.main_gui.screens.logViewerScreen import LogViewerScreen
 from interface.windows.main_gui.screens.adminReportScreen import AdminReportScreen
+from interface.windows.main_gui.screens.empMyServicesScreen import MyServicesScreen
 
 class MainWindow(QMainWindow):
     def __init__(self, user_rol=None, client_id=None, user_vo=None):
@@ -84,6 +85,7 @@ class MainWindow(QMainWindow):
         if self.user_rol == "empleado":
             employee_id = EmployeeDao().get_employee_id_from_user_id(self.user_vo.user_id)
             self.add_sidebar_item("Registrar servicio", ServiceRegisterScreen(employee_id))
+            self.add_sidebar_item("Mis servicios", MyServicesScreen(employee_id))
 
         # Modify users data
         if self.user_vo:

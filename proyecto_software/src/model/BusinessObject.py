@@ -315,3 +315,19 @@ class BusinessObject():
             return report_dao.get_purchase_date(start_date, end_date)
         except Exception as e:
             raise Exception(f"Error in BusinessObject.get_purchase_date: {e}")
+        
+    def get_employee_services(self, client_id:int) -> list:
+        try:
+            service_dao = ServiceDao()
+            return service_dao.get_employee_services(client_id)
+        
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_employee_services: {e}")
+        
+    def delete_service(self, service_id:int) -> bool:
+        try:
+            service_dao = ServiceDao()
+            return service_dao.delete_service(service_id)
+
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.delete_service: {e}")

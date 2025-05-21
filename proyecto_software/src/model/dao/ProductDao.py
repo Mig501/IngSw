@@ -164,7 +164,41 @@ class ProductDao(Conexion):
         columns = [col[0] for col in cursor.description] # Obtengo los nombres de las columnas
         results = [dict(zip(columns, row)) for row in cursor.fetchall()]
         return results
-    
+
+    def get_filtered_others(self, price_range=None, size_range=None, brand=None, model=None):
+        cursor = self.getCursor()
+        query = """
+            SELECT up.*, pi.pimage, o.*
+            FROM user_products up
+            JOIN other o ON up.ProductID = o.ProductID
+            LEFT JOIN pimage pi ON up.ProductID = pi.ProductID
+            WHERE 1=1
+        """
+        params = []
+
+        if price_range:
+            query += " AND up.price BETWEEN ? AND ?"
+            params.extend(price_range)
+
+        if size_range:
+            query += " AND o.size_of BETWEEN ? AND ?"
+            params.extend(size_range)
+
+        if brand:
+            query += " AND LOWER(up.brand) LIKE ?"
+            params.append(f"%{brand.lower()}%")
+
+        if model:
+            query += " AND LOWER(up.model) LIKE ?"
+            params.append(f"%{model.lower()}%")
+
+        query += " AND up.vendido = FALSE"
+
+        cursor.execute(query, params)
+        columns = [col[0] for col in cursor.description] # Obtengo los nombres de las columnas
+        results = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        return results
+
     def get_client_products(self, client_id):
         """Obtiene los productos de un cliente específico"""
 

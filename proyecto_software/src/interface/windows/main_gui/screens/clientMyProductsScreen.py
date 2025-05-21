@@ -26,6 +26,10 @@ class MyProductsScreen(QWidget):
         self.btn_delete.clicked.connect(self.eliminar_producto)
         layout.addWidget(self.btn_delete)
 
+        self.btn_refresh = QPushButton("Actualizar lista")
+        self.btn_refresh.clicked.connect(self.cargar_productos)
+        layout.addWidget(self.btn_refresh)
+
         self.setLayout(layout)
         self.cargar_productos()
 

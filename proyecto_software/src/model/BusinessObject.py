@@ -199,6 +199,14 @@ class BusinessObject():
             search_text=search_text
         )
     
+    def get_filtered_others(self, price_range=None, size_range=None, brand=None, model=None):
+        return ProductDao().get_filtered_others(
+            price_range=price_range,
+            size_range=size_range,
+            brand=brand,
+            model=model
+        )
+
     def update_user_profile(self, user_id:int, username:str, email:str, phone:str) -> bool:
         """Método que actualiza el perfil del usuario."""
         try:

@@ -9,6 +9,7 @@ from PyQt6.QtGui import QIcon, QPixmap
 
 from interface.windows.main_gui.screens.home_screen import HomeScreen
 from interface.windows.main_gui.screens.vehicle_screen import VehicleScreen
+from interface.windows.main_gui.screens.other_screen import OtherScreen
 from interface.windows.main_gui.screens.archRegisterScreen import ArchRegisterScreen
 from interface.windows.main_gui.screens.adminRegisterScreen import AdminRegisterEmployeeScreen
 from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
@@ -77,7 +78,8 @@ class MainWindow(QMainWindow):
             self.add_sidebar_item("Registrar producto", ProductRegisterScreen(self.client_id))
             self.add_sidebar_item("Mis productos", MyProductsScreen(self.client_id))
             self.add_sidebar_item("Vehículos", VehicleScreen(self.user_vo))
-        
+            self.add_sidebar_item("Otros productos", OtherScreen(self.user_vo))
+
         #employee only: Registrar servicio
         if self.user_rol == "empleado":
             employee_id = EmployeeDao().get_employee_id_from_user_id(self.user_vo.user_id)

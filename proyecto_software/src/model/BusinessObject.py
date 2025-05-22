@@ -364,3 +364,13 @@ class BusinessObject():
 
         except Exception as e:
             raise Exception(f"Error in BusinessObject.get_admin_id_by_user_id: {e}")
+        
+
+    def get_employee_id_from_user_id(self, user_id:int) -> int:
+        """Devuelve el ID del empleado dado su ID de usuario"""
+        try:
+            employee_dao = EmployeeDao()
+            return employee_dao.get_employee_id_from_user_id(user_id)
+
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_employee_id_from_user_id: {e}")

@@ -19,15 +19,10 @@ from interface.windows.main_gui.screens.archBackupScreen import BackupScreen
 from interface.windows.main_gui.screens.editProfileScreen import EditProfileScreen
 from interface.windows.main_gui.screens.clientMyProductsScreen import MyProductsScreen
 from interface.windows.main_gui.screens.empRegisterServScreen import ServiceRegisterScreen
-from model.dao.EmployeeDao import EmployeeDao
 from interface.windows.main_gui.screens.logViewerScreen import LogViewerScreen
 from interface.windows.main_gui.screens.adminReportScreen import AdminReportScreen
 from interface.windows.main_gui.screens.empMyServicesScreen import MyServicesScreen
-<<<<<<< HEAD
-from model.dao.AdminDao import AdminDao
-=======
 from interface.windows.main_gui.screens.adminMyEmployeesScreen import MyEmployeesScreen
->>>>>>> paboct
 
 class MainWindow(QMainWindow):
     def __init__(self, user_rol=None, client_id=None, user_vo=None):
@@ -76,8 +71,7 @@ class MainWindow(QMainWindow):
 
         # Admin only: Registrar empleados
         if self.user_rol == "admin":
-            admin_id = AdminDao().get_admin_id_from_user_id(self.user_vo.user_id)
-            self.add_sidebar_item("Registrar empleados", AdminRegisterEmployeeScreen(admin_id))
+            self.add_sidebar_item("Registrar empleados", AdminRegisterEmployeeScreen(client_id))
             self.add_sidebar_item("Gestionar taller", AdminManageWorkshop())
             self.add_sidebar_item("Redactor de informes", AdminReportScreen())
             self.add_sidebar_item("Empleados", MyEmployeesScreen(self.client_id))
@@ -90,9 +84,8 @@ class MainWindow(QMainWindow):
 
         #employee only: Registrar servicio
         if self.user_rol == "empleado":
-            employee_id = EmployeeDao().get_employee_id_from_user_id(self.user_vo.user_id)
-            self.add_sidebar_item("Registrar servicio", ServiceRegisterScreen(employee_id))
-            self.add_sidebar_item("Mis servicios", MyServicesScreen(employee_id))
+            self.add_sidebar_item("Registrar servicio", ServiceRegisterScreen(client_id))
+            self.add_sidebar_item("Mis servicios", MyServicesScreen(client_id))
 
         # Modify users data
         if self.user_vo:

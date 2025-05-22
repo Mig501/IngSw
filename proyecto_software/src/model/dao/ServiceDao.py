@@ -119,7 +119,7 @@ class ServiceDao(Conexion):
         cursor = self.getCursor()
         
         try:
-            cursor.execute(self.sql_delete, [service_id])
+            cursor.execute(self.sql_delete_by_id, [service_id])
             return cursor.rowcount > 0
         
         finally:

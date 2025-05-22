@@ -1,7 +1,8 @@
+# src/main.py
+
 import sys
 from PyQt6.QtWidgets import QApplication
 from model.BusinessObject import BusinessObject
-from interface.windows.login.login_window import LoginWindow
 from controller.CoordinadorPrincipal import CoordinadorPrincipal
 import multiprocessing
 from utils.server.verify_server import run_server
@@ -14,20 +15,12 @@ def main():
     # Crear la aplicación
     app = QApplication(sys.argv)
 
-    # Cargar estilos
-    with open("src/interface/style.css", "r") as f:
-        app.setStyleSheet(f.read())
-
-    # Crear modelo y vista
+    # Crear modelo
     modelo = BusinessObject()
-    login_window = LoginWindow()
 
-    # Crear controlador
-    controlador = CoordinadorPrincipal(login_window, modelo)
-
-    # Conexión de la señal del botón de inicio de sesión al método iniciarlogin
-    login_window.login_screen.login_clicked.connect(controlador.iniciarlogin)
-    login_window.show()
+    # Crear el controlador principal y llamar a su método de inicio
+    coordinador = CoordinadorPrincipal(modelo, app)
+    coordinador.iniciar()
 
     # Ejecutar la aplicación
     exit_code = app.exec()

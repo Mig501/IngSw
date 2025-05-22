@@ -1,8 +1,13 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QLabel, QMessageBox
-from model.vo.WorkshopVO import WorkshopVO
-from model.BusinessObject import BusinessObject
+# src/interface/windows/main_gui/screens/adminManageWorkshop.py
+
+from PyQt6.QtWidgets import (
+    QWidget, QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QLabel
+)
+from PyQt6.QtCore import pyqtSignal
 
 class AdminManageWorkshop(QWidget):
+    save_workshop_signal = pyqtSignal(dict)
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Gestión de Taller")
@@ -13,16 +18,16 @@ class AdminManageWorkshop(QWidget):
         form_layout = QFormLayout()
 
         # Campos del formulario
-        self.input_ws_zip_code = QLineEdit(self)
-        self.input_size_of = QLineEdit(self)
-        self.input_phone_number = QLineEdit(self)
-        self.input_inv_parking_slot = QLineEdit(self)
-        self.input_inv_num_pieces = QLineEdit(self)
-        self.input_add_street = QLineEdit(self)
-        self.input_add_number = QLineEdit(self)
-        self.input_add_city = QLineEdit(self)
+        self.input_ws_zip_code = QLineEdit()
+        self.input_size_of = QLineEdit()
+        self.input_phone_number = QLineEdit()
+        self.input_inv_parking_slot = QLineEdit()
+        self.input_inv_num_pieces = QLineEdit()
+        self.input_add_street = QLineEdit()
+        self.input_add_number = QLineEdit()
+        self.input_add_city = QLineEdit()
 
-        # Añadir los campos al formulario
+        # Añadir campos al formulario
         form_layout.addRow("Código Postal:", self.input_ws_zip_code)
         form_layout.addRow("Tamaño del Taller (m²):", self.input_size_of)
         form_layout.addRow("Teléfono:", self.input_phone_number)
@@ -32,49 +37,43 @@ class AdminManageWorkshop(QWidget):
         form_layout.addRow("Número:", self.input_add_number)
         form_layout.addRow("Ciudad:", self.input_add_city)
 
-        # Botón de guardar
-        self.save_button = QPushButton("Guardar Taller", self)
-        self.save_button.clicked.connect(self.save_workshop)
+        # Botón guardar
+        self.save_button = QPushButton("Guardar Taller")
 
-        # Añadir los layouts
+        # Conectar el botón a la función que emite la señal
+        self.save_button.clicked.connect(self.emit_save_signal)
+
+        # Añadir layouts y botón al layout principal
         main_layout.addLayout(form_layout)
         main_layout.addWidget(self.save_button)
         self.setLayout(main_layout)
 
-    def save_workshop(self):
-        """Método que recoge los datos del formulario y guarda el taller"""
-        # Recoger datos del formulario
-        ws_zip_code = self.input_ws_zip_code.text()
-        size_of = float(self.input_size_of.text())
-        phone_number = self.input_phone_number.text()
-        inv_parking_slot = self.input_inv_parking_slot.text()
-        inv_num_pieces = int(self.input_inv_num_pieces.text())
-        add_street = self.input_add_street.text()
-        add_number = int(self.input_add_number.text())
-        add_city = self.input_add_city.text()
+    def emit_save_signal(self):
+        data = {
+            "ws_zip_code": self.input_ws_zip_code.text(),
+            "size_of": self.input_size_of.text(),
+            "phone_number": self.input_phone_number.text(),
+            "inv_parking_slot": self.input_inv_parking_slot.text(),
+            "inv_num_pieces": self.input_inv_num_pieces.text(),
+            "add_street": self.input_add_street.text(),
+            "add_number": self.input_add_number.text(),
+            "add_city": self.input_add_city.text(),
+        }
+        self.save_workshop_signal.emit(data)
 
-        # Crear el objeto WorkshopVO con los datos obtenidos del formulario
-        workshop_vo = WorkshopVO(
-            ws_zip_code, size_of, phone_number, inv_parking_slot,
-            inv_num_pieces, add_street, add_number, add_city
-        )
+    def clear_form(self):
+        self.input_ws_zip_code.clear()
+        self.input_size_of.clear()
+        self.input_phone_number.clear()
+        self.input_inv_parking_slot.clear()
+        self.input_inv_num_pieces.clear()
+        self.input_add_street.clear()
+        self.input_add_number.clear()
+        self.input_add_city.clear()
 
-        try:
-            business_object = BusinessObject()
-            
-            if business_object.register_workshop(workshop_vo):
-                QMessageBox.information(self, "Éxito", "Taller registrado correctamente.")
-                self.input_ws_zip_code.clear()
-                self.input_size_of.clear()
-                self.input_phone_number.clear()
-                self.input_inv_parking_slot.clear()
-                self.input_inv_num_pieces.clear()
-                self.input_add_street.clear()
-                self.input_add_number.clear()
-                self.input_add_city.clear()
-            
-            else:
-                raise Exception("No se pudo registrar el taller.")
-        
-        except Exception as e:
-            QMessageBox.critical(self, "Error", str(e))
+    def show_message(self, title, message, is_error=False):
+        from PyQt6.QtWidgets import QMessageBox
+        if is_error:
+            QMessageBox.critical(self, title, message)
+        else:
+            QMessageBox.information(self, title, message)

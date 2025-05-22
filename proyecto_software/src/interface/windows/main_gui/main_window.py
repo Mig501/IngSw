@@ -22,6 +22,10 @@ from interface.windows.main_gui.screens.empRegisterServScreen import ServiceRegi
 from interface.windows.main_gui.screens.logViewerScreen import LogViewerScreen
 from interface.windows.main_gui.screens.adminReportScreen import AdminReportScreen
 from interface.windows.main_gui.screens.empMyServicesScreen import MyServicesScreen
+<<<<<<< HEAD
+=======
+from model.dao.AdminDao import AdminDao
+>>>>>>> 7ef000121dd7a6e1149c09df020b5ce1a5d8c3c2
 from interface.windows.main_gui.screens.adminMyEmployeesScreen import MyEmployeesScreen
 
 class MainWindow(QMainWindow):
@@ -89,7 +93,7 @@ class MainWindow(QMainWindow):
 
         # Modify users data
         if self.user_vo:
-            self.add_sidebar_item("Modificar datos", EditProfileScreen(self.user_vo))
+            self.add_sidebar_item("Cuenta", EditProfileScreen(self.user_vo))
 
         self.sidebar_layout.addWidget(self.menu_list)
 
@@ -106,23 +110,21 @@ class MainWindow(QMainWindow):
         self.header_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.header.setLayout(self.header_layout)
 
-        # Imagen BSA
-        self.bsa_logo = QLabel()
-        pixmap = QPixmap("resources/images/BSA_name.png")
-        self.bsa_logo.setPixmap(pixmap.scaledToWidth(80, Qt.TransformationMode.SmoothTransformation))
-        self.bsa_logo.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
-        self.header_layout.addWidget(self.bsa_logo)
+        self.setCentralWidget(self.central_widget)  
 
+        # Boton Minimizar
         self.btn_minimize = QPushButton()
         self.btn_minimize.setIcon(QIcon("resources/icons/minus.svg"))
         self.btn_minimize.setFixedSize(30, 30)
         self.btn_minimize.clicked.connect(self.showMinimized)
 
+        # Boton Maximizar/Restaurar
         self.btn_maximize = QPushButton()
         self.btn_maximize.setIcon(QIcon("resources/icons/chevron_up.svg"))
         self.btn_maximize.setFixedSize(30, 30)
         self.btn_maximize.clicked.connect(self.toggle_max_restore)
 
+        # Boton Cerrar
         self.btn_close = QPushButton()
         self.btn_close.setObjectName('CloseButton')
         self.btn_close.setIcon(QIcon("resources/icons/x.svg"))
@@ -152,26 +154,22 @@ class MainWindow(QMainWindow):
         self.main_layout.addWidget(self.sidebar)
         self.main_layout.addWidget(self.right_section)
 
-        # Botón menú
-        self.menu_button = QPushButton("Menú")
-        self.menu_button.setIcon(QIcon("resources/icons/menu.svg"))
-        self.menu_button.setFixedWidth(100)
-        self.menu_button.setFixedHeight(30)
-        self.menu_button.setObjectName("MenuButton")
-        self.menu_button.clicked.connect(self.toggle_sidebar)
-
-        self.menu_button.setParent(self.centralWidget())
-        self.menu_button.move(30, 20)
-        self.menu_button.raise_()
+        # Imagen BSA
+        self.bsa_logo = QLabel(self.central_widget)
+        pixmap = QPixmap("resources/images/BSA_name.png")
+        self.bsa_logo.setPixmap(pixmap.scaledToWidth(80, Qt.TransformationMode.SmoothTransformation))
+        self.bsa_logo.setFixedSize(80, 30)
+        self.bsa_logo.move((140 - self.bsa_logo.width()) // 2 + 20, 20)  # Coordenadas X, Y sobre MainContainer
+        self.bsa_logo.raise_()
 
         self.menu_list.currentRowChanged.connect(self.display_page)
-        self.sidebar.setVisible(False)
+        self.sidebar.setVisible(True)
 
     def add_sidebar_item(self, label, screen):
         item_widget = QWidget()
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
         label_widget = QLabel(label)
         layout.addWidget(label_widget)
         item_widget.setLayout(layout)
@@ -182,14 +180,6 @@ class MainWindow(QMainWindow):
         self.menu_list.addItem(item)
         self.menu_list.setItemWidget(item, item_widget)
         self.screens.append(screen)
-
-    def toggle_sidebar(self):
-        '''Se encarga de cambiar el icono del boton de menu cuando este se pulse'''
-        is_visible = not self.sidebar.isVisible()
-        self.sidebar.setVisible(is_visible)
-        icon = QIcon("resources/icons/chevron_left.svg") if is_visible else QIcon("resources/icons/menu.svg")
-        self.menu_button.setIcon(icon)
-        self.menu_button.setText("Menú")
 
     def toggle_max_restore(self):
         '''Modifica el icono del boton de maximizar cuando este se pulse'''

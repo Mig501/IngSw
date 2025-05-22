@@ -171,7 +171,7 @@ class MainWindow(QMainWindow):
         item_widget = QWidget()
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
         label_widget = QLabel(label)
         layout.addWidget(label_widget)
         item_widget.setLayout(layout)

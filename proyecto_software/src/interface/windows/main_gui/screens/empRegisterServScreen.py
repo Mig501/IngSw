@@ -19,7 +19,7 @@ class ServiceRegisterScreen(QWidget):
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.main_layout.addWidget(title)
 
-        # Formulario común
+        # Formulario común 
         form = QFormLayout()
         self.input_name = QLineEdit()
         self.input_description = QLineEdit()

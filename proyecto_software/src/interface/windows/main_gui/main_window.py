@@ -93,7 +93,7 @@ class MainWindow(QMainWindow):
 
         # Modify users data
         if self.user_vo:
-            self.add_sidebar_item("Modificar datos", EditProfileScreen(self.user_vo))
+            self.add_sidebar_item("Cuenta", EditProfileScreen(self.user_vo))
 
         self.sidebar_layout.addWidget(self.menu_list)
 
@@ -110,12 +110,6 @@ class MainWindow(QMainWindow):
         self.header_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.header.setLayout(self.header_layout)
 
-        # Imagen BSA
-        # self.bsa_logo = QLabel()
-        # pixmap = QPixmap("resources/images/BSA_name.png")
-        # self.bsa_logo.setPixmap(pixmap.scaledToWidth(80, Qt.TransformationMode.SmoothTransformation))
-        # self.bsa_logo.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
-        # self.header_layout.addWidget(self.bsa_logo)
         self.setCentralWidget(self.central_widget)  
 
         # Boton Minimizar

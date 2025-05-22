@@ -51,6 +51,14 @@ class EditProfileScreen(QWidget):
         save_btn.clicked.connect(self.save_changes)
         layout.addWidget(save_btn)
 
+        # Botón cerrar sesión
+        logout_btn = QPushButton("Cerrar sesión")
+        layout.addWidget(logout_btn)
+
+        # Botón desactivar cuenta
+        deactivate_btn = QPushButton("Desactivar cuenta")
+        layout.addWidget(deactivate_btn)
+
     def save_changes(self):
         new_username = self.username_input.text().strip()
         new_email = self.email_input.text().strip()

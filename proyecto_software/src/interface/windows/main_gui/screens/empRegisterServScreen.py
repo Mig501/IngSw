@@ -4,9 +4,10 @@ from model.BusinessObject import BusinessObject
 from PyQt6.QtCore import Qt
 
 class ServiceRegisterScreen(QWidget):
-    def __init__(self, employee_id):
+    def __init__(self, user_id):
         super().__init__()
-        self.employee_id = employee_id  # Guardar el ID del empleado
+        self.user_id = user_id
+        self.employee_id = BusinessObject().get_employee_id_from_user_id(user_id)
         self.setWindowTitle("Registrar servicio")
         self.setGeometry(100, 100, 500, 400)
  

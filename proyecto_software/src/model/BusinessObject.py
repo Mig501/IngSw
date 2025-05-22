@@ -74,8 +74,8 @@ class BusinessObject():
     def insert(self, user_vo) -> int:
         """Método que inserta un usuario en la base de datos."""
         try:
-            user_dao = UserDao() # Instanciamos el dao que conecta con la base de datos
-            rows = user_dao.insert(user_vo) # Llamamos a la función que inserta el usuario en la base de datos
+            admin_dao = UserDao() # Instanciamos el dao que conecta con la base de datos
+            rows = admin_dao.insert(user_vo) # Llamamos a la función que inserta el usuario en la base de datos
             
             return rows # Retornamos el número de filas afectadas por la inserción
 
@@ -84,48 +84,48 @@ class BusinessObject():
 
     def registrar_cliente(self, user_vo) -> bool:
         """Método que registra un cliente en la base de datos."""
-        user_dao = UserDao()
+        admin_dao = UserDao()
 
-        if not user_dao.insert(user_vo):
+        if not admin_dao.insert(user_vo):
             return False
         
-        user_id = user_dao.get_last_inserted_user_id() # Obtenemos el id del usuario que acabamos de insertar para que este se incremente
+        user_id = admin_dao.get_last_inserted_user_id() # Obtenemos el id del usuario que acabamos de insertar para que este se incremente
         
         return ClientDao().insert_client(user_id)
     
     def registrar_empleado(self, user_vo, employee_vo, admin_id=None) -> bool:
         """Método que registra un empleado en la base de datos."""
         user_vo.rol = "empleado"
-        user_dao = UserDao()
+        admin_dao = UserDao()
 
-        if not user_dao.insert(user_vo):
+        if not admin_dao.insert(user_vo):
             return False
         
-        user_id = user_dao.get_last_inserted_user_id()
+        user_id = admin_dao.get_last_inserted_user_id()
         
         return EmployeeDao().insert(user_id, employee_vo, admin_id)
     
     def registrar_admin(self, user_vo, admin_vo) -> bool:
         """Método que registra un administrador en la base de datos."""
         user_vo.rol = "admin"
-        user_dao = UserDao()
+        admin_dao = UserDao()
 
-        if not user_dao.insert(user_vo):
+        if not admin_dao.insert(user_vo):
             return False
         
-        user_id = user_dao.get_last_inserted_user_id()
+        user_id = admin_dao.get_last_inserted_user_id()
         
         return AdminDao().insert(user_id, admin_vo)
     
     def registrar_arch(self, user_vo, arch_vo) -> bool:
         """Método que registra un archivador en la base de datos."""
         user_vo.rol = "arch"
-        user_dao = UserDao()
+        admin_dao = UserDao()
 
-        if not user_dao.insert(user_vo):
+        if not admin_dao.insert(user_vo):
             return False
         
-        user_id = user_dao.get_last_inserted_user_id()
+        user_id = admin_dao.get_last_inserted_user_id()
         
         return ArchDao().insert(user_id, arch_vo)
     
@@ -228,8 +228,8 @@ class BusinessObject():
     def update_user_profile(self, user_id:int, username:str, email:str, phone:str) -> bool:
         """Método que actualiza el perfil del usuario."""
         try:
-            user_dao = UserDao()
-            return user_dao.update_user_profile(user_id, username, email, phone)
+            admin_dao = UserDao()
+            return admin_dao.update_user_profile(user_id, username, email, phone)
         
         except Exception as e:
             raise Exception(f"Error in BusinessObject.update_user_profile: {e}")
@@ -358,3 +358,46 @@ class BusinessObject():
 
         except Exception as e:
             raise Exception(f"Error in BusinessObject.delete_service: {e}")
+
+    def get_employees_by_admin_id(self, admin_id:int) -> list:
+        """Obtiene los empleados a partir de su ID de administrador."""
+
+        try:
+            employee_dao = EmployeeDao()
+
+            return employee_dao.get_employees_by_admin_id(admin_id)
+
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_employees_by_admin_id: {e}")
+    
+    def delete_employee(self, employee_id:int) -> bool:
+        try:
+            service_dao = ServiceDao()
+            employee_dao = EmployeeDao()
+
+            # Primero eliminamos los servicios asociados al empleado, en caso de que existan
+            service_dao.delete_service_by_employee_id(employee_id)
+
+            return employee_dao.delete_by_employee_id(employee_id)
+        
+            
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.delete_employee: {e}")
+        
+    def get_admin_id_by_user_id(self, user_id:int) -> int:
+        try:
+            admin_dao = AdminDao()
+            return admin_dao.get_admin_id(user_id)
+
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_admin_id_by_user_id: {e}")
+        
+
+    def get_employee_id_from_user_id(self, user_id:int) -> int:
+        """Devuelve el ID del empleado dado su ID de usuario"""
+        try:
+            employee_dao = EmployeeDao()
+            return employee_dao.get_employee_id_from_user_id(user_id)
+
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_employee_id_from_user_id: {e}")

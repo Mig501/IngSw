@@ -10,10 +10,10 @@ class ServiceDao(Conexion):
     
     sql_insert = """INSERT INTO services (EmployeeID, price, ser_name, ser_description) 
                     VALUES (?, ?, ?, ?)"""
-    sql_delete = "DELETE FROM services WHERE ServiceID = ?"
     sql_select_all = "SELECT * FROM services"
     sql_select_by_id = "SELECT * FROM services WHERE EmployeeID = ?"
     sql_delete_by_id = "DELETE FROM services WHERE ServiceID = ?"
+    sql_delete_by_employee_id = "DELETE FROM services WHERE EmployeeID = ?"
     
     def insert_service(self, service_vo: ServiceVO) -> bool:
         """Inserta un nuevo servicio en la base de datos."""
@@ -26,18 +26,6 @@ class ServiceDao(Conexion):
         
         except Exception as e:
             raise Exception(f"Error insertando servicio: {e}")
-        
-        finally:
-            cursor.close()
-            self.closeConnection()
-
-    def delete(self, service_id: int) -> bool:
-        """Elimina un servicio de la base de datos dado su ID."""
-        cursor = self.getCursor()
-        
-        try:
-            cursor.execute(self.sql_delete, [service_id])
-            return cursor.rowcount > 0
         
         finally:
             cursor.close()
@@ -131,7 +119,19 @@ class ServiceDao(Conexion):
         cursor = self.getCursor()
         
         try:
-            cursor.execute(self.sql_delete, [service_id])
+            cursor.execute(self.sql_delete_by_id, [service_id])
+            return cursor.rowcount > 0
+        
+        finally:
+            cursor.close()
+            self.closeConnection()
+
+    def delete_service_by_employee_id(self, employee_id:int) -> bool:
+        """Elimina todos los servicios asociados a un empleado dado su ID."""
+        cursor = self.getCursor()
+        
+        try:
+            cursor.execute(self.sql_delete_by_employee_id, [employee_id])
             return cursor.rowcount > 0
         
         finally:

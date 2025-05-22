@@ -9,9 +9,10 @@ from model.vo.EmployeeVO import EmployeeVO
 from model.loggerSingleton import LoggerSingleton
 
 class AdminRegisterEmployeeScreen(QWidget):
-    def __init__(self, admin_id):
+    def __init__(self, user_id):
         super().__init__()
-        self.admin_id = admin_id
+        self.user_id = user_id
+        self.admin_id = BusinessObject().get_admin_id_by_user_id(user_id)
         self.setWindowTitle("Registro de empleados")
 
         self.layout = QVBoxLayout()

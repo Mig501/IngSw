@@ -2,7 +2,7 @@
 
 ## Cambios a solucionar
 
-- Corregir la colocación de todas las llamadas a funciones que se encarguen de cambiar entre vistas de la interfaz.
+- Corregir la colocación de todas las llamadas a funciones que se encarguen de cambiar entre vistas de la interfaz (me quiero morir). Lo estoy poniendo todo en el controlador y ya lo que sea lógica de negocio se mueve a la parte de modelo posteriormente.
 
 ## Cambios propuestos
 

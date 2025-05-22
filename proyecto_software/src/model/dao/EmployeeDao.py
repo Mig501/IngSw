@@ -9,7 +9,7 @@ class EmployeeDao(Conexion):
     sql_insert_without_admin = """INSERT INTO employees (UsrEmpID, employee_passport, ss_number, dwell_time, age, specialization, first_name, second_name, WS_zip_code) 
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
     sql_consult_workshop = "SELECT WS_zip_code FROM workshop LIMIT 1"
-
+    sql_employee_id = "SELECT EmployeeID FROM employees WHERE UsrEmpID = ?"
 
     def insert(self, user_id: int, vo: EmployeeVO, admin_id:int=None) -> bool:
         """Inserta un nuevo empleado en la base de datos."""
@@ -52,8 +52,14 @@ class EmployeeDao(Conexion):
             self.closeConnection()
     
     def get_employee_id_from_user_id(self, user_id: int) -> int:
+        """Devuelve el ID del admin dado su ID de usuario"""
         cursor = self.getCursor()
-        cursor.execute("SELECT EmployeeID FROM employees WHERE UsrEmpID = ?", (user_id,))
-        row = cursor.fetchone()
-        cursor.close()
-        return row[0] if row else None
+
+        try:
+            cursor.execute(self.sql_employee_id, [user_id])
+            result = cursor.fetchone()
+            return result[0] if result else None
+
+        finally:
+            cursor.close()
+            self.closeConnection()

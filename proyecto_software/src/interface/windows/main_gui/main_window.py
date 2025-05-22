@@ -22,10 +22,6 @@ from interface.windows.main_gui.screens.empRegisterServScreen import ServiceRegi
 from interface.windows.main_gui.screens.logViewerScreen import LogViewerScreen
 from interface.windows.main_gui.screens.adminReportScreen import AdminReportScreen
 from interface.windows.main_gui.screens.empMyServicesScreen import MyServicesScreen
-<<<<<<< HEAD
-=======
-from model.dao.AdminDao import AdminDao
->>>>>>> 7ef000121dd7a6e1149c09df020b5ce1a5d8c3c2
 from interface.windows.main_gui.screens.adminMyEmployeesScreen import MyEmployeesScreen
 
 class MainWindow(QMainWindow):

@@ -79,14 +79,7 @@ class EmployeeDao(Conexion):
         finally:
             cursor.close()
             self.closeConnection()
-<<<<<<< HEAD
-=======
-        cursor.execute("SELECT EmployeeID FROM employees WHERE UsrEmpID = ?", (user_id,))
-        row = cursor.fetchone()
-        cursor.close()
-        return row[0] if row else None
->>>>>>> 7ef000121dd7a6e1149c09df020b5ce1a5d8c3c2
-
+            
     def get_employees_by_admin_id(self, admin_id:int) -> list:
         """Obtiene los empleados de la base de datos por su ID de administrador."""
         cursor = self.getCursor()

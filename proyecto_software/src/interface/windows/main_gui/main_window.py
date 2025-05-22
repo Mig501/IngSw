@@ -152,20 +152,8 @@ class MainWindow(QMainWindow):
         self.main_layout.addWidget(self.sidebar)
         self.main_layout.addWidget(self.right_section)
 
-        # Botón menú
-        self.menu_button = QPushButton("Menú")
-        self.menu_button.setIcon(QIcon("resources/icons/menu.svg"))
-        self.menu_button.setFixedWidth(100)
-        self.menu_button.setFixedHeight(30)
-        self.menu_button.setObjectName("MenuButton")
-        self.menu_button.clicked.connect(self.toggle_sidebar)
-
-        self.menu_button.setParent(self.centralWidget())
-        self.menu_button.move(30, 20)
-        self.menu_button.raise_()
-
         self.menu_list.currentRowChanged.connect(self.display_page)
-        self.sidebar.setVisible(False)
+        self.sidebar.setVisible(True)
 
     def add_sidebar_item(self, label, screen):
         item_widget = QWidget()
@@ -182,14 +170,6 @@ class MainWindow(QMainWindow):
         self.menu_list.addItem(item)
         self.menu_list.setItemWidget(item, item_widget)
         self.screens.append(screen)
-
-    def toggle_sidebar(self):
-        '''Se encarga de cambiar el icono del boton de menu cuando este se pulse'''
-        is_visible = not self.sidebar.isVisible()
-        self.sidebar.setVisible(is_visible)
-        icon = QIcon("resources/icons/chevron_left.svg") if is_visible else QIcon("resources/icons/menu.svg")
-        self.menu_button.setIcon(icon)
-        self.menu_button.setText("Menú")
 
     def toggle_max_restore(self):
         '''Modifica el icono del boton de maximizar cuando este se pulse'''

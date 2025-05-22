@@ -23,7 +23,11 @@ from model.dao.EmployeeDao import EmployeeDao
 from interface.windows.main_gui.screens.logViewerScreen import LogViewerScreen
 from interface.windows.main_gui.screens.adminReportScreen import AdminReportScreen
 from interface.windows.main_gui.screens.empMyServicesScreen import MyServicesScreen
+<<<<<<< HEAD
 from model.dao.AdminDao import AdminDao
+=======
+from interface.windows.main_gui.screens.adminMyEmployeesScreen import MyEmployeesScreen
+>>>>>>> paboct
 
 class MainWindow(QMainWindow):
     def __init__(self, user_rol=None, client_id=None, user_vo=None):
@@ -76,6 +80,7 @@ class MainWindow(QMainWindow):
             self.add_sidebar_item("Registrar empleados", AdminRegisterEmployeeScreen(admin_id))
             self.add_sidebar_item("Gestionar taller", AdminManageWorkshop())
             self.add_sidebar_item("Redactor de informes", AdminReportScreen())
+            self.add_sidebar_item("Empleados", MyEmployeesScreen(self.client_id))
 
         if self.user_rol == "cliente":
             self.add_sidebar_item("Registrar producto", ProductRegisterScreen(self.client_id))

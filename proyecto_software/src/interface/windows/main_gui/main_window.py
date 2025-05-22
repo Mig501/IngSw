@@ -161,7 +161,7 @@ class MainWindow(QMainWindow):
         pixmap = QPixmap("resources/images/BSA_name.png")
         self.bsa_logo.setPixmap(pixmap.scaledToWidth(80, Qt.TransformationMode.SmoothTransformation))
         self.bsa_logo.setFixedSize(80, 30)
-        self.bsa_logo.move(20, 20)  # Coordenadas X, Y sobre MainContainer
+        self.bsa_logo.move((140 - self.bsa_logo.width()) // 2 + 20, 20)  # Coordenadas X, Y sobre MainContainer
         self.bsa_logo.raise_()
 
         self.menu_list.currentRowChanged.connect(self.display_page)

@@ -5,6 +5,7 @@ class AdminDao(Conexion):
     
     sql_insert = "INSERT INTO admins (UsrAdminID, ArchID, passport, ss_number, dwell_time, age, first_name, second_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
     sql_delete = "DELETE FROM admins WHERE UsrAdminID = ?"
+    sql_select_by_user_id = "SELECT AdminID FROM admins WHERE UsrAdminID = ?"
 
     def reset_autoincrement_if_empty(self):
         """Esta función es solo para hacer pruebas nosotros"""
@@ -48,6 +49,23 @@ class AdminDao(Conexion):
             cursor.execute(self.sql_delete, [user_id])
             return cursor.rowcount > 0
 
+        finally:
+            cursor.close()
+            self.closeConnection()
+
+    def get_admin_id(self, user_id:int) -> int:
+        """Obtiene el ID de un admin dado su ID de usuario"""
+        cursor = self.getCursor()
+
+        try:
+            cursor.execute(self.sql_select_by_user_id, [user_id])
+            admin_id = cursor.fetchone()
+            
+            if admin_id is None:
+                raise Exception("No se encontró el ID de admin asociado al usuario.")
+            
+            return admin_id[0]
+        
         finally:
             cursor.close()
             self.closeConnection()

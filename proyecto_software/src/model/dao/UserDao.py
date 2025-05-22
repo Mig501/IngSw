@@ -180,7 +180,7 @@ class UserDao(Conexion):
             
             return row[0] if row else "cliente"
         
-        finally:
+        finally: 
             cursor.close()
             self.closeConnection()
 

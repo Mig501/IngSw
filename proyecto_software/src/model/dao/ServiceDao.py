@@ -22,7 +22,7 @@ class ServiceDao(Conexion):
         try: 
             cursor.execute(self.sql_insert, [service_vo.employeeid, service_vo.price, service_vo.name, service_vo.description])
             
-            return cursor.rowcount > 0
+            return cursor.rowcount > 0 
         
         except Exception as e:
             raise Exception(f"Error insertando servicio: {e}")
@@ -134,6 +134,45 @@ class ServiceDao(Conexion):
             cursor.execute(self.sql_delete, [service_id])
             return cursor.rowcount > 0
         
+        finally:
+            cursor.close()
+            self.closeConnection()
+    
+    def hire_service(self, service_id:int, client_id:int) -> bool:
+        """Contrata un servicio dado su ID y el ID del cliente."""
+        cursor = self.getCursor()
+        
+        try:
+            #obtener el precio y el properietario del servicio
+            cursor.execute("SELECT price, EmployeeID FROM services WHERE ServiceID = ?", [service_id])
+            service = cursor.fetchone()
+            if service is None:
+                raise Exception("No se encontró el servicio.")
+            
+            price, employee_id = service
+
+            #Obtener el saldo del cliente
+            cursor.execute("SELECT balance FROM clients WHERE ClientID = ?", [client_id])
+            client = cursor.fetchone()
+            if client is None:
+                raise Exception("No se encontró el cliente.")
+            
+            balance = client[0]
+            if balance < price:
+                raise Exception("El saldo del cliente es insuficiente para contratar el servicio.")
+            
+            #Actualizar el saldo del cliente
+            new_balance = balance - price
+            cursor.execute("UPDATE clients SET balance = ? WHERE ClientID = ?", [new_balance, client_id])
+
+        
+            #Actualizar el servicio 'estado' como contratado
+            cursor.execute("UPDATE services SET estado = 'contratado' WHERE ServiceID = ?", [service_id])
+            return cursor.rowcount > 0
+
+        except Exception as e:
+            print(f"Error contratando servicio: {e}")
+            return False
         finally:
             cursor.close()
             self.closeConnection()

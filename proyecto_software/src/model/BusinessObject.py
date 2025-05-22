@@ -181,6 +181,24 @@ class BusinessObject():
         
         except Exception as e:
             raise Exception(f"Error in BusinessObject.get_client_id: {e}")
+    
+    def get_employee_id(self, user_id: int) -> int:
+        """Método que obtiene el ID del empleado a partir del ID del usuario."""
+        try:
+            employee_dao = EmployeeDao()
+            return employee_dao.get_employee_id_from_user_id(user_id)
+        
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_employee_id: {e}")
+    
+    def get_service_owner_id(self, service_id: int) -> int:
+        """Método que obtiene el ID del propietario de un servicio."""
+        try:
+            service_dao = ServiceDao()
+            return service_dao.get_employee_by_service_id(service_id)
+        
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_service_owner_id: {e}")
         
     
     def get_filtered_cars(self, price_range=None, kilometers_range=None, fuel_type=None,
@@ -243,6 +261,15 @@ class BusinessObject():
         
         except Exception as e:
             raise Exception(f"Error in BusinessObject.buy_product: {e}")
+    
+    def hire_service(self, client_id:int, service_id:int) -> bool:
+        """Registra la compra de un servicio por parte de un cliente."""
+        try:
+            service_dao = ServiceDao()
+            return service_dao.hire_service(client_id, service_id)
+        
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.hire_service: {e}")
         
     def get_owner_id(self, product_id: int) -> int:
         """Obtiene el ID del propietario de un producto."""

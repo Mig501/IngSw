@@ -23,11 +23,8 @@ from model.dao.EmployeeDao import EmployeeDao
 from interface.windows.main_gui.screens.logViewerScreen import LogViewerScreen
 from interface.windows.main_gui.screens.adminReportScreen import AdminReportScreen
 from interface.windows.main_gui.screens.empMyServicesScreen import MyServicesScreen
-<<<<<<< HEAD
 from model.dao.AdminDao import AdminDao
-=======
 from interface.windows.main_gui.screens.adminMyEmployeesScreen import MyEmployeesScreen
->>>>>>> paboct
 
 class MainWindow(QMainWindow):
     def __init__(self, user_rol=None, client_id=None, user_vo=None):

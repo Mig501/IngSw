@@ -9,13 +9,10 @@ class EmployeeDao(Conexion):
     sql_insert_without_admin = """INSERT INTO employees (UsrEmpID, employee_passport, ss_number, dwell_time, age, specialization, first_name, second_name, WS_zip_code) 
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
     sql_consult_workshop = "SELECT WS_zip_code FROM workshop LIMIT 1"
-<<<<<<< HEAD
     sql_employee_id = "SELECT EmployeeID FROM employees WHERE UsrEmpID = ?"
-=======
     sql_select_user_id = "SELECT UsrEmpID FROM employees WHERE EmployeeID = ?"
     sql_delete_user = "DELETE FROM users WHERE UserID = ?"
     sql_select_by_admin_Id = "SELECT * FROM employees WHERE AdminID = ?"
->>>>>>> paboct
 
     def insert(self, user_id: int, vo: EmployeeVO, admin_id:int=None) -> bool:
         """Inserta un nuevo empleado en la base de datos."""
@@ -73,7 +70,6 @@ class EmployeeDao(Conexion):
     def get_employee_id_from_user_id(self, user_id: int) -> int:
         """Devuelve el ID del admin dado su ID de usuario"""
         cursor = self.getCursor()
-<<<<<<< HEAD
 
         try:
             cursor.execute(self.sql_employee_id, [user_id])
@@ -83,7 +79,6 @@ class EmployeeDao(Conexion):
         finally:
             cursor.close()
             self.closeConnection()
-=======
         cursor.execute("SELECT EmployeeID FROM employees WHERE UsrEmpID = ?", (user_id,))
         row = cursor.fetchone()
         cursor.close()
@@ -106,4 +101,3 @@ class EmployeeDao(Conexion):
         finally:
             cursor.close()
             self.closeConnection()        
->>>>>>> paboct

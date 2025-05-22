@@ -4,6 +4,8 @@ from model.vo.LoginUserVO import LoginUserVO
 from interface.windows.main_gui.main_window import MainWindow
 from model.loggerSingleton import LoggerSingleton
 from interface.windows.login.login_window import LoginWindow
+from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
+from model.vo.WorkshopVO import WorkshopVO
 
 class InterfaceController:
     def __init__(self, modelo, app):
@@ -13,6 +15,8 @@ class InterfaceController:
         self.logger = LoggerSingleton()
         self.login_window = LoginWindow()
         self.login_window.login_screen.login_clicked.connect(self.iniciar_login)
+        self.admin_manage_workshop = AdminManageWorkshop()
+        self.admin_manage_workshop.save_workshop_signal.connect(self.guardar_taller)
 
     def load_css(self):
         with open('src/interface/style.css', 'r') as f:
@@ -49,3 +53,25 @@ class InterfaceController:
         self.main_window = MainWindow(user_rol=rol, client_id=user.user_id, user_vo=user)
         self.main_window.show()
         self.login_window.close()
+
+    def guardar_taller(self, data):
+        try:
+            workshop_vo = WorkshopVO(
+                data["ws_zip_code"],
+                float(data["size_of"]),
+                data["phone_number"],
+                data["inv_parking_slot"],
+                int(data["inv_num_pieces"]),
+                data["add_street"],
+                int(data["add_number"]),
+                data["add_city"]
+            )
+
+            if self.modelo.register_workshop(workshop_vo):
+                self.admin_manage_workshop.show_message("Éxito", "Taller registrado correctamente.")
+                self.admin_manage_workshop.clear_form()
+            else:
+                self.admin_manage_workshop.show_message("Error", "No se pudo registrar el taller.", is_error=True)
+
+        except Exception as e:
+            self.admin_manage_workshop.show_message("Error", str(e), is_error=True)

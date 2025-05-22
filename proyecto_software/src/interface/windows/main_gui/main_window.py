@@ -27,7 +27,7 @@ from interface.windows.main_gui.screens.adminMyEmployeesScreen import MyEmployee
 class MainWindow(QMainWindow):
     def __init__(self, user_rol=None, client_id=None, user_vo=None):
         super().__init__()
-        
+    
         self.setWindowTitle("BSA App")
         self.setFixedSize(900, 600)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
@@ -76,18 +76,19 @@ class MainWindow(QMainWindow):
             self.add_sidebar_item("Redactor de informes", AdminReportScreen())
             self.add_sidebar_item("Empleados", MyEmployeesScreen(self.client_id))
 
+        # Client only: Registrar producto
         if self.user_rol == "cliente":
             self.add_sidebar_item("Registrar producto", ProductRegisterScreen(self.client_id))
             self.add_sidebar_item("Mis productos", MyProductsScreen(self.client_id))
             self.add_sidebar_item("Vehículos", VehicleScreen(self.user_vo))
             self.add_sidebar_item("Otros productos", OtherScreen(self.user_vo))
 
-        #employee only: Registrar servicio
+        # Employee only: Registrar servicio
         if self.user_rol == "empleado":
             self.add_sidebar_item("Registrar servicio", ServiceRegisterScreen(client_id))
             self.add_sidebar_item("Mis servicios", MyServicesScreen(client_id))
 
-        # Modify users data
+        # Cuenta
         if self.user_vo:
             self.add_sidebar_item("Cuenta", EditProfileScreen(self.user_vo))
 

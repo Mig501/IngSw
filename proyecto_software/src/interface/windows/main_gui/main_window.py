@@ -107,22 +107,26 @@ class MainWindow(QMainWindow):
         self.header.setLayout(self.header_layout)
 
         # Imagen BSA
-        self.bsa_logo = QLabel()
-        pixmap = QPixmap("resources/images/BSA_name.png")
-        self.bsa_logo.setPixmap(pixmap.scaledToWidth(80, Qt.TransformationMode.SmoothTransformation))
-        self.bsa_logo.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
-        self.header_layout.addWidget(self.bsa_logo)
+        # self.bsa_logo = QLabel()
+        # pixmap = QPixmap("resources/images/BSA_name.png")
+        # self.bsa_logo.setPixmap(pixmap.scaledToWidth(80, Qt.TransformationMode.SmoothTransformation))
+        # self.bsa_logo.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+        # self.header_layout.addWidget(self.bsa_logo)
+        self.setCentralWidget(self.central_widget)  
 
+        # Boton Minimizar
         self.btn_minimize = QPushButton()
         self.btn_minimize.setIcon(QIcon("resources/icons/minus.svg"))
         self.btn_minimize.setFixedSize(30, 30)
         self.btn_minimize.clicked.connect(self.showMinimized)
 
+        # Boton Maximizar/Restaurar
         self.btn_maximize = QPushButton()
         self.btn_maximize.setIcon(QIcon("resources/icons/chevron_up.svg"))
         self.btn_maximize.setFixedSize(30, 30)
         self.btn_maximize.clicked.connect(self.toggle_max_restore)
 
+        # Boton Cerrar
         self.btn_close = QPushButton()
         self.btn_close.setObjectName('CloseButton')
         self.btn_close.setIcon(QIcon("resources/icons/x.svg"))
@@ -151,6 +155,14 @@ class MainWindow(QMainWindow):
 
         self.main_layout.addWidget(self.sidebar)
         self.main_layout.addWidget(self.right_section)
+
+        # Imagen BSA
+        self.bsa_logo = QLabel(self.central_widget)
+        pixmap = QPixmap("resources/images/BSA_name.png")
+        self.bsa_logo.setPixmap(pixmap.scaledToWidth(80, Qt.TransformationMode.SmoothTransformation))
+        self.bsa_logo.setFixedSize(80, 30)
+        self.bsa_logo.move(20, 20)  # Coordenadas X, Y sobre MainContainer
+        self.bsa_logo.raise_()
 
         self.menu_list.currentRowChanged.connect(self.display_page)
         self.sidebar.setVisible(True)

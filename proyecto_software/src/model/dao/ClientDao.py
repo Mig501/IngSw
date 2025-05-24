@@ -106,6 +106,39 @@ class ClientDao(Conexion):
             cursor.close()
             self.closeConnection()
 
+    def get_num_boughts(self, client_id:int ) -> int:
+        """Obtiene el número de compras de un cliente dado su ClientID."""
+        cursor = self.getCursor()
+        
+        try:
+            cursor.execute("SELECT num_compras FROM clients WHERE ClientID = ?", (client_id,))
+            row = cursor.fetchone()
+        
+            return int(row[0]) if row else 0
+        
+        except Exception as e:
+            raise Exception(f"Error obteniendo el número de compras del cliente: {e}")
+
+        finally:
+            cursor.close()
+            self.closeConnection()
+
+    def get_num_sales(self, client_id: int) -> int:
+        """Obtiene el número de ventas de un cliente dado su ClientID."""
+        cursor = self.getCursor()
+        
+        try:
+            cursor.execute("SELECT num_ventas FROM clients WHERE ClientID = ?", (client_id,))
+            row = cursor.fetchone()
+        
+            return int(row[0]) if row else 0
+        
+        except Exception as e:
+            raise Exception(f"Error obteniendo el número de ventas del cliente: {e}")
+
+        finally:
+            cursor.close()
+            self.closeConnection()
 
     def update_saldo(self, client_id: int, nuevo_saldo: float) -> bool:
         """Actualiza el saldo de un cliente dado su ClientID."""

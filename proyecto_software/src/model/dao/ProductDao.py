@@ -9,32 +9,23 @@ class ProductDao(Conexion):
 
     sql_insert_user_product = """
         INSERT INTO user_products (ProductID, ClientID, price, brand, model, year_manufacture, plocation, ptype, pdescription)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
     sql_insert_workshop_product = """
         INSERT INTO workshop_products (ProductID, WS_zip_code)
-        VALUES (?, ?)
-    """
-
+        VALUES (?, ?)"""
     sql_insert_automobile = """
         INSERT INTO automovil (ProductID, kilometers, engine, consume, autonomy, enviormental_label)
-        VALUES (?, ?, ?, ?, ?, ?)
-    """
-
+        VALUES (?, ?, ?, ?, ?, ?)"""
     sql_insert_other_product = """
         INSERT INTO other (ProductID, size_of, usedFor)
-        VALUES (?, ?, ?)
-    """
+        VALUES (?, ?, ?)"""
     sql_insert_image = """
         INSERT INTO pimage (ProductID, pimage)
-        VALUES (?, ?)
-    """
+        VALUES (?, ?)"""
     sql_get_product_by_client_id = """
         SELECT * FROM user_products
         WHERE ClientID = ?
-        AND vendido = FALSE
-    """
-
+        AND vendido = FALSE"""
     sql_delete_automobile = """DELETE FROM automovil WHERE ProductID = ?"""
     sql_delete_other_product = """DELETE FROM other WHERE ProductID = ?"""
     sql_delete_image = """DELETE FROM pimage WHERE ProductID = ?"""
@@ -43,7 +34,7 @@ class ProductDao(Conexion):
     sql_buy_product = """INSERT INTO product_purchase (ClientID, ProductID, Purchase_date, Purchase_time)
                         VALUES (?, ?, ?, ?)"""
 
-    def insert_product(self, product_vo: ProductVO) -> bool:
+    def insert_product(self, product_vo: ProductVO, ws_zip_code:str) -> bool:
         """Inserta un producto en la base de datos."""
         cursor = self.getCursor()
         try:
@@ -68,7 +59,7 @@ class ProductDao(Conexion):
             # Insertar en la tabla de productos del taller
             cursor.execute(self.sql_insert_workshop_product, (
                 product_id,
-                WorkshopDao().get_zip_code()  # Obtener el código postal del taller
+                ws_zip_code
             ))
 
             # Insertar en la tabla específica según el tipo de producto
@@ -100,6 +91,7 @@ class ProductDao(Conexion):
             return True  # Si todo fue exitoso, devolvemos True
 
         except Exception as e:
+            cursor.rollback()
             print(f"Error insertando producto: {e}")
             return False  # Si hubo un error, devolvemos False
         
@@ -109,7 +101,8 @@ class ProductDao(Conexion):
 
     def get_filtered_cars(self, price_range=None, kilometers_range=None, fuel_type=None,
                           consume_range=None, autonomy_range=None, environmental_label=None,
-                          brand=None, model=None, search_text=None):
+                          brand=None, model=None, search_text=None) -> list:
+        """Obtiene una lista de automóviles filtrados según los criterios proporcionados."""
         
         cursor = self.getCursor()
         query = """
@@ -121,6 +114,7 @@ class ProductDao(Conexion):
         """
         params = []
 
+        # Construimos la consulta según los filtros proporcionados
         if price_range:
             query += " AND up.price BETWEEN ? AND ?"
             params.extend(price_range)
@@ -165,7 +159,9 @@ class ProductDao(Conexion):
         results = [dict(zip(columns, row)) for row in cursor.fetchall()]
         return results
 
-    def get_filtered_others(self, price_range=None, size_range=None, brand=None, model=None):
+    def get_filtered_others(self, price_range=None, size_range=None, brand=None, model=None) -> list:
+        """Obtiene una lista de otros productos filtrados según los criterios proporcionados."""
+
         cursor = self.getCursor()
         query = """
             SELECT up.*, pi.pimage, o.*
@@ -176,6 +172,7 @@ class ProductDao(Conexion):
         """
         params = []
 
+        # Construimos la consulta según los filtros proporcionados
         if price_range:
             query += " AND up.price BETWEEN ? AND ?"
             params.extend(price_range)
@@ -199,25 +196,25 @@ class ProductDao(Conexion):
         results = [dict(zip(columns, row)) for row in cursor.fetchall()]
         return results
 
-    def get_client_products(self, client_id):
+    def get_client_products(self, client_id:int) -> list:
         """Obtiene los productos de un cliente específico"""
-
         cursor = self.getCursor()
+        
         try:
             cursor.execute(self.sql_get_product_by_client_id, (client_id,))
             columns = [col[0] for col in cursor.description]
             results = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            
             return results
         
         except Exception as e:
-            print(f"Error obteniendo productos del cliente: {e}")
-            return []
-
+            cursor.rollback()
+            raise Exception(f"Error obteniendo productos del cliente: {e}")
+        
     def delete_product(self, product_id) -> bool:
         """Elimina un producto de la base de datos."""
         cursor = self.getCursor()
         try:
-            print(f"Eliminando producto con ID: {product_id}")
             # Comprobamos el tipo de producto
             cursor.execute("SELECT ptype FROM user_products WHERE ProductID = ?", (product_id,))
             p_type = cursor.fetchone()
@@ -229,114 +226,75 @@ class ProductDao(Conexion):
             p_type = p_type[0]
 
             # Borramos las tablas dependientes
-            print(f"Eliminando imagen del producto con ID: {product_id}")
             cursor.execute(self.sql_delete_image, (product_id,))
-            print(f"Eliminando producto del taller con ID: {product_id}")
             cursor.execute(self.sql_delete_workshop_product, (product_id,))
             
             # Borramos la tabla de producto en función del tipo
             if p_type == "automóviles":
-                print("Eliminando producto de tipo automóvil")
                 cursor.execute(self.sql_delete_automobile, (product_id,))
             
             else:
                 cursor.execute(self.sql_delete_other_product, (product_id,))
 
             # Borramos el producto del usuario
-            print(f"Eliminando producto del usuario con ID: {product_id}")
             cursor.execute(self.sql_delete_user_product, (product_id,))
             
             return cursor.rowcount > 0
 
         except Exception as e:
-            print(f"Error eliminando producto: {e}")
-            return False
+            cursor.rollback()
+            raise Exception(f"Error eliminando producto: {e}")
         
         finally:
             cursor.close()
             self.closeConnection()
 
-    def buy_product(self, buyer_id:int, product_id:int) -> bool:
+    def buy_product(self, buyer_id:int, product_id:int, date:str, time:str) -> bool:
         """Registra la compra de un producto por parte de un cliente."""
-
         cursor = self.getCursor()
-
         try:
-            # Obtener el precio y propietario del producto
-            cursor.execute("SELECT price, ClientID FROM user_products WHERE ProductID = ?", (product_id,))
-            result = cursor.fetchone()
-            
-            if not result:
-                raise Exception("Producto no encontrado.")
-        
-            price, seller_id = float(result[0]), int(result[1])
+            # Insertamos la compra en la tabla product_purchase
+            cursor.execute(self.sql_buy_product, (buyer_id, product_id, date, time))
 
-            # Obtenemos el saldo del cliente
-            cursor.execute("SELECT saldo, num_compras FROM clients WHERE ClientID = ?", (buyer_id,))
-            row = cursor.fetchone()
-            if not row:
-                raise Exception("Cliente comprador no encontrado.")
-            
-            saldo_comprador, compras_actuales = float(row[0]), int(row[1])
-
-
-            # Verificamos si el comprador tiene suficiente saldo
-            if saldo_comprador <= price:
-                raise Exception("Saldo insuficiente para realizar la compra.")
-            
-            # Obtenemos el saldo y ventas del vendedor
-            cursor.execute("SELECT saldo, num_ventas FROM clients WHERE ClientID = ?", (seller_id,))
-            row = cursor.fetchone()
-            if not row:
-                raise Exception("Cliente vendedor no encontrado.")
-            
-            saldo_vendedor, ventas_actuales = float(row[0]), int(row[1])
-
-            # Actualizamos el saldo del comprador
-            nuevo_saldo_comprador = saldo_comprador - price
-            nuevo_compras = compras_actuales + 1
-
-            nuevo_saldo_vendedor = saldo_vendedor + price
-            nuevo_ventas = ventas_actuales + 1
-
-            cursor.execute(
-                "UPDATE clients SET saldo = ?, num_compras = ? WHERE ClientID = ?",
-                (nuevo_saldo_comprador, nuevo_compras, buyer_id)
-            )
-
-            cursor.execute(
-                "UPDATE clients SET saldo = ?, num_ventas = ? WHERE ClientID = ?",
-                (nuevo_saldo_vendedor, nuevo_ventas, seller_id)
-            )
-
-            # Registramos la compra en la tabla product_purchase
-            date = datetime.now().date().strftime("%Y-%m-%d")
-            time_ = datetime.now().time().strftime("%H:%M:%S")
-
-            cursor.execute(self.sql_buy_product, (buyer_id, product_id, date, time_))
-
-            # Marcamos el producto como vendido
+            # Actualizamos el estado del producto a vendido
             cursor.execute("UPDATE user_products SET vendido = TRUE WHERE ProductID = ?", (product_id,))
-            return cursor.rowcount > 0
 
-        except Exception as e:
-            print(f"Error registrando compra: {e}")
-            return False
+            return cursor.rowcount > 0  # Retorna True si se actualizó al menos una fila
         
-        finally:
-            cursor.close()
-            self.closeConnection()
+        except Exception as e:
+            cursor.rollback()
+            raise Exception(f"Error registrando compra: {e}")
 
     def get_owner_id(self, product_id: int) -> int:
         """Obtiene el ClientID propietario del producto (ProductID)."""
         cursor = self.getCursor()
+        
         try:
             cursor.execute("SELECT ClientID FROM user_products WHERE ProductID = ?", (product_id,))
             row = cursor.fetchone()
             return row[0] if row else None
+        
         except Exception as e:
-            print(f"Error obteniendo el ID del propietario del producto {product_id}: {e}")
-            return None
+            cursor.rollback()
+            raise Exception(f"Error obteniendo el propietario del producto: {e}")
+        
+        finally:
+            cursor.close()
+            self.closeConnection()
+
+    def get_product_price(self, product_id: int) -> float:
+        """Obtiene el precio de un producto dado su ProductID."""
+        cursor = self.getCursor()
+        
+        try:
+            cursor.execute("SELECT price FROM user_products WHERE ProductID = ?", (product_id,))
+            row = cursor.fetchone()
+            return row[0] if row else None
+
+        except Exception as e:
+            cursor.rollback()
+            raise Exception(f"Error obteniendo el precio del producto: {e}")
+        
         finally:
             cursor.close()
             self.closeConnection()

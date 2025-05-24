@@ -20,6 +20,7 @@ from model.vo.EmployeeVO import EmployeeVO
 from model.vo.ClientVO import ClientVO
 from model.vo.AdminVO import AdminVO
 from model.vo.ArchVO import ArchVO
+from datetime import datetime
 
 class BusinessObject():
     """Objeto que implementa la lógica de negocio"""
@@ -148,8 +149,9 @@ class BusinessObject():
         """Método que registra un producto en la base de datos."""
         try:
             product_dao = ProductDao()
+            ws_zip_code = WorkshopDao().get_zip_code()  # Obtenemos el código postal del taller
 
-            if product_dao.insert_product(product_vo):
+            if product_dao.insert_product(product_vo, ws_zip_code):
                 return True
             
             else:
@@ -254,14 +256,60 @@ class BusinessObject():
             raise Exception(f"Error in BusinessObject.delete_product: {e}")
         
     def buy_product(self, product_id:int, client_id:int) -> bool:
-        """Registra la compra de un producto por parte de un cliente."""
+    #    """Registra la compra de un producto por parte de un cliente."""
+    #    try:
+    #        product_dao = ProductDao()
+    #        return product_dao.buy_product(client_id, product_id)
+    #    
+    #    except Exception as e:
+    #        raise Exception(f"Error in BusinessObject.buy_product: {e}")
+    
         try:
             product_dao = ProductDao()
-            return product_dao.buy_product(client_id, product_id)
+            client_dao = ClientDao()
+
+            # Obtenemos el precio y vendedor
+            owner_id = product_dao.get_owner_id(product_id)
+
+            if owner_id is None:
+                raise Exception("Product not found or does not have an owner.")
+            
+            if owner_id == client_id:
+                raise Exception("Cannot buy your own product.")
+            
+            price = product_dao.get_product_price(product_id)
+
+            # Otenemos el saldo y stats del comprador
+            buyer_balance = client_dao.get_saldo(client_id)
+            buyer_num_boughts = client_dao.get_num_boughts(client_id)
+
+             # Comprobamos si el comprador tiene suficiente saldo
+            if buyer_balance < price:
+                raise Exception("Insufficient balance to buy the product.")
+
+            # Obtenemos saldo y stats del vendedor
+            seller_balance = client_dao.get_saldo(owner_id)
+            seller_num_sold = client_dao.get_num_sales(owner_id)
+
+            # Actualizamos el saldo del comprador y vendedor, y sus estadísticas
+            new_buyer_balance = buyer_balance - price
+            new_boughts = buyer_num_boughts + 1
+            new_seller_balance = seller_balance + price
+            new_sold = seller_num_sold + 1
+
+            # Actualizar saldos y stats
+            client_dao.update_client_stats(client_id, 0, new_boughts, new_buyer_balance)
+            client_dao.update_client_stats(owner_id, new_sold, 0, new_seller_balance)
+
+            # Registrar la compra del producto
+            date = datetime.now().date().strftime("%Y-%m-%d")
+            time = datetime.now().time().strftime("%H:%M:%S")
+
+            return product_dao.buy_product(client_id, product_id, date, time)
         
         except Exception as e:
             raise Exception(f"Error in BusinessObject.buy_product: {e}")
-    
+
     def hire_service(self, client_id:int, service_id:int) -> bool:
         """Registra la compra de un servicio por parte de un cliente."""
         try:

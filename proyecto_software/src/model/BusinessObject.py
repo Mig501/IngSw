@@ -256,13 +256,7 @@ class BusinessObject():
             raise Exception(f"Error in BusinessObject.delete_product: {e}")
         
     def buy_product(self, product_id:int, client_id:int) -> bool:
-    #    """Registra la compra de un producto por parte de un cliente."""
-    #    try:
-    #        product_dao = ProductDao()
-    #        return product_dao.buy_product(client_id, product_id)
-    #    
-    #    except Exception as e:
-    #        raise Exception(f"Error in BusinessObject.buy_product: {e}")
+        """Registra la compra de un producto por parte de un cliente."""
     
         try:
             product_dao = ProductDao()

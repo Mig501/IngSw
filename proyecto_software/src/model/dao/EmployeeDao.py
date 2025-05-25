@@ -8,42 +8,54 @@ class EmployeeDao(Conexion):
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
     sql_insert_without_admin = """INSERT INTO employees (UsrEmpID, employee_passport, ss_number, dwell_time, age, specialization, first_name, second_name, WS_zip_code) 
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
-    sql_consult_workshop = "SELECT WS_zip_code FROM workshop LIMIT 1"
     sql_employee_id = "SELECT EmployeeID FROM employees WHERE UsrEmpID = ?"
     sql_select_user_id = "SELECT UsrEmpID FROM employees WHERE EmployeeID = ?"
-    sql_delete_user = "DELETE FROM users WHERE UserID = ?"
     sql_select_by_admin_Id = "SELECT * FROM employees WHERE AdminID = ?"
+    sql_check_passport_exists = "SELECT COUNT(*) FROM employees WHERE employee_passport = ?"
+    sql_check_ss_number_exists = "SELECT COUNT(*) FROM employees WHERE ss_number = ?"
 
-    def insert(self, user_id: int, vo: EmployeeVO, admin_id:int=None) -> bool:
+    # Cambiar función
+    def insert(self, user_id: int, vo: EmployeeVO, ws_zip_code:int, admin_id:int=None) -> bool:
         """Inserta un nuevo empleado en la base de datos."""
         cursor = self.getCursor()
         try:
-            cursor.execute(self.sql_consult_workshop)   
-            ws_zip_code = cursor.fetchone() # Me devuelve el único zip code de la tabla workshop
-
-            if ws_zip_code is None:
-                raise Exception("No se encontró el código postal del taller.")
+            # Validamos si existe el pasaporte y el número de seguro social
+            cursor.execute(self.sql_check_passport_exists, [vo.passport])
+            
+            if cursor.fetchone()[0] > 0:
+                raise ValueError("Ya existe un empleado con el mismo pasaporte.")
+            
+            cursor.execute(self.sql_check_ss_number_exists, [vo.ss_number])
+            
+            if cursor.fetchone()[0] > 0:
+                raise ValueError("Ya existe un empleado con el mismo número de seguro social.")
 
             if admin_id is None:
                 # Si no se proporciona un ID de administrador, se inserta sin él
                 cursor.execute(self.sql_insert_without_admin, [user_id, vo.passport, vo.ss_number, vo.dwell_time,
-                    vo.age, vo.specialization, vo.first_name, vo.second_name, ws_zip_code[0]])
+                    vo.age, vo.specialization, vo.first_name, vo.second_name, ws_zip_code])
             
             else:
                 cursor.execute(self.sql_insert, [user_id, vo.passport, vo.ss_number, vo.dwell_time,
-                    vo.age, vo.specialization, vo.first_name, vo.second_name, admin_id, ws_zip_code[0]])
+                    vo.age, vo.specialization, vo.first_name, vo.second_name, admin_id, ws_zip_code])
         
             return cursor.rowcount > 0
         
+        except ValueError as e:
+            # Lanzamos excepciones específicas para errores de validación
+            raise e
+
         except Exception as e:
+            # Lanzamos una excepción genérica para otros errores
             raise Exception(f"Error insertando empleado: {e}")
         
         finally:
             cursor.close()
             self.closeConnection()
 
-    def delete_by_employee_id(self, employee_id: int) -> bool:
-        """Elimina un empleado de la tabla employees` por su ID de empleado."""
+    def delete_by_employee_id(self, employee_id: int) -> int:
+        """Elimina un empleado de la tabla employees por su ID de empleado.
+        Devuelve el id del usuario para eliminarlo de la tabla users."""
         cursor = self.getCursor()
         
         try:
@@ -52,16 +64,20 @@ class EmployeeDao(Conexion):
             user_id = cursor.fetchone()
 
             if user_id is None:
-                raise Exception("No se encontró el ID de usuario asociado al empleado.")
+                raise ValueError("No se encontró el ID de usuario asociado al empleado.")
 
-            # Primero eliminamos al empleado de la tabla employees
+            # Eliminamos al empleado de la tabla employees
             cursor.execute(self.sql_delete_by_emp_Id, [employee_id])
 
-            # Luego eliminamos al usuario de la tabla users
-            cursor.execute(self.sql_delete_user, [user_id[0]])
+            return user_id[0]
 
-
-            return cursor.rowcount > 0
+        except ValueError as e:
+            # Lanzamos excepciones específicas para errores de validación
+            raise e
+        
+        except Exception as e:
+            # Lanzamos una excepción genérica para otros errores
+            raise Exception(f"Error eliminando empleado: {e}")
 
         finally:
             cursor.close()
@@ -74,7 +90,19 @@ class EmployeeDao(Conexion):
         try:
             cursor.execute(self.sql_employee_id, [user_id])
             result = cursor.fetchone()
+            
+            if result is None:
+                raise ValueError("No se encontró el ID de empleado para el usuario proporcionado.")
+        
             return result[0] if result else None
+        
+        except ValueError as e:
+            # Lanzamos excepciones específicas para errores de validación
+            raise e
+        
+        except Exception as e:
+            # Lanzamos una excepción genérica para otros errores
+            raise Exception(f"Error obteniendo el ID de empleado: {e}")
 
         finally:
             cursor.close()

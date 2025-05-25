@@ -1,6 +1,9 @@
 import re
 
 class EmployeeVO:
+
+    VALID_SPEC = ['mecánico', 'informático', 'electricista']
+
     def __init__(self, passport:str, ss_number:str, dwell_time:int, age:int, specialization:str, first_name:str, second_name:str) -> None:
         self.passport = passport
         self.ss_number = ss_number
@@ -61,8 +64,8 @@ class EmployeeVO:
     
     @specialization.setter
     def specialization(self, specialization:str) -> None:
-        if len(specialization) == 0:
-            raise ValueError("Specialization cannot be empty")
+        if specialization not in self.VALID_SPEC:
+            raise ValueError(f"Specialization must be one of these: {self.VALID_SPEC}")
         
         self.__specialization = specialization
 

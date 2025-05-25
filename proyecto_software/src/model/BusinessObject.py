@@ -103,8 +103,9 @@ class BusinessObject():
             return False
         
         user_id = admin_dao.get_last_inserted_user_id()
+        ws_zip_code = WorkshopDao().get_zip_code()
         
-        return EmployeeDao().insert(user_id, employee_vo, admin_id)
+        return EmployeeDao().insert(user_id, employee_vo, ws_zip_code, admin_id)
     
     def registrar_admin(self, user_vo, admin_vo) -> bool:
         """Método que registra un administrador en la base de datos."""
@@ -416,12 +417,18 @@ class BusinessObject():
         try:
             service_dao = ServiceDao()
             employee_dao = EmployeeDao()
+            user_dao = UserDao()
 
             # Primero eliminamos los servicios asociados al empleado, en caso de que existan
             service_dao.delete_service_by_employee_id(employee_id)
 
-            return employee_dao.delete_by_employee_id(employee_id)
+            # Luego eliminamos al empleado de la tabla employees
+            user_id = employee_dao.delete_by_employee_id(employee_id)
         
+            # Finalmente, eliminamos al usuario asociado al empleado
+            user_dao.delete_user_by_id(user_id)
+
+            return True
             
         except Exception as e:
             raise Exception(f"Error in BusinessObject.delete_employee: {e}")

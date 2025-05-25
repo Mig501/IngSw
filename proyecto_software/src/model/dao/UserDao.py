@@ -102,7 +102,6 @@ class UserDao(Conexion):
             self.closeConnection()
 
         if not row:
-            print("Not users found!!!")
             return None
         
         row = list(row)
@@ -136,11 +135,9 @@ class UserDao(Conexion):
             rows = cursor.rowcount # el rowcount devuelve el número de filas afectadas por la consulta
 
         except jaydebeapi.DatabaseError as e:
-            print("Error en el insert dao", e)
             raise jaydebeapi.DatabaseError(f"Insert error: {e}")
         
         except Exception as e:
-            print("Error en el insert dao", e)
             raise Exception(f"Insert error: {e}")
             
         finally:

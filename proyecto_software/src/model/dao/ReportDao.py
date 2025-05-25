@@ -59,11 +59,17 @@ class ReportDao(Conexion):
             cursor = self.getCursor()
             cursor.execute(self.sql_get_purchases, (start_date, end_date))
             purchases = cursor.fetchall()
+            
+            if not purchases:
+                raise ValueError("No se encontraron compras entre las fechas especificadas.")
+
             return purchases
         
+        except ValueError as e:
+            raise e
+
         except Exception as e:
-            print(f"Error al obtener las compras: {e}")
-            return []
+            raise e
         
         finally:
             cursor.close()
@@ -81,11 +87,16 @@ class ReportDao(Conexion):
             cursor.execute(self.sql_top_buyer, (start_date, end_date))
             top_buyer = cursor.fetchone()
             
+            if not top_buyer:
+                raise ValueError("No se encontró ningún cliente que haya comprado entre las fechas especificadas.")
+            
             return top_buyer
         
+        except ValueError as e:
+            raise e
+
         except Exception as e:
-            print(f"Error al obtener el cliente que más ha comprado: {e}")
-            return None
+            raise e
         
         finally:
             cursor.close()
@@ -102,12 +113,17 @@ class ReportDao(Conexion):
             cursor = self.getCursor()
             cursor.execute(self.sql_top_seller, (start_date, end_date))
             top_seller = cursor.fetchone()
+
+            if not top_seller:
+                raise ValueError("No se encontró ningún vendedor que haya vendido entre las fechas especificadas.")
             
             return top_seller
         
+        except ValueError as e:
+            raise e
+
         except Exception as e:
-            print(f"Error al obtener el vendedor que más ha vendido: {e}")
-            return None
+            raise e
         
         finally:
             cursor.close()
@@ -125,12 +141,17 @@ class ReportDao(Conexion):
             cursor.execute(self.sql_top_brand, (start_date, end_date))
             top_brand = cursor.fetchone()
             
+            if not top_brand:
+                raise ValueError("No se encontró ninguna marca vendida entre las fechas especificadas.")
+
             return top_brand
         
+        except ValueError as e:
+            raise e
+
         except Exception as e:
-            print(f"Error al obtener la marca más vendida: {e}")
-            return None
-        
+            raise e
+
         finally:
             cursor.close()
             self.closeConnection()
@@ -147,12 +168,17 @@ class ReportDao(Conexion):
             cursor.execute(self.sql_get_daily_sales, (start_date, end_date))
             daily_sales = cursor.fetchall()
             
+            if not daily_sales:
+                raise ValueError("No se encontraron ventas diarias entre las fechas especificadas.")
+
             return daily_sales
         
-        except Exception as e:
-            print(f"Error al obtener las ventas diarias: {e}")
-            return []
+        except ValueError as e:
+            raise e
         
+        except Exception as e:
+            raise e
+
         finally:
             cursor.close()
             self.closeConnection()
@@ -169,12 +195,16 @@ class ReportDao(Conexion):
             cursor.execute(self.sql_get_total_buy_sales, (start_date, end_date))
             total_buys_sales = cursor.fetchone()[0]
             
+            if not total_buys_sales:
+                raise ValueError("No se encontraron compras-ventas entre las fechas especificadas.")
 
             return total_buys_sales
 
+        except ValueError as e:
+            raise e
+
         except Exception as e:
-            print(f"Error al obtener el total de compra-ventas: {e}")
-            return None
+            raise e
 
         finally:
             cursor.close()

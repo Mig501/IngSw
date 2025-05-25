@@ -1,3 +1,4 @@
+#○ src/model/vo/LoginUserVO.py
 class LoginUserVO:
     """
     Clase que representa el objeto de valor para el inicio de sesión.
@@ -13,6 +14,9 @@ class LoginUserVO:
     
     @username.setter
     def username(self, username):
+        if not username:
+            raise ValueError("Username must not be empty")
+        
         self._username = username
 
     @property
@@ -21,4 +25,7 @@ class LoginUserVO:
     
     @userpassword.setter
     def userpassword(self, password):
+        if not password:
+            raise ValueError("Password must not be empty")
+        
         self._userpassword = password

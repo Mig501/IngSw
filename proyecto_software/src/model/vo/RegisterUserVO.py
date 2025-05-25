@@ -1,3 +1,4 @@
+# src/model/vo/RegisterUserVO.py
 class RegisterUserVO:
     """Clase que representa un registro de usuario"""
 
@@ -23,6 +24,9 @@ class RegisterUserVO:
     
     @username.setter
     def username(self, username):
+        if not username:
+            raise ValueError("Username must not be empty")
+        
         self._username = username
 
     @property
@@ -39,6 +43,9 @@ class RegisterUserVO:
     
     @userpassword.setter
     def userpassword(self, password):
+        if not password:
+            raise ValueError("Password must not be empty")
+        
         self._userpassword = password
 
     @property
@@ -47,6 +54,12 @@ class RegisterUserVO:
     
     @phone.setter
     def phone(self, phone):
+        if not phone:
+            raise ValueError("Phone must not be empty")
+        
+        if len(phone) != 9:
+            raise ValueError("Phone must be exactly 9 digits")
+        
         self._phone = phone
 
     @property

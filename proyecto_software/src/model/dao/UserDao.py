@@ -205,3 +205,22 @@ class UserDao(Conexion):
             return result[0] if result else None
         except Exception as e:
             raise Exception(f"Error al obtener contraseña por username: {e}")
+        
+    def username_exists(self, username:str) -> bool:
+        """Comprueba si un nombre de usuario ya existe en la base de datos"""
+        cursor = self.getCursor()
+        
+        try:
+            cursor.execute(self.sql_search, [username])
+            row = cursor.fetchone()
+            return row is not None  # Si hay una fila, el usuario existe
+        
+        except jaydebeapi.DatabaseError as e:
+            raise jaydebeapi.DatabaseError(f"Error al comprobar si el usuario existe: {e}")
+        
+        except Exception as e:
+            raise Exception(f"Error al comprobar si el usuario existe: {e}")
+        
+        finally:
+            cursor.close()
+            self.closeConnection()

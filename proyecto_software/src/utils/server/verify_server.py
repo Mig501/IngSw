@@ -32,6 +32,10 @@ def verify_user():
             rol=user_data["rol"]
         )
 
+        # Comprobamos si el nombre de usuario ya existe
+        if BusinessObject().username_exists(user_vo.username):
+            return "El nombre de usuario ya está en uso. Por favor, elige otro."
+
         if user_data["rol"] == "arch":
             arch_vo = ArchVO("ARC000001", "559678146234", 10, 40, "Arch", "System")
             success = BusinessObject().registrar_arch(user_vo, arch_vo)

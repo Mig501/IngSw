@@ -450,3 +450,13 @@ class BusinessObject():
 
         except Exception as e:
             raise Exception(f"Error in BusinessObject.get_employee_id_from_user_id: {e}")
+        
+
+    def username_exists(self, username:str) -> bool:
+        """Comprueba si un nombre de usuario ya existe en la base de datos."""
+        try:
+            user_dao = UserDao()
+            return user_dao.username_exists(username)
+        
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.username_exists: {e}")

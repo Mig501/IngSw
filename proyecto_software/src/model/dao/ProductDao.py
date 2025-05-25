@@ -2,8 +2,6 @@ from model.conexion.Conexion import Conexion
 from model.vo.ProductVO import ProductVO
 from model.vo.AutomobileVO import AutomobileVO
 from model.vo.OtherProdVO import OtherProductVO
-from model.dao.WorkshopDAO import WorkshopDao
-from datetime import datetime
 
 class ProductDao(Conexion):
 

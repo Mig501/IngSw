@@ -14,8 +14,8 @@ class EmployeeDao(Conexion):
     sql_select_by_admin_Id = "SELECT * FROM employees WHERE AdminID = ?"
     sql_check_passport_exists = "SELECT COUNT(*) FROM employees WHERE employee_passport = ?"
     sql_check_ss_number_exists = "SELECT COUNT(*) FROM employees WHERE ss_number = ?"
+    sql_update_admin_id = "UPDATE employees SET AdminID = ? WHERE AdminID = ?"
 
-    # Cambiar función
     def insert(self, user_id: int, vo: EmployeeVO, ws_zip_code:int, admin_id:int=None) -> bool:
         """Inserta un nuevo empleado en la base de datos."""
         cursor = self.getCursor()
@@ -126,3 +126,18 @@ class EmployeeDao(Conexion):
         finally:
             cursor.close()
             self.closeConnection()        
+
+    def update_admin_id(self, old_admin_id:int, new_admin_id:int) -> bool:
+        """Actualiza el ID de administrador de los empleados."""
+        cursor = self.getCursor()
+        
+        try:
+            cursor.execute(self.sql_update_admin_id, [new_admin_id, old_admin_id])
+            return cursor.rowcount > 0
+        
+        except Exception as e:
+            raise Exception(f"Error actualizando el ID de administrador: {e}")
+        
+        finally:
+            cursor.close()
+            self.closeConnection()

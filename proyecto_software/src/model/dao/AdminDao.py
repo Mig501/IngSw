@@ -9,6 +9,8 @@ class AdminDao(Conexion):
     sql_select_by_user_id = "SELECT AdminID FROM admins WHERE UsrAdminID = ?"
     sql_check_passport_exists = "SELECT COUNT(*) FROM admins WHERE passport = ?"
     sql_check_ss_number_exists = "SELECT COUNT(*) FROM admins WHERE ss_number = ?"
+    sql_get_usr_admin_id = "SELECT UsrAdminID FROM admins WHERE AdminID = ?"
+    sql_get_all_admins_excluding_actual = """SELECT AdminID FROM admins WHERE AdminID != ?"""
 
     def reset_autoincrement_if_empty(self) -> None:
         """Función para reiniciar el autoincremento de la tabla admins si no hay registros.
@@ -109,6 +111,48 @@ class AdminDao(Conexion):
             # Lanzamos excepciones relacionadas con la base de datos, para que el controlador las maneje
             raise Exception(f"Error obteniendo ID de admin: {e}")
         
+        finally:
+            cursor.close()
+            self.closeConnection()
+
+    def get_usr_admin_id(self, admin_id:int) -> int:
+        """Obtiene el ID de un usuario dado su ID de admin"""
+        cursor = self.getCursor()
+
+        try:
+            cursor.execute(self.sql_get_usr_admin_id, [admin_id])
+            user_id = cursor.fetchone()
+
+            if user_id is None:
+                raise ValueError("No se encontró el ID de usuario asociado al admin.")
+            
+            return user_id[0]
+
+        except ValueError as e:
+            # Lanzamos excepciones de validación, para que el controlador las maneje
+            raise e
+        
+        except Exception as e:
+            # Lanzamos excepciones relacionadas con la base de datos, para que el controlador las maneje
+            raise Exception(f"Error obteniendo ID de admin: {e}")
+        
+        finally:
+            cursor.close()
+            self.closeConnection()
+
+    def get_all_admins_excluding_actual(self, actual_admin_id:int) -> list:
+        """Obtiene todos los IDs de admins excepto el actual"""
+        cursor = self.getCursor()
+
+        try:
+            cursor.execute(self.sql_get_all_admins_excluding_actual, [actual_admin_id])
+            rows = cursor.fetchall()
+
+            return [row[0] for row in rows] if rows else []
+
+        except Exception as e:
+            raise Exception(f"Error obteniendo admins: {e}")
+
         finally:
             cursor.close()
             self.closeConnection()

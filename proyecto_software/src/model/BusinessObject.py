@@ -432,7 +432,43 @@ class BusinessObject():
             
         except Exception as e:
             raise Exception(f"Error in BusinessObject.delete_employee: {e}")
-        
+
+    def get_admins_excluding_actual(self, actual_admin_id:int) -> list:
+        """Obtiene todos los IDs de admins excepto el actual"""
+        try:
+            admin_dao = AdminDao()
+            return admin_dao.get_all_admins_excluding_actual(actual_admin_id)
+
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.get_admins_excluding_actual: {e}")
+
+    def delete_admin(self, admin_id:int, new_admin_id_emp:int=None) -> bool:
+        """Elimina un administrador de la base de datos.
+        En caso de que el admin tenga empleados, estos serán reasignados
+        a otro administrador, seleccionado por el arch"""
+        try:
+            user_dao = UserDao()
+            admin_dao = AdminDao()
+            employee_dao = EmployeeDao()
+
+            # Primero reasignamos los empleados del admin a otro admin, si se ha proporcionado uno
+            if new_admin_id_emp is not None:
+                employee_dao.update_admin_id(admin_id, new_admin_id_emp)
+
+            # Obtengo el id de usuario del admin a eliminar
+            admin_user_id = admin_dao.get_usr_admin_id(admin_id)
+
+            # Primero eliminamos al admin de la tabla admins
+            admin_dao.delete_by_user_id(admin_user_id)
+
+            # Después eliminamos al usuario de la tabla users
+            user_dao.delete_user_by_id(admin_user_id)
+
+            return True
+
+        except Exception as e:
+            raise Exception(f"Error in BusinessObject.delete_admin: {e}")
+
     def get_admin_id_by_user_id(self, user_id:int) -> int:
         try:
             admin_dao = AdminDao()

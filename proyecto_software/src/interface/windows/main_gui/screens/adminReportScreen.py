@@ -102,7 +102,24 @@ Informe de Ventas del {start} al {end}:
             self.plot_graph(daily_sales)
 
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"No se pudo generar el informe:\n{e}")
+            # Mostramos el informe vacío
+            top_buyer = 0
+            top_seller = 0
+            top_brand = 0
+            total_compras_ventas = 0
+            daily_sales = 0
+            
+            summary = f"""
+Informe de Ventas del {start} al {end}:
+
+Total de compra-ventas: {total_compras_ventas}
+ID Mayor comprador: N/A
+ID Mayor vendedor: N/A
+Marca más comprada: N/A
+"""
+            self.results_label.setText(summary)
+            self.plot_graph([]) # Mostrar gráfica vacía
+            return
 
     def plot_graph(self, data):
         self.figure.clear()

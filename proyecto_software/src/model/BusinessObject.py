@@ -1,7 +1,5 @@
 # src/model/BusinessObject.py
-from model.conexion.Conexion import Conexion
 from model.vo.RegisterUserVO import RegisterUserVO
-from model.dao.UserDao import UserDao
 from model.dao.UserDao import UserDao
 from model.dao.ClientDao import ClientDao
 from model.dao.EmployeeDao import EmployeeDao
@@ -12,14 +10,8 @@ from model.dao.WorkshopDAO import WorkshopDao
 from model.vo.ProductVO import ProductVO
 from model.dao.ProductDao import ProductDao
 from model.dao.ReportDao import ReportDao
-from model.vo.AutomobileVO import AutomobileVO
-from model.vo.OtherProdVO import OtherProductVO
 from model.dao.ServiceDao import ServiceDao
 from model.vo.ServiceVO import ServiceVO
-from model.vo.EmployeeVO import EmployeeVO
-from model.vo.ClientVO import ClientVO
-from model.vo.AdminVO import AdminVO
-from model.vo.ArchVO import ArchVO
 from datetime import datetime
 
 class BusinessObject():
@@ -206,7 +198,9 @@ class BusinessObject():
     
     def get_filtered_cars(self, price_range=None, kilometers_range=None, fuel_type=None,
                           consume_range=None, autonomy_range=None, environmental_label=None,
-                          brand=None, model=None, search_text=None):
+                          brand=None, model=None, search_text=None) -> list:
+        """Método que obtiene una lista de coches filtrados según los parámetros que aplique
+        el usuario."""
         
         return ProductDao().get_filtered_cars(
             price_range=price_range,
@@ -220,7 +214,9 @@ class BusinessObject():
             search_text=search_text
         )
     
-    def get_filtered_others(self, price_range=None, size_range=None, brand=None, model=None):
+    def get_filtered_others(self, price_range=None, size_range=None, brand=None, model=None) -> list:
+        """Método que obtiene una lista de otros productos filtrados según los parámetros que aplique
+        el usuario."""
         return ProductDao().get_filtered_others(
             price_range=price_range,
             size_range=size_range,
@@ -316,7 +312,6 @@ class BusinessObject():
         
     def get_owner_id(self, product_id: int) -> int:
         """Obtiene el ID del propietario de un producto."""
-        
         try:
             product_dao = ProductDao()
             return product_dao.get_owner_id(product_id)
@@ -342,7 +337,7 @@ class BusinessObject():
         except Exception as e:
             raise Exception(f"Error in BusinessObject.update_client_stats: {e}")
         
-    def get_top_buyer(self, start_date: str, end_date: str):
+    def get_top_buyer(self, start_date: str, end_date: str) -> tuple:
         """Obtiene el cliente que más ha comprado entre dos fechas."""
         try:
             report_dao = ReportDao()
@@ -351,21 +346,24 @@ class BusinessObject():
         except Exception as e:
             raise Exception(f"Error in BusinessObject.get_top_buyer: {e}")
 
-    def get_top_seller(self, start_date: str, end_date: str):
+    def get_top_seller(self, start_date: str, end_date: str) -> tuple:
+        """Obtiene el usuario que más ha vendido en un rango de fechas."""
         try:
             report_dao = ReportDao()
             return report_dao.get_top_seller(start_date, end_date)
         except Exception as e:
             raise Exception(f"Error in BusinessObject.get_top_seller: {e}")
 
-    def get_top_brand(self, start_date: str, end_date: str):
+    def get_top_brand(self, start_date: str, end_date: str) -> tuple:
+        """Obtiene la marca que más se ha vendido en un rango de fechas."""
         try:
             report_dao = ReportDao()
             return report_dao.get_top_brand(start_date, end_date)
         except Exception as e:
             raise Exception(f"Error in BusinessObject.get_top_brand: {e}")
 
-    def get_daily_sales(self, start_date: str, end_date: str):
+    def get_daily_sales(self, start_date: str, end_date: str) -> list:
+        """Obtiene las ventas diarias entre dos fechas."""
         try:
             report_dao = ReportDao()
             return report_dao.get_daily_sales(start_date, end_date)
@@ -379,22 +377,25 @@ class BusinessObject():
         except Exception as e:
             raise Exception(f"Error in BusinessObject.get_totals: {e}")
 
-    def get_purchase_date(self, start_date: str, end_date: str):
+    def get_purchase_date(self, start_date: str, end_date: str) -> list:
+        """Obtiene las fechas de compra entre dos fechas."""
         try:
             report_dao = ReportDao()
             return report_dao.get_purchase_date(start_date, end_date)
         except Exception as e:
             raise Exception(f"Error in BusinessObject.get_purchase_date: {e}")
         
-    def get_employee_services(self, client_id:int) -> list:
+    def get_employee_services(self, employee_id:int) -> list:
+        """Obtiene los servicios del empleado a partir de su ID."""
         try:
             service_dao = ServiceDao()
-            return service_dao.get_employee_services(client_id)
+            return service_dao.get_employee_services(employee_id)
         
         except Exception as e:
             raise Exception(f"Error in BusinessObject.get_employee_services: {e}")
         
     def delete_service(self, service_id:int) -> bool:
+        """Elimina un servicio a partir de su ID."""
         try:
             service_dao = ServiceDao()
             return service_dao.delete_service(service_id)
@@ -414,6 +415,7 @@ class BusinessObject():
             raise Exception(f"Error in BusinessObject.get_employees_by_admin_id: {e}")
     
     def delete_employee(self, employee_id:int) -> bool:
+        """Elimina un empleado a partir de su ID de empleado."""
         try:
             service_dao = ServiceDao()
             employee_dao = EmployeeDao()
@@ -470,6 +472,7 @@ class BusinessObject():
             raise Exception(f"Error in BusinessObject.delete_admin: {e}")
 
     def get_admin_id_by_user_id(self, user_id:int) -> int:
+        """Devuelve el ID del administrador dado su ID de usuario"""
         try:
             admin_dao = AdminDao()
             return admin_dao.get_admin_id(user_id)

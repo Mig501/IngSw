@@ -48,7 +48,7 @@ class ReportDao(Conexion):
                 WHERE pp.Purchase_date BETWEEN ? AND ?
             """
 
-    def get_purchase_date(self, start_date:str, end_date:str):
+    def get_purchase_date(self, start_date:str, end_date:str) -> list:
         """
         Obtiene las compras realizadas entre dos fechas.
         :param start_date: Fecha de inicio en formato 'YYYY-MM-DD'.

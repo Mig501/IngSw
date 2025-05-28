@@ -51,8 +51,14 @@ class InterfaceController:
         """Muestra la ventana principal con el rol del usuario"""
         rol = self.modelo.get_user_rol(user.user_id) if user.user_id != 1 else "arch"
         self.main_window = MainWindow(user_rol=rol, client_id=user.user_id, user_vo=user)
+        self.main_window.logout_signal.connect(self.volver_a_login)
         self.main_window.show()
         self.login_window.close()
+
+    def volver_a_login(self):
+        self.main_window.close()
+        self.login_window.clear_fields()
+        self.mostrar_login_window()
 
     def guardar_taller(self, data):
         try:

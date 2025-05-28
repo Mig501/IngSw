@@ -1,10 +1,14 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
+from PyQt6.QtCore import Qt, pyqtSignal
 from utils.email.send_verify_email import send_edit_confirmation_email
 from utils.email.jwt_utils_email import generar_token_verificacion
 from model.BusinessObject import BusinessObject
 from PyQt6.QtCore import Qt
 
 class EditProfileScreen(QWidget):
+
+    logout_signal = pyqtSignal() # Signal to notify logout action
+
     def __init__(self, user_vo):
         super().__init__()
         self.user_vo = user_vo
@@ -53,6 +57,7 @@ class EditProfileScreen(QWidget):
 
         # Botón cerrar sesión
         logout_btn = QPushButton("Cerrar sesión")
+        logout_btn.clicked.connect(self.emit_logout_signal)
         layout.addWidget(logout_btn)
 
         # Botón desactivar cuenta
@@ -111,3 +116,6 @@ class EditProfileScreen(QWidget):
 
             else:
                 QMessageBox.critical(self, "Error", f"Error al actualizar: {msg}")
+
+    def emit_logout_signal(self):
+        self.logout_signal.emit()

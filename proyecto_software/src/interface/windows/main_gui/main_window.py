@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,
     QLabel, QStackedWidget, QListWidget, QListWidgetItem
 )
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QIcon, QPixmap
 
 from interface.windows.main_gui.screens.home_screen import HomeScreen
@@ -26,6 +26,9 @@ from interface.windows.main_gui.screens.adminMyEmployeesScreen import MyEmployee
 from interface.windows.main_gui.screens.archDeleteAdmins import ArchDeleteAdminScreen
 
 class MainWindow(QMainWindow):
+
+    logout_signal = pyqtSignal()
+
     def __init__(self, user_rol=None, client_id=None, user_vo=None):
         super().__init__()
     
@@ -92,7 +95,11 @@ class MainWindow(QMainWindow):
 
         # Cuenta
         if self.user_vo:
-            self.add_sidebar_item("Cuenta", EditProfileScreen(self.user_vo))
+            edit_screen = EditProfileScreen(self.user_vo)
+            self.add_sidebar_item("Editar perfil", edit_screen)
+            edit_screen.logout_signal.connect(self.log_out)
+            self.add_sidebar_item("Cerrar sesión", edit_screen)
+            #self.add_sidebar_item("Cuenta", EditProfileScreen(self.user_vo))
 
         self.sidebar_layout.addWidget(self.menu_list)
 
@@ -208,3 +215,6 @@ class MainWindow(QMainWindow):
         '''Se encarga de soltar la ventana cuando se suelta el click'''
         self.old_pos = None
 
+    def log_out(self):
+        """Emite la señal de cierre de sesión."""
+        self.logout_signal.emit()

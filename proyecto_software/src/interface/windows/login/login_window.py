@@ -95,3 +95,8 @@ class LoginWindow(QMainWindow):
 
     def mouseReleaseEvent(self, event):
         self.old_pos = None
+
+    def clear_fields(self):
+        """Limpia los campos de la pantalla de login"""
+        self.login_screen.input_user.clear()    
+        self.login_screen.input_pass.clear()

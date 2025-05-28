@@ -1,10 +1,11 @@
+#src/mod
 class ServiceVO:
     """
     ServiceVO is a class that represents a service with its details.
     It contains attributes for the service's name, type, and status.
     """
 
-    def __init__(self, serviceid: int, employeeid:int, price: float, name: str, description: str):
+    def __init__(self, serviceid: int, employeeid:int, price: float, name: str, description: str) -> None:
         """
         Initializes the ServiceVO instance with the given name, type, and status.
 
@@ -18,13 +19,14 @@ class ServiceVO:
         self._description = description
         self._price = price
     
-    def __str__(self):
+    def __str__(self) -> str:
         return f"ServiceVO(serviceid={self._serviceid}, name={self._name}, description={self._description}, price={self._price})"
     
     # Getters and Setters for all fields
     @property
     def serviceid(self) -> int:
         return self._serviceid
+    
     @serviceid.setter
     def serviceid(self, serviceid: int) -> None:
         self._serviceid = serviceid
@@ -40,21 +42,33 @@ class ServiceVO:
     @property
     def name(self) -> str:
         return self._name
+    
     @name.setter
     def name(self, name: str) -> None:
+        if not name:
+            raise ValueError("Name cannot be empty.")
+        
         self._name = name
 
     @property
     def description(self) -> str:
         return self._description
+    
     @description.setter
     def description(self, description: str) -> None:
+        if not description:
+            raise ValueError("Description cannot be empty.")
+        
         self._description = description
 
     @property
     def price(self) -> float:
         return self._price
+    
     @price.setter
     def price(self, price: float) -> None:
+        if price < 0:
+            raise ValueError("Price cannot be negative.")
+        
         self._price = price
     

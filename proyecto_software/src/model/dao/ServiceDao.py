@@ -1,4 +1,4 @@
-#imports
+#src/model/dao/ServiceDao.py
 from model.conexion.Conexion import Conexion
 from model.vo.ServiceVO import ServiceVO
 from model.vo.EmployeeVO import EmployeeVO
@@ -171,8 +171,8 @@ class ServiceDao(Conexion):
             return cursor.rowcount > 0
 
         except Exception as e:
-            print(f"Error contratando servicio: {e}")
             return False
+        
         finally:
             cursor.close()
             self.closeConnection()

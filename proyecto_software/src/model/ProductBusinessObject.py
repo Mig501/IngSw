@@ -1,6 +1,7 @@
 # src/model/ProductBusinessObject.py
 from model.dao.ProductDao import ProductDao
 from model.dao.ClientDao import ClientDao
+from model.vo.ProductVO import ProductVO
 from datetime import datetime
 
 class ProductBusinessObject:
@@ -9,9 +10,8 @@ class ProductBusinessObject:
         self.client_dao = client_dao or ClientDao()
 
     # hecho
-    def register_product(self, product_vo):
-        from model.dao.WorkshopDAO import WorkshopDao
-        ws_zip_code = WorkshopDao().get_zip_code()
+    def register_product(self, product_vo:ProductVO):
+        ws_zip_code = self.product_dao.get_workshop_zip_code()
         return self.product_dao.insert_product(product_vo, ws_zip_code)
 
     # hecho

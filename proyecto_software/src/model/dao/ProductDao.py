@@ -32,6 +32,10 @@ class ProductDao(Conexion):
     sql_buy_product = """INSERT INTO product_purchase (ClientID, ProductID, Purchase_date, Purchase_time)
                         VALUES (?, ?, ?, ?)"""
 
+    sql_get_zip_code = """
+        SELECT WS_zip_code FROM workshop LIMIT 1
+    """
+
     def insert_product(self, product_vo: ProductVO, ws_zip_code:str) -> bool:
         """Inserta un producto en la base de datos."""
         cursor = self.getCursor()
@@ -292,6 +296,24 @@ class ProductDao(Conexion):
         except Exception as e:
             cursor.rollback()
             raise Exception(f"Error obteniendo el precio del producto: {e}")
+        
+        finally:
+            cursor.close()
+            self.closeConnection()
+
+    def get_workshop_zip_code(self) -> str:
+        """Obtiene el código postal del taller asociado a un producto dado su ProductID."""
+        cursor = self.getCursor()
+
+        try:
+            cursor.execute(self.sql_get_zip_code)
+            row = cursor.fetchone()
+            
+            return row[0] if row else None
+        
+        except Exception as e:
+            cursor.rollback()
+            raise Exception(f"Error obteniendo el código postal del taller: {e}")
         
         finally:
             cursor.close()

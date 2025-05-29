@@ -3,6 +3,7 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from utils.email.send_verify_email import send_edit_confirmation_email
 from utils.email.jwt_utils_email import generar_token_verificacion
 from model.BusinessObject import BusinessObject
+from model.loggerSingleton import LoggerSingleton
 from PyQt6.QtCore import Qt
 
 class EditProfileScreen(QWidget):
@@ -13,6 +14,7 @@ class EditProfileScreen(QWidget):
         super().__init__()
         self.user_vo = user_vo
         self.bo = BusinessObject()
+        self.logger = LoggerSingleton()
 
         layout = QVBoxLayout()
         self.setLayout(layout)
@@ -58,6 +60,7 @@ class EditProfileScreen(QWidget):
         # Botón cerrar sesión
         logout_btn = QPushButton("Cerrar sesión")
         logout_btn.clicked.connect(self.emit_logout_signal)
+        self.logger.add_log_activity(f"Usuario {self.user_vo.username} ha cerrado sesión.")
         layout.addWidget(logout_btn)
 
         # Botón desactivar cuenta

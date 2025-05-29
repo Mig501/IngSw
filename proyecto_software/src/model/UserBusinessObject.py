@@ -4,6 +4,7 @@ from model.dao.ClientDao import ClientDao
 from model.dao.EmployeeDao import EmployeeDao
 from model.dao.AdminDao import AdminDao
 from model.dao.ArchDao import ArchDao
+from model.vo.EmployeeVO import EmployeeVO
 
 class UserBusinessObject:
     def __init__(self, user_dao=None, client_dao=None, employee_dao=None, admin_dao=None, arch_dao=None):
@@ -48,13 +49,12 @@ class UserBusinessObject:
         return self.client_dao.insert_client(user_id)
     
     # hecho
-    def registrar_empleado(self, user_vo, employee_vo, admin_id=None):
+    def registrar_empleado(self, user_vo, employee_vo: EmployeeVO, admin_id=None):
         user_vo.rol = "empleado"
         if not self.user_dao.insert(user_vo):
             return False
         user_id = self.user_dao.get_last_inserted_user_id()
-        from model.dao.WorkshopDAO import WorkshopDao
-        ws_zip_code = WorkshopDao().get_zip_code()
+        ws_zip_code = self.user_dao.get_workshop_zip_code()
         return self.employee_dao.insert(user_id, employee_vo, ws_zip_code, admin_id)
     
     # hecho

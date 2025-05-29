@@ -14,6 +14,9 @@ class UserDao(Conexion):
     sql_get_last_id = "SELECT MAX(UserID) FROM users"
     sql_update_profile = "UPDATE users SET username = ?, email = ?, phone_number = ? WHERE UserID = ?"
     sql_get_psw = "SELECT userpassword FROM users WHERE username = %s"
+    sql_get_zip_code = """
+        SELECT WS_zip_code FROM workshop LIMIT 1
+    """
 
     def reset_autoincrement_if_empty(self):
         """Está función es sólo para hacer pruebas nosostros"""
@@ -220,6 +223,24 @@ class UserDao(Conexion):
         
         except Exception as e:
             raise Exception(f"Error al comprobar si el usuario existe: {e}")
+        
+        finally:
+            cursor.close()
+            self.closeConnection()
+
+    def get_workshop_zip_code(self) -> str:
+        """Obtiene el código postal del taller."""
+        cursor = self.getCursor()
+
+        try:
+            cursor.execute(self.sql_get_zip_code)
+            row = cursor.fetchone()
+            
+            return row[0] if row else None
+        
+        except Exception as e:
+            cursor.rollback()
+            raise Exception(f"Error obteniendo el código postal del taller: {e}")
         
         finally:
             cursor.close()

@@ -31,7 +31,6 @@ class ProductDao(Conexion):
     sql_delete_workshop_product = """DELETE FROM workshop_products WHERE ProductID = ?"""
     sql_buy_product = """INSERT INTO product_purchase (ClientID, ProductID, Purchase_date, Purchase_time)
                         VALUES (?, ?, ?, ?)"""
-
     sql_get_zip_code = """
         SELECT WS_zip_code FROM workshop LIMIT 1
     """
@@ -302,7 +301,7 @@ class ProductDao(Conexion):
             self.closeConnection()
 
     def get_workshop_zip_code(self) -> str:
-        """Obtiene el código postal del taller asociado a un producto dado su ProductID."""
+        """Obtiene el código postal del taller."""
         cursor = self.getCursor()
 
         try:

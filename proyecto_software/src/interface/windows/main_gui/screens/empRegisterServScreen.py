@@ -7,7 +7,7 @@ class ServiceRegisterScreen(QWidget):
     def __init__(self, user_id):
         super().__init__()
         self.user_id = user_id
-        self.employee_id = BusinessObject().get_employee_id_from_user_id(user_id)
+        self.employee_id = BusinessObject().user.get_employee_id_from_user_id(user_id)
         self.setWindowTitle("Registrar servicio")
         self.setGeometry(100, 100, 500, 400)
  
@@ -89,7 +89,7 @@ class ServiceRegisterScreen(QWidget):
 
         # Intentar registrar el producto
         try:
-            business_object = BusinessObject()
+            business_object = BusinessObject().service
        
             if business_object.register_service(service_vo):
                 QMessageBox.information(self, "Éxito", "Servicio añadido correctamente.")

@@ -13,7 +13,7 @@ class EditProfileScreen(QWidget):
     def __init__(self, user_vo):
         super().__init__()
         self.user_vo = user_vo
-        self.bo = BusinessObject()
+        self.bo = BusinessObject().user
         self.logger = LoggerSingleton()
 
         layout = QVBoxLayout()

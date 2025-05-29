@@ -10,7 +10,7 @@ class MyServicesScreen(QWidget):
     def __init__(self, client_id):
         super().__init__()
         self.client_id = client_id
-        self.employee_id = BusinessObject().get_employee_id_from_user_id(client_id)
+        self.employee_id = BusinessObject().user.get_employee_id_from_user_id(client_id)
         self.setWindowTitle("Mis Servicios")
         self.setGeometry(100, 100, 600, 400)
 
@@ -36,7 +36,7 @@ class MyServicesScreen(QWidget):
 
     def cargar_servicios(self):
         self.product_list.clear() 
-        servicios = BusinessObject().get_employee_services(self.employee_id)
+        servicios = BusinessObject().service.get_employee_services(self.employee_id)
         for s in servicios: 
             item_text = f"{s['ServiceID']} - {s['ser_name']} {s['ser_description']}"
             self.product_list.addItem(item_text)

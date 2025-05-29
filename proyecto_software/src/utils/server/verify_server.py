@@ -33,14 +33,14 @@ def verify_user():
         )
 
         # Comprobamos si el nombre de usuario ya existe
-        if BusinessObject().username_exists(user_vo.username):
+        if BusinessObject().user.username_exists(user_vo.username):
             return "El nombre de usuario ya está en uso. Por favor, elige otro."
 
         if user_data["rol"] == "arch":
             arch_vo = ArchVO("ARC000001", "559678146234", 10, 40, "Arch", "System")
-            success = BusinessObject().registrar_arch(user_vo, arch_vo)
+            success = BusinessObject().user.registrar_arch(user_vo, arch_vo)
         else:
-            success = BusinessObject().registrar_cliente(user_vo)
+            success = BusinessObject().user.registrar_cliente(user_vo)
 
         if success:
             return "Tu cuenta ha sido verificada y activada. Ya puedes iniciar sesión."

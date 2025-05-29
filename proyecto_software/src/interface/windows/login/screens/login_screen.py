@@ -113,7 +113,7 @@ class LoginScreen(QWidget):
             return
 
         login_vo = LoginUserVO(username, password)
-        result = BusinessObject().comprobarlogin(login_vo)
+        result = BusinessObject().user.comprobarlogin(login_vo)
 
         if not result:
             # Login exitoso

@@ -35,7 +35,7 @@ class MyProductsScreen(QWidget):
 
     def cargar_productos(self):
         self.product_list.clear()
-        productos = BusinessObject().get_client_products(self.client_id)
+        productos = BusinessObject().product.get_client_products(self.client_id)
         for p in productos:
             item_text = f"{p['ProductID']} - {p['brand']} {p['model']} ({p['ptype']})"
             self.product_list.addItem(item_text)
@@ -56,7 +56,7 @@ class MyProductsScreen(QWidget):
         )
 
         if confirm == QMessageBox.StandardButton.Yes:
-            success = BusinessObject().delete_product(product_id)
+            success = BusinessObject().product.delete_product(product_id)
             if success:
                 QMessageBox.information(self, "Éxito", "Producto eliminado correctamente.")
                 self.cargar_productos()

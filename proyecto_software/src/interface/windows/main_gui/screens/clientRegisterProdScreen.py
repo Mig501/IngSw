@@ -207,7 +207,7 @@ class ProductRegisterScreen(QWidget):
 
         # Intentar registrar el producto
         try:
-            business_object = BusinessObject()
+            business_object = BusinessObject().product
        
             if business_object.register_product(product_vo):
                 QMessageBox.information(self, "Éxito", "Producto añadido correctamente.")

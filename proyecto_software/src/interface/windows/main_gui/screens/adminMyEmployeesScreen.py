@@ -10,7 +10,7 @@ class MyEmployeesScreen(QWidget):
     def __init__(self, user_id: int):
         super().__init__()
         self.user_id = user_id # A la ventana le llega el id de usuario, no el id del admin
-        self.admin_id = BusinessObject().get_admin_id_by_user_id(user_id)
+        self.admin_id = BusinessObject().user.get_admin_id_by_user_id(user_id)
 
         self.setWindowTitle("Mis Empleados")
         self.setGeometry(100, 100, 600, 400)
@@ -37,7 +37,7 @@ class MyEmployeesScreen(QWidget):
 
     def cargar_empleados(self):
         self.employee_list.clear() 
-        empleados = BusinessObject().get_employees_by_admin_id(self.admin_id)
+        empleados = BusinessObject().user.get_employees_by_admin_id(self.admin_id)
         for e in empleados: 
             item_text = f"{e['EmployeeID']} - {e['first_name']} {e['second_name']} {e['specialization']}"
             self.employee_list.addItem(item_text)
@@ -63,7 +63,7 @@ class MyEmployeesScreen(QWidget):
 
         if confirm == QMessageBox.StandardButton.Yes:
             try:
-                success = BusinessObject().delete_employee(employee_id)
+                success = BusinessObject().user.delete_employee(employee_id)
                 if success:
                     QMessageBox.information(self, "Éxito",  "Empleado eliminado correctamente.")
                     self.cargar_empleados()

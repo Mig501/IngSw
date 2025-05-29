@@ -37,7 +37,7 @@ class ArchDeleteAdminScreen(QWidget):
         self.layout.addWidget(self.btn_delete_reassign)
 
         # Business Object para lógica
-        self.bo = BusinessObject()
+        self.bo = BusinessObject().user
 
         # Cargar admins en combos al iniciar
         self.cargar_admins()

@@ -79,7 +79,7 @@ class ServiceScreen(QWidget):
         # Print para depuración
         print(filters)
 
-        results = self.business_object.get_filtered_services(**filters)
+        results = self.business_object.service.get_filtered_services(**filters)
 
         if not results:
             # Si no hay resultados, mostramos un mensaje de error
@@ -103,8 +103,8 @@ class ServiceScreen(QWidget):
             layout.addWidget(desc)
 
             # Botón de compra
-            employee_id = self.business_object.get_service_owner_id(service['ServiceID'])
-            client_id = self.business_object.get_client_id(self.user_vo.user_id)
+            employee_id = self.business_object.service.get_service_owner_id(service['ServiceID'])
+            client_id = self.business_object.user.get_client_id(self.user_vo.user_id)
 
             if employee_id != client_id:
                 buy_button = QPushButton("Comprar")
@@ -134,10 +134,10 @@ class ServiceScreen(QWidget):
             "¿Estás seguro de que quieres comprar este vehículo?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
             )
-        client_id = self.business_object.get_client_id(self.user_vo.user_id)
+        client_id = self.business_object.user.get_client_id(self.user_vo.user_id)
     
         try:
-            success = self.business_object.hire_service(client_id, service_id)
+            success = self.business_object.service.hire_service(client_id, service_id)
             if success:
                 QMessageBox.information(self, "Éxito", "Servicio contratado con éxito.")
                 self.service_list.clear()

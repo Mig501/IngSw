@@ -12,7 +12,7 @@ class AdminRegisterEmployeeScreen(QWidget):
     def __init__(self, user_id):
         super().__init__()
         self.user_id = user_id
-        self.admin_id = BusinessObject().get_admin_id_by_user_id(user_id)
+        self.admin_id = BusinessObject().user.get_admin_id_by_user_id(user_id)
         self.setWindowTitle("Registro de empleados")
 
         self.layout = QVBoxLayout()
@@ -85,7 +85,7 @@ class AdminRegisterEmployeeScreen(QWidget):
                 self.extra_second_name.text()
             )
 
-            BusinessObject().registrar_empleado(user_vo, vo, self.admin_id)
+            BusinessObject().user.registrar_empleado(user_vo, vo, self.admin_id)
 
             self.logger.add_log_activity(f"Empleado registrado: {username} correctamente por administrador.")
 

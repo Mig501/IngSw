@@ -224,7 +224,7 @@ class ArchRegisterScreen(QWidget):
                 self.extra_second_name.text()
             )
 
-            BusinessObject().registrar_admin(user_vo, vo)
+            BusinessObject().user.registrar_admin(user_vo, vo)
 
             self.logger.add_log_activity(f"Administrador registrado: {username} correctamente.")
 

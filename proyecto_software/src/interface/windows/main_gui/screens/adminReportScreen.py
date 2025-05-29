@@ -16,7 +16,7 @@ class AdminReportScreen(QWidget):
         self.setWindowTitle("Informe de Ventas")
         self.setGeometry(100, 100, 800, 600)
 
-        self.business = BusinessObject()
+        self.business = BusinessObject().report
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
 

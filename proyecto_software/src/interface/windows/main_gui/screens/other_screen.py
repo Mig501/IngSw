@@ -107,7 +107,7 @@ class OtherScreen(QWidget):
         # Print para depuración
         print(filters)
         
-        results = self.business_object.get_filtered_others(**filters)
+        results = self.business_object.product.get_filtered_others(**filters)
 
         if not results:
             # Si no hay resultados, mostramos un mensaje de error
@@ -141,8 +141,8 @@ class OtherScreen(QWidget):
             layout.addWidget(desc)
 
             # Botón de compra
-            owner_id = self.business_object.get_owner_id(other['ProductID'])
-            client_id = self.business_object.get_client_id(self.user_vo.user_id)
+            owner_id = self.business_object.product.get_owner_id(other['ProductID'])
+            client_id = self.business_object.user.get_client_id(self.user_vo.user_id)
 
 
             if owner_id != client_id:
@@ -182,10 +182,10 @@ class OtherScreen(QWidget):
             )
         
         if confirm == QMessageBox.StandardButton.Yes:
-            client_id = self.business_object.get_client_id(self.user_vo.user_id)
+            client_id = self.business_object.user.get_client_id(self.user_vo.user_id)
 
             # Evitar que compre su propio producto
-            owner = self.business_object.get_owner_id(product_id)
+            owner = self.business_object.product.get_owner_id(product_id)
             
             if client_id is None or owner is None:
                 QMessageBox.critical(self, "Error", "Error interno al validar la compra.")
@@ -196,7 +196,7 @@ class OtherScreen(QWidget):
                 return
 
             try:
-                success = self.business_object.buy_product(product_id, client_id)
+                success = self.business_object.product.buy_product(product_id, client_id)
                 
                 if success:
                     QMessageBox.information(self, "Compra exitosa", "Has comprado el producto con éxito.")

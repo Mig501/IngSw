@@ -37,7 +37,7 @@ class InterfaceController:
             return
 
         login_vo = LoginUserVO(username, password)
-        user = self.modelo.comprobarlogin(login_vo)
+        user = self.modelo.user.comprobarlogin(login_vo)
 
         if user is None:
             self.login_window.mostrar_mensaje("Nombre de usuario o contraseña incorrectos.")
@@ -49,7 +49,7 @@ class InterfaceController:
 
     def mostrar_main_window(self, user):
         """Muestra la ventana principal con el rol del usuario"""
-        rol = self.modelo.get_user_rol(user.user_id) if user.user_id != 1 else "arch"
+        rol = self.modelo.user.get_user_rol(user.user_id) if user.user_id != 1 else "arch"
         self.main_window = MainWindow(user_rol=rol, client_id=user.user_id, user_vo=user)
         self.main_window.logout_signal.connect(self.volver_a_login)
         self.main_window.show()
@@ -73,7 +73,7 @@ class InterfaceController:
                 data["add_city"]
             )
 
-            if self.modelo.register_workshop(workshop_vo):
+            if self.modelo.workshop.register_workshop(workshop_vo):
                 self.admin_manage_workshop.show_message("Éxito", "Taller registrado correctamente.")
                 self.admin_manage_workshop.clear_form()
             else:

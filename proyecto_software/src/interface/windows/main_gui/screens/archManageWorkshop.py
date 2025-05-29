@@ -60,7 +60,7 @@ class AdminManageWorkshop(QWidget):
         )
 
         try:
-            business_object = BusinessObject()
+            business_object = BusinessObject().workshop
             
             if business_object.register_workshop(workshop_vo):
                 QMessageBox.information(self, "Éxito", "Taller registrado correctamente.")

@@ -57,7 +57,8 @@ class MyServicesScreen(QWidget):
         )
 
         if confirm == QMessageBox.StandardButton.Yes:
-            success = BusinessObject().delete_service(service_id)
+
+            success = BusinessObject().service.delete_service(service_id)
             if success:
                 QMessageBox.information(self, "Éxito", "Servicio eliminado correctamente.")
                 self.cargar_servicios()

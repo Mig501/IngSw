@@ -63,12 +63,14 @@ class MyEmployeesScreen(QWidget):
 
         if confirm == QMessageBox.StandardButton.Yes:
             try:
-                success = BusinessObject().user.delete_employee(employee_id)
+                success = BusinessObject().service.delete_services_by_employee_id(employee_id)
                 if success:
-                    QMessageBox.information(self, "Éxito",  "Empleado eliminado correctamente.")
-                    self.cargar_empleados()
-                else:
-                    QMessageBox.critical(self, "Error", "No se pudo eliminar el empleado.")
+                    success = BusinessObject().user.delete_employee(employee_id)
+                    if success:
+                        QMessageBox.information(self, "Éxito",  "Empleado eliminado correctamente.")
+                        self.cargar_empleados()
+                    else:
+                        QMessageBox.critical(self, "Error", "No se pudo eliminar el empleado.")
             
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"Error al eliminar el empleado: {e}")

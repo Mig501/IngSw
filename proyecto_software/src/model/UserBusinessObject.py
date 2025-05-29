@@ -107,9 +107,6 @@ class UserBusinessObject:
     
     # hecho
     def delete_employee(self, employee_id:int) -> bool:
-        from model.dao.ServiceDao import ServiceDao
-        ServiceDao().delete_service_by_employee_id(employee_id)
-
         user_id = self.employee_dao.delete_by_employee_id(employee_id)
 
         self.user_dao.delete_user_by_id(user_id)

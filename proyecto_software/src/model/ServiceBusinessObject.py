@@ -39,3 +39,9 @@ class ServiceBusinessObject:
             return self.service_dao.delete_service(service_id)
         except Exception as e:
             raise Exception(f"Error in ServiceBusinessObject.delete_service: {e}")
+
+    def delete_services_by_employee_id(self, employee_id):
+        try:
+            return self.service_dao.delete_service_by_employee_id(employee_id)
+        except Exception as e:
+            raise Exception(f"Error in ServiceBusinessObject.delete_services_by_employee_id: {e}")

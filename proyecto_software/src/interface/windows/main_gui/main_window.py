@@ -98,8 +98,6 @@ class MainWindow(QMainWindow):
             edit_screen = EditProfileScreen(self.user_vo)
             self.add_sidebar_item("Editar perfil", edit_screen)
             edit_screen.logout_signal.connect(self.log_out)
-            self.add_sidebar_item("Cerrar sesión", edit_screen)
-            #self.add_sidebar_item("Cuenta", EditProfileScreen(self.user_vo))
 
         self.sidebar_layout.addWidget(self.menu_list)
 

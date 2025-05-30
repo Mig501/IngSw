@@ -63,10 +63,6 @@ class EditProfileScreen(QWidget):
         self.logger.add_log_activity(f"Usuario {self.user_vo.username} ha cerrado sesión.")
         layout.addWidget(logout_btn)
 
-        # Botón desactivar cuenta
-        deactivate_btn = QPushButton("Desactivar cuenta")
-        layout.addWidget(deactivate_btn)
-
     def save_changes(self):
         new_username = self.username_input.text().strip()
         new_email = self.email_input.text().strip()

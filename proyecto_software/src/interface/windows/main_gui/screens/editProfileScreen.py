@@ -60,7 +60,6 @@ class EditProfileScreen(QWidget):
         # Botón cerrar sesión
         logout_btn = QPushButton("Cerrar sesión")
         logout_btn.clicked.connect(self.emit_logout_signal)
-        self.logger.add_log_activity(f"Usuario {self.user_vo.username} ha cerrado sesión.")
         layout.addWidget(logout_btn)
 
         # Botón desactivar cuenta
@@ -121,4 +120,5 @@ class EditProfileScreen(QWidget):
                 QMessageBox.critical(self, "Error", f"Error al actualizar: {msg}")
 
     def emit_logout_signal(self):
+        self.logger.add_log_activity(f"Usuario {self.user_vo.username} ha cerrado sesión.")
         self.logout_signal.emit()

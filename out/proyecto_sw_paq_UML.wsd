@@ -42,8 +42,8 @@ package "Conexión" {
 
 ' Dependencias entre paquetes
 "Controladores" ..> "Persistencia (DAOs)" : utiliza
-"Controladores" ..> "Modelos de Datos (VO)" : utiliza
-"Persistencia (DAOs)" ..> "Modelos de Datos (VO)" : gestiona
+"Controladores" ..> "Modelos de Datos (VO)"
+"Persistencia (DAOs)" ..> "Modelos de Datos (VO)"
 "Controladores" ..> "Conexión" : conecta
 "Persistencia (DAOs)" ..> "Conexión" : depende
 "Controladores" ..> "Utilidades" : usa logs

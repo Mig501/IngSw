@@ -511,6 +511,4 @@ BusinessObject --> WorkshopDao : utiliza
 BusinessObject --> LoggerSingleton : utiliza
 LoggerSingleton --> InterfaceController : utiliza
 LoggerSingleton --> CoordinadorPrincipal : utiliza
-
 @enduml
-

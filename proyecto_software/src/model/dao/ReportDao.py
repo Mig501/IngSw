@@ -1,3 +1,4 @@
+#src/model/dao/ReportDao
 from model.conexion.Conexion import Conexion
 
 class ReportDao(Conexion):
@@ -183,7 +184,7 @@ class ReportDao(Conexion):
             cursor.close()
             self.closeConnection()
 
-    def get_totals(self, start_date:str, end_date:str):
+    def get_totals(self, start_date:str, end_date:str) -> int:
         """
         Obtiene el total de compra-ventas entre dos fechas.
         :param start_date: Fecha de inicio en formato 'YYYY-MM-DD'.

@@ -8,3 +8,5 @@
 [2025-06-07 16:39:26] Usuario arch ha cerrado sesión.
 [2025-06-07 16:51:02] Empleado registrado: inf1 por Admin 3
 [2025-06-07 16:57:40] Empleado 1 eliminado correctamente.
+[2025-06-07 17:06:08] Usuario admin2 ha cerrado sesión.
+[2025-06-07 17:07:28] Servicio 'ser1' registrado por empleado 2.

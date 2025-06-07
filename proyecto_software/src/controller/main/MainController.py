@@ -9,7 +9,8 @@ from controller.main.LogViewerController import LogViewerController
 from controller.main.AdminRegisterEmployeeController import AdminRegisterEmployeeController
 from controller.main.AdminMyEmployeesController import AdminMyEmployeesController
 from controller.main.AdminReportController import AdminReportController  # NUEVO
-
+from controller.main.ServiceRegisterController import ServiceRegisterController  # NUEVO
+from interface.windows.main_gui.screens.empRegisterServScreen import ServiceRegisterScreen  # NUEVO
 from interface.windows.main_gui.screens.archManageWorkshop import ArchManageWorkshop
 from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
 from interface.windows.main_gui.screens.archBackupScreen import BackupScreen
@@ -120,3 +121,8 @@ class MainController:
                 controlador = AdminReportController(pantalla)
                 self.subcontroladores[i] = controlador
                 print(f"[DEBUG] Controlador de AdminReportScreen asignado a índice {i}")
+
+            elif isinstance(pantalla, ServiceRegisterScreen):  # NUEVO
+                controlador = ServiceRegisterController(pantalla, self.user_vo.user_id)
+                self.subcontroladores[i] = controlador
+                print(f"[DEBUG] Controlador de ServiceRegisterScreen asignado a índice {i}")

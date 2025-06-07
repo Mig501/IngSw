@@ -1,3 +1,5 @@
+# src/interface/windows/main_gui/main_window.py
+
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,
     QLabel, QStackedWidget, QListWidget, QListWidgetItem
@@ -23,10 +25,11 @@ from interface.windows.main_gui.screens.adminMyEmployeesScreen import MyEmployee
 from interface.windows.main_gui.screens.archDeleteAdmins import ArchDeleteAdminScreen
 from interface.windows.main_gui.screens.archManageWorkshop import ArchManageWorkshop
 
+
 class MainWindow(QMainWindow):
 
     logout_signal = pyqtSignal()
-    sidebar_button_clicked = pyqtSignal(int)  # Nueva señal para el controlador
+    sidebar_button_clicked = pyqtSignal(int)
 
     def __init__(self, user_rol=None, client_id=None, user_vo=None):
         super().__init__()
@@ -66,7 +69,8 @@ class MainWindow(QMainWindow):
         if self.user_rol == "arch":
             self.add_sidebar_item("Registrar usuarios", ArchRegisterScreen())
             self.add_sidebar_item("Gestionar taller", ArchManageWorkshop())
-            self.add_sidebar_item("Realizar Copia de Seguridad", BackupScreen("bsa_database_isw", "root", "changeme"))
+            self.backup_screen = BackupScreen()
+            self.add_sidebar_item("Realizar Copia de Seguridad", self.backup_screen)
             self.add_sidebar_item("Visualizar Logs", LogViewerScreen())
             self.add_sidebar_item("Eliminar Admins", ArchDeleteAdminScreen())
 
@@ -181,7 +185,7 @@ class MainWindow(QMainWindow):
             self.btn_maximize.setIcon(QIcon("resources/icons/chevron_down.svg"))
 
     def display_page(self, index):
-        self.sidebar_button_clicked.emit(index)  # Emitimos para que el controlador maneje la navegación
+        self.sidebar_button_clicked.emit(index)
 
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton and self.header.underMouse():

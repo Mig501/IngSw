@@ -39,3 +39,15 @@ class Conexion:
         except Exception as e:
             print("Error cerrando conexión:", e)
 
+    # Getters para los datos de conexión
+    def get_db_name(self):
+        return self._database
+
+    def get_db_user(self):
+        return self._user
+
+    def get_db_password(self):
+        return self._password
+
+    def get_db_host(self):
+        return self._host

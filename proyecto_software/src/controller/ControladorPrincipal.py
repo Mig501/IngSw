@@ -1,8 +1,7 @@
-# src/controller/ControladorPrincipal.py
-
 from PyQt6.QtWidgets import QApplication
 from controller.login.LoginController import LoginController
 from controller.main.MainController import MainController
+from model.conexion.Conexion import Conexion
 
 class ControladorPrincipal:
     """
@@ -14,6 +13,7 @@ class ControladorPrincipal:
     def __init__(self, modelo, app: QApplication):
         self.modelo = modelo
         self.app = app
+        self.conexion = Conexion()
 
         self.login_window = None
         self.main_window = None
@@ -73,7 +73,8 @@ class ControladorPrincipal:
             main_window=self.main_window,
             modelo=self.modelo,
             coordinador=self,
-            user_vo=user_vo
+            user_vo=user_vo,
+            conexion=self.conexion
         )
 
         self.main_window.show()

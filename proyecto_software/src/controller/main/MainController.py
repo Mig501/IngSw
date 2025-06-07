@@ -1,7 +1,9 @@
-# src/controller/main/MainController.py
-
 from controller.main.ArchManageWorkshopController import ArchManageWorkshopController
 from interface.windows.main_gui.screens.archManageWorkshop import ArchManageWorkshop
+from controller.main.BackupController import BackupController
+from interface.windows.main_gui.screens.archBackupScreen import BackupScreen
+from model.conexion.Conexion import Conexion
+
 
 class MainController:
     """
@@ -9,13 +11,14 @@ class MainController:
     Gestiona la navegación entre pantallas y acciones del usuario.
     """
 
-    def __init__(self, main_window, modelo, coordinador, user_vo):
+    def __init__(self, main_window, modelo, coordinador, user_vo, conexion: Conexion):
         self.vista = main_window
         self.modelo = modelo
         self.coordinador = coordinador
         self.user_vo = user_vo
+        self.conexion = conexion
 
-        # Configurar usuario
+        # Configurar usuario en la vista
         self.vista.set_user(user_vo)
 
         # Conectar señales globales
@@ -26,18 +29,8 @@ class MainController:
         self.subcontroladores = {}
         self.configurar_subcontroladores()
 
-        # Mostrar pantalla inicial
+        # Mostrar pantalla inicial (Home)
         self.vista.stacked_widget.setCurrentIndex(0)
-
-    def configurar_subcontroladores(self):
-        """
-        Inicializa los controladores específicos de pantallas que lo requieran.
-        """
-        for i, pantalla in enumerate(self.vista.screens):
-            if isinstance(pantalla, ArchManageWorkshop):
-                controlador = ArchManageWorkshopController(pantalla, self.modelo)
-                self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de ArchManageWorkshop asignado a índice {i}")
 
     def navegar_a_pantalla(self, index: int):
         """
@@ -54,3 +47,23 @@ class MainController:
         """
         self.vista.close()
         self.coordinador.mostrar_login()
+
+    def configurar_subcontroladores(self):
+        """
+        Inicializa los controladores específicos de pantallas que lo requieran.
+        """
+        for i, pantalla in enumerate(self.vista.screens):
+            if isinstance(pantalla, ArchManageWorkshop):
+                controlador = ArchManageWorkshopController(pantalla, self.modelo)
+                self.subcontroladores[i] = controlador
+                print(f"[DEBUG] Controlador de ArchManageWorkshop asignado a índice {i}")
+
+            elif isinstance(pantalla, BackupScreen):
+                controlador = BackupController(
+                    pantalla,
+                    self.conexion.get_db_name(),
+                    self.conexion.get_db_user(),
+                    self.conexion.get_db_password()
+                )
+                self.subcontroladores[i] = controlador
+                print(f"[DEBUG] Controlador de BackupScreen asignado a índice {i}")

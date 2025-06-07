@@ -22,7 +22,8 @@ from interface.windows.main_gui.screens.adminMyEmployeesScreen import MyEmployee
 from interface.windows.main_gui.screens.adminReportScreen import AdminReportScreen
 from interface.windows.main_gui.screens.empRegisterServScreen import ServiceRegisterScreen
 from interface.windows.main_gui.screens.empMyServicesScreen import MyServicesScreen
-
+from controller.main.EditProfileController import EditProfileController
+from interface.windows.main_gui.screens.editProfileScreen import EditProfileScreen
 from model.conexion.Conexion import Conexion
 
 
@@ -133,3 +134,8 @@ class MainController:
                 controlador = ClientMyServicesController(pantalla, self.user_vo.user_id)
                 self.subcontroladores[i] = controlador
                 print(f"[DEBUG] Controlador de MyServicesScreen asignado a índice {i}")
+
+            elif isinstance(pantalla, EditProfileScreen):
+                controlador = EditProfileController(pantalla, self.user_vo)
+                self.subcontroladores[i] = controlador
+                print(f"[DEBUG] Controlador de EditProfileScreen asignado a índice {i}")

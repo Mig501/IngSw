@@ -3,7 +3,7 @@
 import sys
 from PyQt6.QtWidgets import QApplication
 from model.BusinessObject import BusinessObject
-from controller.CoordinadorPrincipal import CoordinadorPrincipal
+from controller.CoordinadorPrincipal import ControladorPrincipal
 import multiprocessing
 from utils.server.verify_server import run_server
 
@@ -19,7 +19,7 @@ def main():
     modelo = BusinessObject()
 
     # Crear el controlador principal y llamar a su método de inicio
-    coordinador = CoordinadorPrincipal(modelo, app)
+    coordinador = ControladorPrincipal(modelo, app)
     coordinador.iniciar()
 
     # Ejecutar la aplicación

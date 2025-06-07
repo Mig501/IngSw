@@ -23,6 +23,7 @@ from interface.windows.main_gui.screens.empMyServicesScreen import MyServicesScr
 from interface.windows.main_gui.screens.adminMyEmployeesScreen import MyEmployeesScreen
 from interface.windows.main_gui.screens.archDeleteAdmins import ArchDeleteAdminScreen
 from interface.windows.main_gui.screens.archManageWorkshop import ArchManageWorkshop
+from interface.windows.main_gui.screens.service_screen import ServiceScreen
 
 
 class MainWindow(QMainWindow):
@@ -84,6 +85,7 @@ class MainWindow(QMainWindow):
             self.add_sidebar_item("Mis productos", MyProductsScreen())
             self.add_sidebar_item("Vehículos", VehicleScreen())
             self.add_sidebar_item("Otros productos", OtherScreen())
+            self.add_sidebar_item("Servicios", ServiceScreen(self.user_vo))
 
         if self.user_rol == "empleado":
             self.add_sidebar_item("Registrar servicio", ServiceRegisterScreen())

@@ -1,5 +1,4 @@
 # src/main.py
-
 import sys
 from PyQt6.QtWidgets import QApplication
 from model.BusinessObject import BusinessObject

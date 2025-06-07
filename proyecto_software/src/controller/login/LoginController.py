@@ -1,3 +1,4 @@
+#src/controller/login/LoginController.py
 from model.vo.LoginUserVO import LoginUserVO
 
 class LoginController:
@@ -42,6 +43,14 @@ class LoginController:
         self.coordinador.abrir_main_window(user_vo)
 
     def enviar_registro(self, username, password, email, phone):
+        """
+        Envía los datos de registro al modelo y maneja la lógica de registro.
+        :param username: Nombre de usuario
+        :param password: Contraseña del usuario
+        :param email: Correo electrónico del usuario
+        :param phone: Teléfono del usuario
+        :return: True si el registro fue exitoso, False en caso contrario
+        """
         try:
             # Verificar si es el primer usuario registrado
             count = self.modelo.user.count_users()

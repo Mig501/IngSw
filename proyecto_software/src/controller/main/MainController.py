@@ -1,3 +1,4 @@
+#src/controller/main/MainController.py
 from controller.main.ArchManageWorkshopController import ArchManageWorkshopController
 from controller.main.AdminManageWorkshopController import AdminManageWorkshopController
 from controller.main.BackupController import BackupController
@@ -67,6 +68,7 @@ class MainController:
         """
         try:
             self.vista.stacked_widget.setCurrentIndex(index)
+        
         except Exception as e:
             print(f"[ERROR] No se pudo cambiar a la pantalla índice {index}: {e}")
 
@@ -85,12 +87,10 @@ class MainController:
             if isinstance(pantalla, ArchManageWorkshop):
                 controlador = ArchManageWorkshopController(pantalla, self.modelo)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de ArchManageWorkshop asignado a índice {i}")
 
             elif isinstance(pantalla, AdminManageWorkshop):
                 controlador = AdminManageWorkshopController(pantalla)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de AdminManageWorkshop asignado a índice {i}")
 
             elif isinstance(pantalla, BackupScreen):
                 controlador = BackupController(
@@ -100,74 +100,59 @@ class MainController:
                     self.conexion.get_db_password()
                 )
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de BackupScreen asignado a índice {i}")
 
             elif isinstance(pantalla, ArchRegisterScreen):
                 controlador = ArchRegisterController(pantalla)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de ArchRegisterScreen asignado a índice {i}")
 
             elif isinstance(pantalla, ArchDeleteAdminScreen):
                 controlador = ArchDeleteAdminController(pantalla)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de ArchDeleteAdminScreen asignado a índice {i}")
 
             elif isinstance(pantalla, LogViewerScreen):
                 controlador = LogViewerController(pantalla)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de LogViewerScreen asignado a índice {i}")
 
             elif isinstance(pantalla, AdminRegisterEmployeeScreen):
                 controlador = AdminRegisterEmployeeController(pantalla, self.user_vo.user_id)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de AdminRegisterEmployeeScreen asignado a índice {i}")
 
             elif isinstance(pantalla, MyEmployeesScreen):
                 controlador = AdminMyEmployeesController(pantalla, self.user_vo.user_id)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de MyEmployeesScreen asignado a índice {i}")
 
             elif isinstance(pantalla, AdminReportScreen):
                 controlador = AdminReportController(pantalla)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de AdminReportScreen asignado a índice {i}")
 
             elif isinstance(pantalla, ServiceRegisterScreen):
                 controlador = ServiceRegisterController(pantalla, self.user_vo.user_id)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de ServiceRegisterScreen asignado a índice {i}")
 
             elif isinstance(pantalla, MyServicesScreen):
                 controlador = ClientMyServicesController(pantalla, self.user_vo.user_id)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de MyServicesScreen asignado a índice {i}")
 
             elif isinstance(pantalla, EditProfileScreen):
                 controlador = EditProfileController(pantalla, self.user_vo)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de EditProfileScreen asignado a índice {i}")
 
             elif isinstance(pantalla, ProductRegisterScreen):
                 controlador = ProductRegisterController(pantalla)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de ProductRegisterScreen asignado a índice {i}")
 
             elif isinstance(pantalla, MyProductsScreen):
                 controlador = ClientMyProductsController(pantalla, self.user_vo.user_id)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de MyProductsScreen asignado a índice {i}")
 
             elif isinstance(pantalla, VehicleScreen):
                 controlador = VehicleController(pantalla, self.user_vo)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de VehicleScreen asignado a índice {i}")
 
             elif isinstance(pantalla, OtherScreen):
                 controlador = OtherScreenController(pantalla, self.user_vo)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de OtherScreen asignado a índice {i}")
 
             elif isinstance(pantalla, ServiceScreen):
                 controlador = ServiceScreenController(pantalla, self.user_vo)
                 self.subcontroladores[i] = controlador
-                print(f"[DEBUG] Controlador de ServiceScreen asignado a índice {i}")

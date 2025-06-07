@@ -1,3 +1,4 @@
+#src/controller/main/ServiceRegisterController.py
 from model.BusinessObject import BusinessObject
 from model.vo.ServiceVO import ServiceVO
 from model.loggerSingleton import LoggerSingleton
@@ -14,6 +15,12 @@ class ServiceRegisterController:
         self.vista.registrar_servicio_signal.connect(self.registrar_servicio)
 
     def registrar_servicio(self, datos):
+        """
+        Valida los datos y registra el nuevo servicio.
+
+        Args:
+            datos (dict): Diccionario con los datos del formulario de la vista.
+        """
         try:
             price = float(datos["price"])
             name = datos["name"].lower()
@@ -36,10 +43,12 @@ class ServiceRegisterController:
                 self.logger.add_log_activity(f"Servicio '{name}' registrado por empleado {self.employee_id}.")
                 self.vista.show_message("Éxito", "Servicio registrado correctamente.")
                 self.vista.clear_fields()
+            
             else:
                 self.vista.show_message("Error", "No se pudo registrar el servicio.", is_error=True)
 
         except ValueError:
             self.vista.show_message("Error", "El precio debe ser un número válido.", is_error=True)
+
         except Exception as e:
             self.vista.show_message("Error", str(e), is_error=True)

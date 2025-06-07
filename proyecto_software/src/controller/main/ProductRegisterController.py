@@ -1,3 +1,4 @@
+#src/controller/main/ProductRegisterController.py
 from PyQt6.QtWidgets import QMessageBox
 from model.BusinessObject import BusinessObject
 from model.vo.AutomobileVO import AutomobileVO
@@ -15,8 +16,15 @@ class ProductRegisterController:
         self.vista.registrar_producto_signal.connect(self.registrar_producto)
 
     def registrar_producto(self, data: dict):
+        """
+        Método que procesa y valida los datos del formulario y realiza el registro del producto.
+
+        Args:
+            data (dict): Diccionario con todos los campos introducidos por el usuario en la vista.
+        """        
         try:
             price = float(data["price"])
+        
         except ValueError:
             self.vista.show_message("Error", "El precio debe ser un número válido.", is_error=True)
             return
@@ -30,6 +38,7 @@ class ProductRegisterController:
 
         try:
             year = int(data["year"])
+        
         except ValueError:
             self.vista.show_message("Error", "El año debe ser un número válido.", is_error=True)
             return
@@ -59,6 +68,7 @@ class ProductRegisterController:
             elif ptype == "otros":
                 size_of = float(especificos["size_of"])
                 used_for = especificos["used_for"].strip()
+        
                 if not used_for:
                     raise ValueError("El campo 'Usado para' es obligatorio.")
 
@@ -78,10 +88,12 @@ class ProductRegisterController:
                 self.logger.add_log_activity(f"Producto registrado por cliente {client_id}.")
                 self.vista.show_message("Éxito", "Producto registrado correctamente.")
                 self.vista.clear_fields()
+        
             else:
                 self.vista.show_message("Error", "No se pudo registrar el producto.", is_error=True)
 
         except ValueError as ve:
             self.vista.show_message("Error de validación", str(ve), is_error=True)
+        
         except Exception as e:
             self.vista.show_message("Error inesperado", str(e), is_error=True)

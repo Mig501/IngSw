@@ -1,13 +1,8 @@
 # src/controller/main/BackupController.py
-
 from utils.backup_util.backup_util import create_backup_mysql, restore_backup_mysql
 
 class BackupController:
-    """
-    Controlador para la pantalla de copia de seguridad.
-    Se encarga de ejecutar las operaciones de backup y restauración.
-    """
-
+    
     def __init__(self, view, db_name: str, db_user: str, db_password: str):
         self.view = view
         self.db_name = db_name
@@ -23,8 +18,10 @@ class BackupController:
         success, result = create_backup_mysql(
             self.db_name, self.db_user, self.db_password, path
         )
+        
         if success:
             self.view.show_message("Backup Exitoso", f"Backup creado en: {result}")
+        
         else:
             self.view.show_message("Error", f"Error al crear el backup: {result}", is_error=True)
 
@@ -33,7 +30,9 @@ class BackupController:
         success, message = restore_backup_mysql(
             self.db_name, self.db_user, self.db_password, path
         )
+        
         if success:
             self.view.show_message("Restauración Exitosa", message)
+        
         else:
             self.view.show_message("Error", f"Error al restaurar el backup: {message}", is_error=True)

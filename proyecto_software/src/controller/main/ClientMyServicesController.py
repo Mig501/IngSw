@@ -18,14 +18,23 @@ class ClientMyServicesController:
         self.cargar_servicios()
 
     def cargar_servicios(self):
+        """
+        Carga los servicios registrados por el empleado y los envía a la vista.
+        """
         try:
             servicios = self.bo.get_employee_services(self.employee_id)
             self.vista.actualizar_lista(servicios)
+        
         except Exception as e:
             self.vista.mostrar_mensaje("Error", f"No se pudieron cargar los servicios.\n{str(e)}", error=True)
 
     def eliminar_servicio(self, service_id):
-        from PyQt6.QtWidgets import QMessageBox
+        """
+        Elimina un servicio después de confirmar la acción con el usuario.
+
+        Args:
+            service_id (int): ID del servicio a eliminar.
+        """
         confirm = QMessageBox.question(
             self.vista,
             "Confirmar eliminación",
@@ -39,7 +48,9 @@ class ClientMyServicesController:
                 if success:
                     self.vista.mostrar_mensaje("Éxito", "Servicio eliminado correctamente.")
                     self.cargar_servicios()
+                
                 else:
                     self.vista.mostrar_mensaje("Error", "No se pudo eliminar el servicio.", error=True)
+            
             except Exception as e:
                 self.vista.mostrar_mensaje("Error", f"Error al eliminar: {str(e)}", error=True)

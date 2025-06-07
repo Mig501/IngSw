@@ -1,5 +1,4 @@
 # src/controller/main/ArchManageWorkshopController.py
-
 from PyQt6.QtWidgets import QMessageBox
 from model.vo.WorkshopVO import WorkshopVO
 
@@ -13,6 +12,10 @@ class ArchManageWorkshopController:
         self.vista.save_button.clicked.connect(self.guardar_taller)
 
     def guardar_taller(self):
+        """
+        Recoge los datos del formulario, los valida, crea el objeto de taller,
+        y lo guarda usando el modelo. Notifica a la vista el resultado.
+        """
         try:
             # Recoger datos desde la vista
             ws_zip_code = self.vista.input_ws_zip_code.text()
@@ -33,6 +36,7 @@ class ArchManageWorkshopController:
             if self.modelo.register_workshop(workshop_vo):
                 QMessageBox.information(self.vista, "Éxito", "Taller registrado correctamente.")
                 self.vista.clear_fields()
+            
             else:
                 raise Exception("No se pudo registrar el taller.")
 

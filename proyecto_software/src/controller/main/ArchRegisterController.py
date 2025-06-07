@@ -14,6 +14,13 @@ class ArchRegisterController(QObject):
         self.logger = LoggerSingleton()
 
     def registrar_admin(self, datos: dict):
+        """
+        Recibe los datos del formulario, crea los VO correspondientes, y llama al modelo
+        para registrar al nuevo administrador.
+
+        Args:
+            datos (dict): Diccionario con los datos del formulario de la vista.
+        """
         try:
             user_vo = RegisterUserVO(
                 None,

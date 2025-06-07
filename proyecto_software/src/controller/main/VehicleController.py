@@ -1,3 +1,4 @@
+#src/controller/main/VehicleController.py
 from PyQt6.QtWidgets import QMessageBox
 from model.BusinessObject import BusinessObject
 
@@ -15,6 +16,9 @@ class VehicleController:
         self.init_widgets_filtros()
 
     def init_widgets_filtros(self):
+        """
+        Inicializa los widgets de filtro utilizados dinámicamente por la vista.
+        """
         from PyQt6.QtWidgets import QSpinBox, QComboBox
 
         self.min_km, self.max_km = QSpinBox(), QSpinBox()
@@ -40,24 +44,40 @@ class VehicleController:
         self.max_price.setRange(0, 1_000_000_000)
 
     def cargar_filtros(self, filtro):
+        """
+        Muestra dinámicamente los filtros según la opción seleccionada en el combo.
+
+        Args:
+            filtro (str): Opción seleccionada ("Kilómetros", "Consumo", etc.)
+        """
         if filtro == "Kilómetros":
             self.vista.mostrar_filtros([("Mín. km:", self.min_km), ("Máx. km:", self.max_km)])
+        
         elif filtro == "Consumo":
             self.vista.mostrar_filtros([("Mín. consumo:", self.min_consume), ("Máx. consumo:", self.max_consume)])
+        
         elif filtro == "Autonomía":
             self.vista.mostrar_filtros([("Mín. autonomía:", self.min_autonomy), ("Máx. autonomía:", self.max_autonomy)])
+        
         elif filtro == "Combustible":
             self.vista.mostrar_filtros([("Tipo de combustible:", self.fuel_type)])
+        
         elif filtro == "Etiqueta Medioambiental":
             self.vista.mostrar_filtros([("Etiqueta:", self.env_label)])
+        
         elif filtro == "Precio":
             self.vista.mostrar_filtros([("Mín. precio:", self.min_price), ("Máx. precio:", self.max_price)])
+        
         else:
             self.vista.mostrar_filtros([])
 
     def buscar(self):
+        """
+        Realiza una búsqueda de vehículos aplicando marca, modelo y los filtros seleccionados.
+        """
         query = self.vista.search_bar.text().strip()
         brand, model = "", ""
+        
         if query:
             parts = query.split()
             brand = parts[0]
@@ -83,6 +103,12 @@ class VehicleController:
         self.vista.mostrar_vehiculos(vehiculos, self.bo.product.get_owner_id, client_id)
 
     def comprar_vehiculo(self, product_id: int):
+        """
+        Gestiona el proceso de compra de un vehículo por parte del cliente.
+
+        Args:
+            product_id (int): ID del producto seleccionado.
+        """
         confirm = QMessageBox.question(self.vista, "Confirmar compra", "¿Estás seguro de que quieres comprar este vehículo?",
                                        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
 
@@ -102,6 +128,7 @@ class VehicleController:
 
         try:
             success = self.bo.product.buy_product(product_id, client_id)
+            
             if success:
                 QMessageBox.information(self.vista, "Compra exitosa", "Has comprado el vehículo con éxito.")
                 self.buscar()
@@ -110,5 +137,6 @@ class VehicleController:
         except Exception as e:
             if "Saldo insuficiente" in str(e):
                 QMessageBox.warning(self.vista, "Saldo insuficiente", "No tienes suficiente saldo para comprar este vehículo.")
+            
             else:
                 QMessageBox.critical(self.vista, "Error", f"Error inesperado:\n{e}")

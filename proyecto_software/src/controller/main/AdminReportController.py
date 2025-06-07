@@ -1,5 +1,4 @@
-#
-
+#src/controller/main/AdminReportController.py
 from PyQt6.QtWidgets import QMessageBox, QFileDialog
 from fpdf import FPDF
 import os
@@ -18,6 +17,9 @@ class AdminReportController:
         self.vista.exportar_pdf_signal.connect(self.exportar_pdf)
 
     def generar_informe(self, start, end):
+        """
+        Genera el informe de ventas entre dos fechas. Llama a los métodos del modelo y actualiza la vista.
+        """
         self.last_dates = (start, end)
 
         if start > end:
@@ -84,8 +86,10 @@ Marca más comprada: {top_brand[0]} ({top_brand[1]} veces)
             pdf.image(img_path, x=10, y=None, w=pdf.w - 20)
             pdf.output(path)
             QMessageBox.information(self.vista, "Éxito", "Informe exportado correctamente.")
+        
         except Exception as e:
             QMessageBox.critical(self.vista, "Error", f"Error al exportar el PDF:\n{e}")
+        
         finally:
             if os.path.exists(img_path):
                 os.remove(img_path)

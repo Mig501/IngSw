@@ -15,6 +15,15 @@ class ServiceScreenController:
         self.vista.contratar_servicio_signal.connect(self.contratar_servicio)
 
     def buscar_servicios(self, query, min_price, max_price):
+        """
+        Realiza una búsqueda de servicios filtrando por nombre y rango de precios.
+
+        Args:
+            query (str): Texto de búsqueda.
+            min_price (int): Precio mínimo.
+            max_price (int): Precio máximo.
+        """
+                
         filtros = {}
 
         if query:
@@ -27,10 +36,18 @@ class ServiceScreenController:
             resultados = self.bo.get_filtered_services(**filtros)
             client_id = self.bo_user.get_client_id(self.user_vo.user_id)
             self.vista.mostrar_resultados(resultados, client_id, self.bo.get_service_owner_id)
+        
         except Exception as e:
             QMessageBox.critical(self.vista, "Error", f"Error al buscar servicios:\n{str(e)}")
 
     def contratar_servicio(self, service_id):
+        """
+        Realiza la contratación de un servicio.
+
+        Args:
+            service_id (int): ID del servicio a contratar.
+        """
+
         confirm = QMessageBox.question(self.vista, "Confirmar compra",
             "¿Estás seguro de que quieres contratar este servicio?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
@@ -41,11 +58,14 @@ class ServiceScreenController:
         try:
             client_id = self.bo_user.get_client_id(self.user_vo.user_id)
             success = self.bo.hire_service(client_id, service_id)
+            
             if success:
                 QMessageBox.information(self.vista, "Éxito", "Servicio contratado con éxito.")
                 self.buscar_servicios(self.vista.search_bar.text().strip(), self.vista.min_price.value(), self.vista.max_price.value())
+            
             else:
                 QMessageBox.warning(self.vista, "Error", "No se pudo contratar el servicio.")
+        
         except Exception as e:
             if "saldo insuficiente" in str(e):
                 QMessageBox.warning(self.vista, "Error", "No tienes suficiente saldo para contratar este servicio.")

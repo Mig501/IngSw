@@ -1,11 +1,9 @@
 # src/controller/main/AdminRegisterEmployeeController.py
-
 from PyQt6.QtWidgets import QMessageBox
 from model.vo.RegisterUserVO import RegisterUserVO
 from model.vo.EmployeeVO import EmployeeVO
 from model.BusinessObject import BusinessObject
 from model.loggerSingleton import LoggerSingleton
-
 
 class AdminRegisterEmployeeController:
     def __init__(self, vista, user_id):
@@ -18,6 +16,11 @@ class AdminRegisterEmployeeController:
         self.vista.registrar_empleado_signal.connect(self.registrar_empleado)
 
     def registrar_empleado(self, datos):
+        """
+        Procesa el registro de un nuevo empleado a partir de los datos proporcionados por la vista.
+        Args:
+            datos (dict): Diccionario con los datos del formulario de la vista.
+        """
         try:
             user_vo = RegisterUserVO(
                 user_id=None,

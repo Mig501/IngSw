@@ -1,5 +1,4 @@
 # src/controller/main/AdminManageWorkshopController.py
-
 from PyQt6.QtCore import QObject
 from model.vo.WorkshopVO import WorkshopVO
 from model.BusinessObject import BusinessObject
@@ -13,6 +12,14 @@ class AdminManageWorkshopController(QObject):
         self.vista.save_workshop_signal.connect(self.registrar_taller)
 
     def registrar_taller(self, data: dict):
+        """
+        Recibe los datos del formulario en forma de diccionario desde la vista
+        y realiza el proceso de registro del taller.
+        
+        Args:
+            data (dict): Diccionario con los datos del formulario.
+        
+        """
         try:
             workshop_vo = WorkshopVO(
                 data["ws_zip_code"],

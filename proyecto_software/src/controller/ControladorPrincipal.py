@@ -1,3 +1,4 @@
+#src/controller/ControladorPrincipal.py
 from PyQt6.QtWidgets import QApplication
 from controller.login.LoginController import LoginController
 from controller.main.MainController import MainController

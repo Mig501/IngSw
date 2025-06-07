@@ -8,6 +8,8 @@ from controller.main.ArchRegisterController import ArchRegisterController
 from interface.windows.main_gui.screens.archRegisterScreen import ArchRegisterScreen
 from controller.main.ArchDeleteAdminController import ArchDeleteAdminController
 from interface.windows.main_gui.screens.archDeleteAdmins import ArchDeleteAdminScreen
+from controller.main.LogViewerController import LogViewerController
+from interface.windows.main_gui.screens.logViewerScreen import LogViewerScreen
 from model.conexion.Conexion import Conexion
 
 class MainController:
@@ -82,3 +84,8 @@ class MainController:
                 controlador = ArchDeleteAdminController(pantalla)
                 self.subcontroladores[i] = controlador
                 print(f"[DEBUG] Controlador de ArchDeleteAdminScreen asignado a índice {i}")
+
+            elif isinstance(pantalla, LogViewerScreen):
+                controlador = LogViewerController(pantalla)
+                self.subcontroladores[i] = controlador
+                print(f"[DEBUG] Controlador de LogViewerScreen asignado a índice {i}")

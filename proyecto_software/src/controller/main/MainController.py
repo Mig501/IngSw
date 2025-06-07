@@ -3,7 +3,8 @@ from interface.windows.main_gui.screens.archManageWorkshop import ArchManageWork
 from controller.main.BackupController import BackupController
 from interface.windows.main_gui.screens.archBackupScreen import BackupScreen
 from model.conexion.Conexion import Conexion
-
+from controller.main.ArchRegisterController import ArchRegisterController
+from interface.windows.main_gui.screens.archRegisterScreen import ArchRegisterScreen
 
 class MainController:
     """
@@ -67,3 +68,8 @@ class MainController:
                 )
                 self.subcontroladores[i] = controlador
                 print(f"[DEBUG] Controlador de BackupScreen asignado a índice {i}")
+            
+            elif isinstance(pantalla, ArchRegisterScreen):
+                controlador = ArchRegisterController(pantalla)
+                self.subcontroladores[i] = controlador
+                print(f"[DEBUG] Controlador de ArchRegisterScreen asignado a índice {i}")

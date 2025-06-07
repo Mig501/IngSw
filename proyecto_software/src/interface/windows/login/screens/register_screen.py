@@ -1,5 +1,4 @@
 # src/frontend/windows/login/screens/register_screen.py
-
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
 from PyQt6.QtCore import Qt, pyqtSignal
 
@@ -8,7 +7,7 @@ class RegisterScreen(QWidget):
 
     def __init__(self, controller=None):
         super().__init__()
-        self.controller = controller  # Se puede asignar después
+        self.controller = controller
 
         layout = QVBoxLayout()
 

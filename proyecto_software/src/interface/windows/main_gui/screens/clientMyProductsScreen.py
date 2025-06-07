@@ -36,6 +36,7 @@ class MyProductsScreen(QWidget):
 
     def on_delete_clicked(self):
         selected = self.product_list.currentItem()
+        
         if not selected:
             QMessageBox.warning(self, "Advertencia", "Selecciona un producto para eliminar.")
             return
@@ -47,11 +48,13 @@ class MyProductsScreen(QWidget):
             "¿Estás seguro de que quieres eliminar este producto?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
         )
+        
         if confirm == QMessageBox.StandardButton.Yes:
             self.delete_product_signal.emit(product_id)
 
     def populate_products(self, productos: list):
         self.product_list.clear()
+        
         for p in productos:
             item_text = f"{p['ProductID']} - {p['brand']} {p['model']} ({p['ptype']})"
             self.product_list.addItem(item_text)
@@ -59,5 +62,6 @@ class MyProductsScreen(QWidget):
     def show_message(self, title, text, error=False):
         if error:
             QMessageBox.critical(self, title, text)
+        
         else:
             QMessageBox.information(self, title, text)

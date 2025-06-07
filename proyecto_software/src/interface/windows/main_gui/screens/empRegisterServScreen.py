@@ -52,5 +52,6 @@ class ServiceRegisterScreen(QWidget):
         from PyQt6.QtWidgets import QMessageBox
         if is_error:
             QMessageBox.critical(self, title, message)
+        
         else:
             QMessageBox.information(self, title, message)

@@ -1,5 +1,4 @@
 # src/interface/windows/main_gui/screens/editProfileScreen.py
-
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton
 from PyQt6.QtCore import Qt, pyqtSignal
 
@@ -30,6 +29,7 @@ class EditProfileScreen(QWidget):
         layout.addWidget(self.phone_input)
 
         self.saldo_input = None
+        
         if self.user_vo.rol == "cliente":
             self.saldo_input = QLineEdit()
             layout.addWidget(QLabel("Saldo (€)"))
@@ -60,5 +60,6 @@ class EditProfileScreen(QWidget):
         from PyQt6.QtWidgets import QMessageBox
         if is_error:
             QMessageBox.critical(self, title, message)
+        
         else:
             QMessageBox.information(self, title, message)

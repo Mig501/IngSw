@@ -70,6 +70,7 @@ class ArchRegisterScreen(QWidget):
     def mostrar_mensaje(self, titulo, mensaje, es_error=False):
         if es_error:
             QMessageBox.critical(self, titulo, mensaje)
+        
         else:
             QMessageBox.information(self, titulo, mensaje)
 

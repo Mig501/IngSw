@@ -1,5 +1,4 @@
 # src/interface/windows/main_gui/screens/clientMyServicesScreen.py
-
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QListWidget, QPushButton
 from PyQt6.QtCore import Qt, pyqtSignal
 
@@ -32,12 +31,14 @@ class MyServicesScreen(QWidget):
 
     def eliminar_servicio(self):
         selected = self.service_list.currentItem()
+        
         if selected:
             service_id = int(selected.text().split(" - ")[0])
             self.eliminar_servicio_signal.emit(service_id)
 
     def actualizar_lista(self, servicios: list[dict]):
         self.service_list.clear()
+        
         for s in servicios:
             texto = f"{s['ServiceID']} - {s['ser_name']} {s['ser_description']}"
             self.service_list.addItem(texto)
@@ -46,6 +47,7 @@ class MyServicesScreen(QWidget):
         from PyQt6.QtWidgets import QMessageBox
         if error:
             QMessageBox.critical(self, titulo, mensaje)
+        
         else:
             QMessageBox.information(self, titulo, mensaje)
 

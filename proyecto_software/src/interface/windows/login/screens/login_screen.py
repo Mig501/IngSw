@@ -1,3 +1,4 @@
+#src/interface/windows/login/screens/login_screen.py
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel, QSizePolicy, QMessageBox
 from PyQt6.QtCore import QSize, Qt, pyqtSignal
 from PyQt6.QtGui import QPixmap, QIcon

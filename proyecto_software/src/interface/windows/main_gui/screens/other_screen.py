@@ -60,6 +60,7 @@ class OtherScreen(QWidget):
         if filtro == "Precio":
             self.filter_fields_layout.addRow("Mín. precio:", self.min_price)
             self.filter_fields_layout.addRow("Máx. precio:", self.max_price)
+        
         elif filtro == "Tamaño":
             self.filter_fields_layout.addRow("Mín. tamaño:", self.min_size)
             self.filter_fields_layout.addRow("Máx. tamaño:", self.max_size)
@@ -71,8 +72,10 @@ class OtherScreen(QWidget):
         modelo = " ".join(partes[1:]) if len(partes) > 1 else ""
 
         filtros = {}
+        
         if self.min_price.value() != 0 or self.max_price.value() != 0:
             filtros["price_range"] = (self.min_price.value(), self.max_price.value())
+        
         if self.min_size.value() != 0 or self.max_size.value() != 0:
             filtros["size_range"] = (self.min_size.value(), self.max_size.value())
 
@@ -90,6 +93,7 @@ class OtherScreen(QWidget):
 
     def mostrar_resultados(self, resultados, client_id, obtener_owner_fn):
         self.other_list.clear()
+        
         if not resultados:
             item = QListWidgetItem("No hay productos disponibles con los filtros actuales.")
             item.setFlags(Qt.ItemFlag.NoItemFlags)
@@ -104,9 +108,11 @@ class OtherScreen(QWidget):
 
             img = QLabel()
             pixmap = QPixmap(r["pimage"])
+            
             if pixmap.isNull():
                 img.setText("Sin imagen")
                 img.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            
             else:
                 img.setPixmap(pixmap.scaled(200, 120, Qt.AspectRatioMode.KeepAspectRatio))
 
@@ -134,5 +140,6 @@ class OtherScreen(QWidget):
     def mostrar_mensaje(self, titulo, mensaje, critico=False):
         if critico:
             QMessageBox.critical(self, titulo, mensaje)
+        
         else:
             QMessageBox.information(self, titulo, mensaje)

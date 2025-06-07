@@ -1,5 +1,4 @@
 # src/interface/windows/main_gui/main_window.py
-
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,
     QLabel, QStackedWidget, QListWidget, QListWidgetItem

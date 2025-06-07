@@ -1,3 +1,4 @@
+#src/interface/windows/main_gui/screens/vehicle_screen.py
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QLineEdit, QPushButton,
     QListWidget, QListWidgetItem, QLabel, QFormLayout, QSpinBox
@@ -47,6 +48,7 @@ class VehicleScreen(QWidget):
     def mostrar_filtros(self, widgets):
         for i in reversed(range(self.filter_fields_layout.count())):
             self.filter_fields_layout.itemAt(i).widget().setParent(None)
+        
         for label, widget in widgets:
             self.filter_fields_layout.addRow(label, widget)
 
@@ -61,14 +63,17 @@ class VehicleScreen(QWidget):
 
     def mostrar_vehiculos(self, lista_vehiculos, get_owner_id_fn, client_id):
         self.car_list.clear()
+        
         for car in lista_vehiculos:
             widget = QWidget()
             layout = QVBoxLayout(widget)
 
             image_label = QLabel()
             pixmap = QPixmap(car.get("pimage"))
+        
             if not pixmap.isNull():
                 image_label.setPixmap(pixmap.scaled(200, 120, Qt.AspectRatioMode.KeepAspectRatio))
+        
             else:
                 image_label.setText("Sin imagen")
                 image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)

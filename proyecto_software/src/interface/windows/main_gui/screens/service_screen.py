@@ -1,5 +1,4 @@
 # src/interface/windows/main_gui/screens/service_screen.py
-
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QLineEdit, QPushButton, QListWidget, QListWidgetItem, QLabel, QFormLayout, QSpinBox, QMessageBox
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
@@ -97,6 +96,7 @@ class ServiceScreen(QWidget):
 
             # Mostrar botón si el servicio no es del propio cliente
             employee_id = service_owner_fn(service['ServiceID'])
+            
             if employee_id != client_id:
                 buy_button = QPushButton("Comprar")
                 buy_button.clicked.connect(lambda _, s_id=service['ServiceID']: self.contratar_servicio_signal.emit(s_id))
@@ -114,6 +114,8 @@ class ServiceScreen(QWidget):
         self.search_bar.clear()
         self.min_price.setValue(0)
         self.max_price.setValue(0)
+        
         for i in reversed(range(self.filter_fields_layout.count())):
             self.filter_fields_layout.itemAt(i).widget().setParent(None)
+        
         self.service_list.clear()

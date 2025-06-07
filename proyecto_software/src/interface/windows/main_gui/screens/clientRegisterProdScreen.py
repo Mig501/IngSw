@@ -83,6 +83,7 @@ class ProductRegisterScreen(QWidget):
 
     def select_image(self):
         image_path, _ = QFileDialog.getOpenFileName(self, "Seleccionar Imagen", "", "Imagenes (*.png *.jpg *.jpeg)")
+        
         if image_path:
             self.input_image_path.setText(image_path)
 
@@ -108,6 +109,7 @@ class ProductRegisterScreen(QWidget):
                 "autonomy": self.input_autonomy.text(),
                 "env_label": self.environmental_label.currentText()
             }
+        
         elif data["ptype"] == "otros":
             data["especificos"] = {
                 "size_of": self.input_size_of.text(),
@@ -131,13 +133,16 @@ class ProductRegisterScreen(QWidget):
             self.input_consume.clear()
             self.input_autonomy.clear()
             self.environmental_label.setCurrentIndex(0)
+        
         elif self.product_type_selector.currentText() == "otros":
             self.input_size_of.clear()
             self.input_used_for.clear()
 
     def show_message(self, title, message, is_error=False):
         from PyQt6.QtWidgets import QMessageBox
+        
         if is_error:
             QMessageBox.critical(self, title, message)
+        
         else:
             QMessageBox.information(self, title, message)

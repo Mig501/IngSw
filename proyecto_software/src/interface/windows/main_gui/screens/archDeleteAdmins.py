@@ -61,21 +61,25 @@ class ArchDeleteAdminScreen(QWidget):
 
     def emitir_senal_cambio_admin(self, index):
         admin_id = self.combo_admin_to_delete.itemData(index)
+        
         if admin_id is not None:
             self.admin_to_delete_changed.emit(admin_id)
 
     def cargar_admins_para_eliminar(self, admin_list):
         self.combo_admin_to_delete.clear()
+        
         for admin_id in admin_list:
             self.combo_admin_to_delete.addItem(str(admin_id), admin_id)
 
     def cargar_admins_para_reasignar(self, admin_list):
         self.combo_admin_reassign.clear()
+        
         for admin_id in admin_list:
             self.combo_admin_reassign.addItem(str(admin_id), admin_id)
 
     def mostrar_mensaje(self, titulo, mensaje, error=False):
         if error:
             QMessageBox.critical(self, titulo, mensaje)
+        
         else:
             QMessageBox.information(self, titulo, mensaje)

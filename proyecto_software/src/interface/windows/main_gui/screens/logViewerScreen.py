@@ -1,5 +1,4 @@
 # src/interface/windows/main_gui/screens/logViewerScreen.py
-
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QTextEdit,
     QPushButton, QHBoxLayout, QDateEdit, QMessageBox
@@ -54,6 +53,7 @@ class LogViewerScreen(QWidget):
         """Muestra los logs en el área de texto"""
         if not logs:
             self.text_area.setText("No se encontraron logs para el rango de fechas seleccionado.")
+        
         else:
             self.text_area.setText("\n".join(logs))
 

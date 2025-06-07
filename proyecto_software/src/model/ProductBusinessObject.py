@@ -118,12 +118,16 @@ class ProductBusinessObject:
         owner_id = self.product_dao.get_owner_id(product_id)
         if owner_id is None:
             raise Exception("Product not found or does not have an owner.")
+        
         if owner_id == client_id:
             raise Exception("Cannot buy your own product.")
 
         price = self.product_dao.get_product_price(product_id)
         buyer_balance = self.client_dao.get_saldo(client_id)
         buyer_num_boughts = self.client_dao.get_num_boughts(client_id)
+        seller_num_boughts = self.client_dao.get_num_boughts(owner_id)
+        buyer_num_sells = self.client_dao.get_num_sales(client_id)
+
         if buyer_balance < price:
             raise Exception("Insufficient balance to buy the product.")
 
@@ -135,8 +139,9 @@ class ProductBusinessObject:
         new_seller_balance = seller_balance + price
         new_sold = seller_num_sold + 1
 
-        self.client_dao.update_client_stats(client_id, 0, new_boughts, new_buyer_balance)
-        self.client_dao.update_client_stats(owner_id, new_sold, 0, new_seller_balance)
+
+        self.client_dao.update_client_stats(client_id, buyer_num_sells, new_boughts, new_buyer_balance)
+        self.client_dao.update_client_stats(owner_id, new_sold, seller_num_boughts, new_seller_balance)
 
         date = datetime.now().date().strftime("%Y-%m-%d")
         time = datetime.now().time().strftime("%H:%M:%S")

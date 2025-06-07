@@ -3,7 +3,7 @@
 import sys
 from PyQt6.QtWidgets import QApplication
 from model.BusinessObject import BusinessObject
-from controller.CoordinadorPrincipal import ControladorPrincipal
+from controller.ControladorPrincipal import ControladorPrincipal
 import multiprocessing
 from utils.server.verify_server import run_server
 

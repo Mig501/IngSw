@@ -137,3 +137,14 @@ class UserBusinessObject:
         self.user_dao.delete_user_by_id(admin_user_id)
         
         return True
+    
+    def count_users(self) -> int:
+        """Devuelve el número total de usuarios registrados en la tabla `users`."""
+        try:
+            cursor = self.user_dao.getCursor()
+            cursor.execute("SELECT COUNT(*) FROM users")
+            count = cursor.fetchone()[0]
+            cursor.close()
+            return count
+        except Exception as e:
+            raise Exception(f"Error al contar usuarios: {e}")

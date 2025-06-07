@@ -6,10 +6,6 @@ from PyQt6.QtGui import QIcon
 
 from interface.windows.login.screens.login_screen import LoginScreen
 from interface.windows.login.screens.register_screen import RegisterScreen
-from interface.windows.main_gui.main_window import MainWindow
-
-from controller.LoginController import LoginController
-from controller.RegisterController import RegisterController
 
 
 class LoginWindow(QMainWindow):
@@ -59,23 +55,17 @@ class LoginWindow(QMainWindow):
         self.stack = QStackedWidget()
         self.main_layout.addWidget(self.stack)
 
-        # Crear vistas y controladores
+        # Crear pantallas (sin controlador aún)
         self.login_screen = LoginScreen()
         self.register_screen = RegisterScreen()
 
-        self.login_controller = LoginController(self.modelo, self.login_screen)
-        self.register_controller = RegisterController(self.register_screen)
-
-        self.login_screen.controller = self.login_controller
-        self.register_screen.controller = self.register_controller
-
+        # Añadir pantallas al stack
         self.stack.addWidget(self.login_screen)
         self.stack.addWidget(self.register_screen)
         self.stack.setCurrentWidget(self.login_screen)
 
-        # Conectar señales
+        # Conectar señales de navegación
         self.login_screen.register_clicked.connect(self.show_register_screen)
-        self.login_screen.login_clicked.connect(self.open_main_window)
         self.register_screen.back_to_login.connect(self.show_login_screen)
 
     def show_register_screen(self):
@@ -85,16 +75,12 @@ class LoginWindow(QMainWindow):
         self.clear_fields()
         self.stack.setCurrentWidget(self.login_screen)
 
-    def open_main_window(self):
-        user_vo = self.login_controller.iniciar_sesion()
-        if user_vo:
-            self.main_window = MainWindow(user_rol=user_vo.rol, client_id=user_vo.user_id, user_vo=user_vo)
-            self.main_window.logout_signal.connect(self.show_login_screen)
-            self.main_window.show()
-            self.close()
+    def mostrar_mensaje(self, title, mensaje, is_error=False):
+        if is_error:
+            QMessageBox.critical(self, title, mensaje)
+        else:
+            QMessageBox.information(self, title, mensaje)
 
-    def mostrar_mensaje(self, mensaje):
-        QMessageBox.information(self, "Información", mensaje)
 
     def clear_fields(self):
         self.login_screen.input_user.clear()

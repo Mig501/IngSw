@@ -8,9 +8,7 @@ class RegisterScreen(QWidget):
 
     def __init__(self, controller=None):
         super().__init__()
-        if controller is None:
-            raise ValueError("El controlador no puede ser None.")
-        self.controller = controller
+        self.controller = controller  # Se puede asignar después
 
         layout = QVBoxLayout()
 
@@ -72,6 +70,10 @@ class RegisterScreen(QWidget):
             for field in campos_vacios:
                 field.setStyleSheet("border: 1px solid red;")
             self.mostrar_error("Por favor, completa todos los campos obligatorios.")
+            return
+
+        if self.controller is None:
+            self.mostrar_error("Error interno: controlador no asignado.")
             return
 
         success = self.controller.enviar_registro(username, password, email, phone)

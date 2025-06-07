@@ -2,6 +2,8 @@
 
 from controller.main.ArchManageWorkshopController import ArchManageWorkshopController
 from interface.windows.main_gui.screens.archManageWorkshop import ArchManageWorkshop
+from controller.main.AdminManageWorkshopController import AdminManageWorkshopController  # NUEVO
+from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop  # NUEVO
 from controller.main.BackupController import BackupController
 from interface.windows.main_gui.screens.archBackupScreen import BackupScreen
 from controller.main.ArchRegisterController import ArchRegisterController
@@ -64,6 +66,11 @@ class MainController:
                 controlador = ArchManageWorkshopController(pantalla, self.modelo)
                 self.subcontroladores[i] = controlador
                 print(f"[DEBUG] Controlador de ArchManageWorkshop asignado a índice {i}")
+
+            elif isinstance(pantalla, AdminManageWorkshop):  # NUEVO
+                controlador = AdminManageWorkshopController(pantalla)
+                self.subcontroladores[i] = controlador
+                print(f"[DEBUG] Controlador de AdminManageWorkshop asignado a índice {i}")
 
             elif isinstance(pantalla, BackupScreen):
                 controlador = BackupController(

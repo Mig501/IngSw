@@ -9,7 +9,6 @@ class LoginScreen(QWidget):
 
     def __init__(self, controller=None):
         super().__init__()
-        print("[DEBUG] LoginScreen: iniciando...")
         self.controller = controller  # Puede ser asignado después
 
         # Layout principal centrado

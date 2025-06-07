@@ -78,7 +78,7 @@ class MainWindow(QMainWindow):
             self.add_sidebar_item("Registrar empleados", AdminRegisterEmployeeScreen())
             self.add_sidebar_item("Gestionar taller", AdminManageWorkshop())
             self.add_sidebar_item("Redactor de informes", AdminReportScreen())
-            self.add_sidebar_item("Empleados", MyEmployeesScreen(self.client_id))
+            self.add_sidebar_item("Empleados", MyEmployeesScreen())
 
         if self.user_rol == "cliente":
             self.add_sidebar_item("Registrar producto", ProductRegisterScreen(self.client_id))

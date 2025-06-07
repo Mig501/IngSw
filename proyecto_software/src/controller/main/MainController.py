@@ -6,7 +6,8 @@ from controller.main.BackupController import BackupController
 from controller.main.ArchRegisterController import ArchRegisterController
 from controller.main.ArchDeleteAdminController import ArchDeleteAdminController
 from controller.main.LogViewerController import LogViewerController
-from controller.main.AdminRegisterEmployeeController import AdminRegisterEmployeeController  # NUEVO
+from controller.main.AdminRegisterEmployeeController import AdminRegisterEmployeeController
+from controller.main.AdminMyEmployeesController import AdminMyEmployeesController  # NUEVO
 
 from interface.windows.main_gui.screens.archManageWorkshop import ArchManageWorkshop
 from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
@@ -14,7 +15,8 @@ from interface.windows.main_gui.screens.archBackupScreen import BackupScreen
 from interface.windows.main_gui.screens.archRegisterScreen import ArchRegisterScreen
 from interface.windows.main_gui.screens.archDeleteAdmins import ArchDeleteAdminScreen
 from interface.windows.main_gui.screens.logViewerScreen import LogViewerScreen
-from interface.windows.main_gui.screens.adminRegisterScreen import AdminRegisterEmployeeScreen  # NUEVO
+from interface.windows.main_gui.screens.adminRegisterScreen import AdminRegisterEmployeeScreen
+from interface.windows.main_gui.screens.adminMyEmployeesScreen import MyEmployeesScreen  # NUEVO
 
 from model.conexion.Conexion import Conexion
 
@@ -105,3 +107,9 @@ class MainController:
             elif isinstance(pantalla, AdminRegisterEmployeeScreen):
                 controlador = AdminRegisterEmployeeController(pantalla, self.user_vo.user_id)
                 self.subcontroladores[i] = controlador
+                print(f"[DEBUG] Controlador de AdminRegisterEmployeeScreen asignado a índice {i}")
+
+            elif isinstance(pantalla, MyEmployeesScreen):
+                controlador = AdminMyEmployeesController(pantalla, self.user_vo.user_id)
+                self.subcontroladores[i] = controlador
+                print(f"[DEBUG] Controlador de MyEmployeesScreen asignado a índice {i}")

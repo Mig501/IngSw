@@ -21,6 +21,7 @@ from interface.windows.main_gui.screens.adminReportScreen import AdminReportScre
 from interface.windows.main_gui.screens.empMyServicesScreen import MyServicesScreen
 from interface.windows.main_gui.screens.adminMyEmployeesScreen import MyEmployeesScreen
 from interface.windows.main_gui.screens.archDeleteAdmins import ArchDeleteAdminScreen
+from interface.windows.main_gui.screens.archManageWorkshop import ArchManageWorkshop
 
 class MainWindow(QMainWindow):
 
@@ -64,7 +65,7 @@ class MainWindow(QMainWindow):
 
         if self.user_rol == "arch":
             self.add_sidebar_item("Registrar usuarios", ArchRegisterScreen())
-            self.add_sidebar_item("Gestionar taller", AdminManageWorkshop())
+            self.add_sidebar_item("Gestionar taller", ArchManageWorkshop())
             self.add_sidebar_item("Realizar Copia de Seguridad", BackupScreen("bsa_database_isw", "root", "changeme"))
             self.add_sidebar_item("Visualizar Logs", LogViewerScreen())
             self.add_sidebar_item("Eliminar Admins", ArchDeleteAdminScreen())

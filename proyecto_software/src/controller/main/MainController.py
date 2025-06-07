@@ -1,5 +1,8 @@
 # src/controller/main/MainController.py
 
+from controller.main.ArchManageWorkshopController import ArchManageWorkshopController
+from interface.windows.main_gui.screens.archManageWorkshop import ArchManageWorkshop
+
 class MainController:
     """
     Controlador de la ventana principal.
@@ -12,15 +15,29 @@ class MainController:
         self.coordinador = coordinador
         self.user_vo = user_vo
 
-        # Configura los datos del usuario en la vista
+        # Configurar usuario
         self.vista.set_user(user_vo)
 
-        # Conectar señales a métodos del controlador
+        # Conectar señales globales
         self.vista.sidebar_button_clicked.connect(self.navegar_a_pantalla)
         self.vista.logout_signal.connect(self.logout)
 
-        # Cargar la pantalla inicial (índice 0)
+        # Subcontroladores de pantallas específicas
+        self.subcontroladores = {}
+        self.configurar_subcontroladores()
+
+        # Mostrar pantalla inicial
         self.vista.stacked_widget.setCurrentIndex(0)
+
+    def configurar_subcontroladores(self):
+        """
+        Inicializa los controladores específicos de pantallas que lo requieran.
+        """
+        for i, pantalla in enumerate(self.vista.screens):
+            if isinstance(pantalla, ArchManageWorkshop):
+                controlador = ArchManageWorkshopController(pantalla, self.modelo)
+                self.subcontroladores[i] = controlador
+                print(f"[DEBUG] Controlador de ArchManageWorkshop asignado a índice {i}")
 
     def navegar_a_pantalla(self, index: int):
         """
@@ -33,7 +50,7 @@ class MainController:
 
     def logout(self):
         """
-        Cierra la ventana principal y vuelve a mostrar la pantalla de login.
+        Cierra la ventana principal y vuelve al login.
         """
         self.vista.close()
         self.coordinador.mostrar_login()

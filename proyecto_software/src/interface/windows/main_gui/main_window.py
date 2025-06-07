@@ -82,7 +82,7 @@ class MainWindow(QMainWindow):
 
         if self.user_rol == "cliente":
             self.add_sidebar_item("Registrar producto", ProductRegisterScreen(self.client_id))
-            self.add_sidebar_item("Mis productos", MyProductsScreen(self.client_id))
+            self.add_sidebar_item("Mis productos", MyProductsScreen())
             self.add_sidebar_item("Vehículos", VehicleScreen(self.user_vo))
             self.add_sidebar_item("Otros productos", OtherScreen(self.user_vo))
 

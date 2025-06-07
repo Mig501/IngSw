@@ -111,7 +111,6 @@ CREATE TABLE `user_products` (
    CONSTRAINT `user_products_ibfk_1` FOREIGN KEY (`ClientID`) REFERENCES `clients` (`ClientID`),
    CONSTRAINT `user_products_chk_1` CHECK ((`ptype` in (_utf8mb4'automóviles',_utf8mb4'otros')))
  );
- ALTER TABLE user_products ADD vendido BOOLEAN NOT NULL DEFAULT FALSE;
 
  
   CREATE TABLE `services` (

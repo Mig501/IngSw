@@ -15,8 +15,6 @@ class InterfaceController:
         self.logger = LoggerSingleton()
         self.login_window = LoginWindow()
         self.login_window.login_screen.login_clicked.connect(self.iniciar_login)
-        self.admin_manage_workshop = AdminManageWorkshop()
-        self.admin_manage_workshop.save_workshop_signal.connect(self.guardar_taller)
 
     def load_css(self):
         with open('src/interface/style.css', 'r') as f:

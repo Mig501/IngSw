@@ -1,10 +1,14 @@
+# src/controller/main/MainController.py
+
 from controller.main.ArchManageWorkshopController import ArchManageWorkshopController
 from interface.windows.main_gui.screens.archManageWorkshop import ArchManageWorkshop
 from controller.main.BackupController import BackupController
 from interface.windows.main_gui.screens.archBackupScreen import BackupScreen
-from model.conexion.Conexion import Conexion
 from controller.main.ArchRegisterController import ArchRegisterController
 from interface.windows.main_gui.screens.archRegisterScreen import ArchRegisterScreen
+from controller.main.ArchDeleteAdminController import ArchDeleteAdminController
+from interface.windows.main_gui.screens.archDeleteAdmins import ArchDeleteAdminScreen
+from model.conexion.Conexion import Conexion
 
 class MainController:
     """
@@ -68,8 +72,13 @@ class MainController:
                 )
                 self.subcontroladores[i] = controlador
                 print(f"[DEBUG] Controlador de BackupScreen asignado a índice {i}")
-            
+
             elif isinstance(pantalla, ArchRegisterScreen):
                 controlador = ArchRegisterController(pantalla)
                 self.subcontroladores[i] = controlador
                 print(f"[DEBUG] Controlador de ArchRegisterScreen asignado a índice {i}")
+
+            elif isinstance(pantalla, ArchDeleteAdminScreen):
+                controlador = ArchDeleteAdminController(pantalla)
+                self.subcontroladores[i] = controlador
+                print(f"[DEBUG] Controlador de ArchDeleteAdminScreen asignado a índice {i}")

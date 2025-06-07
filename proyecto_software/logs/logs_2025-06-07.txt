@@ -16,3 +16,4 @@
 [2025-06-07 17:14:54] Empleado registrado: mec1 por Admin 3
 [2025-06-07 17:15:04] Usuario admin2 ha cerrado sesión.
 [2025-06-07 17:17:07] Usuario user1 ha cerrado sesión.
+[2025-06-07 17:33:08] Producto registrado por cliente 10.

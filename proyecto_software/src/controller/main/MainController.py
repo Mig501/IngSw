@@ -1,5 +1,3 @@
-# src/controller/main/MainController.py
-
 from controller.main.ArchManageWorkshopController import ArchManageWorkshopController
 from controller.main.AdminManageWorkshopController import AdminManageWorkshopController
 from controller.main.BackupController import BackupController
@@ -11,6 +9,8 @@ from controller.main.AdminMyEmployeesController import AdminMyEmployeesControlle
 from controller.main.AdminReportController import AdminReportController
 from controller.main.ServiceRegisterController import ServiceRegisterController
 from controller.main.ClientMyServicesController import ClientMyServicesController
+from controller.main.EditProfileController import EditProfileController
+from controller.main.ProductRegisterController import ProductRegisterController
 from interface.windows.main_gui.screens.archManageWorkshop import ArchManageWorkshop
 from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
 from interface.windows.main_gui.screens.archBackupScreen import BackupScreen
@@ -22,10 +22,9 @@ from interface.windows.main_gui.screens.adminMyEmployeesScreen import MyEmployee
 from interface.windows.main_gui.screens.adminReportScreen import AdminReportScreen
 from interface.windows.main_gui.screens.empRegisterServScreen import ServiceRegisterScreen
 from interface.windows.main_gui.screens.empMyServicesScreen import MyServicesScreen
-from controller.main.EditProfileController import EditProfileController
 from interface.windows.main_gui.screens.editProfileScreen import EditProfileScreen
+from interface.windows.main_gui.screens.clientRegisterProdScreen import ProductRegisterScreen
 from model.conexion.Conexion import Conexion
-
 
 class MainController:
     """
@@ -139,3 +138,8 @@ class MainController:
                 controlador = EditProfileController(pantalla, self.user_vo)
                 self.subcontroladores[i] = controlador
                 print(f"[DEBUG] Controlador de EditProfileScreen asignado a índice {i}")
+
+            elif isinstance(pantalla, ProductRegisterScreen):
+                controlador = ProductRegisterController(pantalla)
+                self.subcontroladores[i] = controlador
+                print(f"[DEBUG] Controlador de ProductRegisterScreen asignado a índice {i}")

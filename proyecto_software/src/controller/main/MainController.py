@@ -26,6 +26,8 @@ from interface.windows.main_gui.screens.editProfileScreen import EditProfileScre
 from interface.windows.main_gui.screens.clientRegisterProdScreen import ProductRegisterScreen
 from controller.main.ClientMyProductsController import ClientMyProductsController
 from interface.windows.main_gui.screens.clientMyProductsScreen import MyProductsScreen
+from controller.main.VehicleController import VehicleController
+from interface.windows.main_gui.screens.vehicle_screen import VehicleScreen
 from model.conexion.Conexion import Conexion
 
 class MainController:
@@ -150,3 +152,9 @@ class MainController:
                 controlador = ClientMyProductsController(pantalla, self.user_vo.user_id)
                 self.subcontroladores[i] = controlador
                 print(f"[DEBUG] Controlador de MyProductsScreen asignado a índice {i}")
+
+            elif isinstance(pantalla, VehicleScreen):
+                controlador = VehicleController(pantalla, self.user_vo)
+                self.subcontroladores[i] = controlador
+                print(f"[DEBUG] Controlador de VehicleScreen asignado a índice {i}")
+

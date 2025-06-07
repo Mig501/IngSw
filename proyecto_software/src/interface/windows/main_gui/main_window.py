@@ -14,7 +14,6 @@ from interface.windows.main_gui.screens.archRegisterScreen import ArchRegisterSc
 from interface.windows.main_gui.screens.adminRegisterScreen import AdminRegisterEmployeeScreen
 from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
 from interface.windows.main_gui.screens.clientRegisterProdScreen import ProductRegisterScreen
-from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
 from interface.windows.main_gui.screens.archBackupScreen import BackupScreen
 from interface.windows.main_gui.screens.editProfileScreen import EditProfileScreen
 from interface.windows.main_gui.screens.clientMyProductsScreen import MyProductsScreen
@@ -24,19 +23,22 @@ from interface.windows.main_gui.screens.adminReportScreen import AdminReportScre
 from interface.windows.main_gui.screens.empMyServicesScreen import MyServicesScreen
 from interface.windows.main_gui.screens.adminMyEmployeesScreen import MyEmployeesScreen
 from interface.windows.main_gui.screens.archDeleteAdmins import ArchDeleteAdminScreen
+from interface.windows.main_gui.screens.archManageWorkshop import ArchManageWorkshop
+
 
 class MainWindow(QMainWindow):
 
     logout_signal = pyqtSignal()
+    sidebar_button_clicked = pyqtSignal(int)
 
     def __init__(self, user_rol=None, client_id=None, user_vo=None):
         super().__init__()
-    
+
         self.setWindowTitle("BSA App")
         self.setFixedSize(900, 600)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
- 
+
         self.old_pos = None
         self.user_rol = user_rol
         self.client_id = client_id
@@ -49,7 +51,6 @@ class MainWindow(QMainWindow):
         self.main_layout = QHBoxLayout()
         self.central_widget.setLayout(self.main_layout)
 
-        # Sidebar (menú lateral)
         self.sidebar = QWidget()
         self.sidebar.setObjectName('Sidebar')
         self.sidebar.setFixedWidth(140)
@@ -63,37 +64,32 @@ class MainWindow(QMainWindow):
 
         self.screens = []
 
-        # Home
         self.add_sidebar_item("Home", HomeScreen())
 
-        # Arch only: Registrar usuarios
         if self.user_rol == "arch":
             self.add_sidebar_item("Registrar usuarios", ArchRegisterScreen())
-            self.add_sidebar_item("Gestionar taller", AdminManageWorkshop())
-            self.add_sidebar_item("Realizar Copia de Seguridad", BackupScreen("bsa_database_isw", "root", "changeme"))
+            self.add_sidebar_item("Gestionar taller", ArchManageWorkshop())
+            self.backup_screen = BackupScreen()
+            self.add_sidebar_item("Realizar Copia de Seguridad", self.backup_screen)
             self.add_sidebar_item("Visualizar Logs", LogViewerScreen())
             self.add_sidebar_item("Eliminar Admins", ArchDeleteAdminScreen())
 
-        # Admin only: Registrar empleados
         if self.user_rol == "admin":
-            self.add_sidebar_item("Registrar empleados", AdminRegisterEmployeeScreen(client_id))
+            self.add_sidebar_item("Registrar empleados", AdminRegisterEmployeeScreen())
             self.add_sidebar_item("Gestionar taller", AdminManageWorkshop())
             self.add_sidebar_item("Redactor de informes", AdminReportScreen())
-            self.add_sidebar_item("Empleados", MyEmployeesScreen(self.client_id))
+            self.add_sidebar_item("Empleados", MyEmployeesScreen())
 
-        # Client only: Registrar producto
         if self.user_rol == "cliente":
             self.add_sidebar_item("Registrar producto", ProductRegisterScreen(self.client_id))
-            self.add_sidebar_item("Mis productos", MyProductsScreen(self.client_id))
-            self.add_sidebar_item("Vehículos", VehicleScreen(self.user_vo))
-            self.add_sidebar_item("Otros productos", OtherScreen(self.user_vo))
+            self.add_sidebar_item("Mis productos", MyProductsScreen())
+            self.add_sidebar_item("Vehículos", VehicleScreen())
+            self.add_sidebar_item("Otros productos", OtherScreen())
 
-        # Employee only: Registrar servicio
         if self.user_rol == "empleado":
-            self.add_sidebar_item("Registrar servicio", ServiceRegisterScreen(client_id))
-            self.add_sidebar_item("Mis servicios", MyServicesScreen(client_id))
+            self.add_sidebar_item("Registrar servicio", ServiceRegisterScreen())
+            self.add_sidebar_item("Mis servicios", MyServicesScreen())
 
-        # Cuenta
         if self.user_vo:
             edit_screen = EditProfileScreen(self.user_vo)
             self.add_sidebar_item("Cuenta", edit_screen)
@@ -105,7 +101,6 @@ class MainWindow(QMainWindow):
         self.right_section_layout = QVBoxLayout()
         self.right_section.setLayout(self.right_section_layout)
 
-        # Header
         self.header = QWidget()
         self.header.setObjectName('Header')
         self.header.setFixedHeight(40)
@@ -114,21 +109,18 @@ class MainWindow(QMainWindow):
         self.header_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.header.setLayout(self.header_layout)
 
-        self.setCentralWidget(self.central_widget)  
+        self.setCentralWidget(self.central_widget)
 
-        # Boton Minimizar
         self.btn_minimize = QPushButton()
         self.btn_minimize.setIcon(QIcon("resources/icons/minus.svg"))
         self.btn_minimize.setFixedSize(30, 30)
         self.btn_minimize.clicked.connect(self.showMinimized)
 
-        # Boton Maximizar/Restaurar
         self.btn_maximize = QPushButton()
         self.btn_maximize.setIcon(QIcon("resources/icons/chevron_up.svg"))
         self.btn_maximize.setFixedSize(30, 30)
         self.btn_maximize.clicked.connect(self.toggle_max_restore)
 
-        # Boton Cerrar
         self.btn_close = QPushButton()
         self.btn_close.setObjectName('CloseButton')
         self.btn_close.setIcon(QIcon("resources/icons/x.svg"))
@@ -158,12 +150,11 @@ class MainWindow(QMainWindow):
         self.main_layout.addWidget(self.sidebar)
         self.main_layout.addWidget(self.right_section)
 
-        # Imagen BSA
         self.bsa_logo = QLabel(self.central_widget)
         pixmap = QPixmap("resources/images/BSA_name.png")
         self.bsa_logo.setPixmap(pixmap.scaledToWidth(80, Qt.TransformationMode.SmoothTransformation))
         self.bsa_logo.setFixedSize(80, 30)
-        self.bsa_logo.move((140 - self.bsa_logo.width()) // 2 + 20, 20)  # Coordenadas X, Y sobre MainContainer
+        self.bsa_logo.move((140 - self.bsa_logo.width()) // 2 + 20, 20)
         self.bsa_logo.raise_()
 
         self.menu_list.currentRowChanged.connect(self.display_page)
@@ -186,7 +177,6 @@ class MainWindow(QMainWindow):
         self.screens.append(screen)
 
     def toggle_max_restore(self):
-        '''Modifica el icono del boton de maximizar cuando este se pulse'''
         if self.isMaximized():
             self.showNormal()
             self.btn_maximize.setIcon(QIcon("resources/icons/chevron_up.svg"))
@@ -195,24 +185,26 @@ class MainWindow(QMainWindow):
             self.btn_maximize.setIcon(QIcon("resources/icons/chevron_down.svg"))
 
     def display_page(self, index):
-        self.stacked_widget.setCurrentIndex(index)
+        self.sidebar_button_clicked.emit(index)
 
     def mousePressEvent(self, event):
-        '''Permite arrastrar la ventana cuando se agarre la misma en la sección de header'''
         if event.button() == Qt.MouseButton.LeftButton and self.header.underMouse():
             self.old_pos = event.globalPosition().toPoint()
 
     def mouseMoveEvent(self, event):
-        '''Se encarga de mover la posicion de la ventana al ser arrastrada'''
         if self.old_pos:
             delta = event.globalPosition().toPoint() - self.old_pos
             self.move(self.x() + delta.x(), self.y() + delta.y())
             self.old_pos = event.globalPosition().toPoint()
 
     def mouseReleaseEvent(self, event):
-        '''Se encarga de soltar la ventana cuando se suelta el click'''
         self.old_pos = None
 
     def log_out(self):
-        """Emite la señal de cierre de sesión."""
         self.logout_signal.emit()
+
+    def set_user(self, user_vo):
+        self.user_vo = user_vo
+        self.user_rol = user_vo.rol
+        self.client_id = user_vo.user_id
+        print(f"[DEBUG] Usuario cargado en MainWindow: {user_vo.username} (rol: {user_vo.rol})")

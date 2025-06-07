@@ -1,8 +1,6 @@
 # src/interface/windows/main_gui/screens/adminManageWorkshop.py
 
-from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QLabel
-)
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QLabel, QMessageBox
 from PyQt6.QtCore import pyqtSignal
 
 class AdminManageWorkshop(QWidget):
@@ -13,11 +11,9 @@ class AdminManageWorkshop(QWidget):
         self.setWindowTitle("Gestión de Taller")
         self.setGeometry(100, 100, 400, 300)
 
-        # Layouts
         main_layout = QVBoxLayout()
         form_layout = QFormLayout()
 
-        # Campos del formulario
         self.input_ws_zip_code = QLineEdit()
         self.input_size_of = QLineEdit()
         self.input_phone_number = QLineEdit()
@@ -27,7 +23,6 @@ class AdminManageWorkshop(QWidget):
         self.input_add_number = QLineEdit()
         self.input_add_city = QLineEdit()
 
-        # Añadir campos al formulario
         form_layout.addRow("Código Postal:", self.input_ws_zip_code)
         form_layout.addRow("Tamaño del Taller (m²):", self.input_size_of)
         form_layout.addRow("Teléfono:", self.input_phone_number)
@@ -37,13 +32,9 @@ class AdminManageWorkshop(QWidget):
         form_layout.addRow("Número:", self.input_add_number)
         form_layout.addRow("Ciudad:", self.input_add_city)
 
-        # Botón guardar
         self.save_button = QPushButton("Guardar Taller")
-
-        # Conectar el botón a la función que emite la señal
         self.save_button.clicked.connect(self.emit_save_signal)
 
-        # Añadir layouts y botón al layout principal
         main_layout.addLayout(form_layout)
         main_layout.addWidget(self.save_button)
         self.setLayout(main_layout)
@@ -72,7 +63,6 @@ class AdminManageWorkshop(QWidget):
         self.input_add_city.clear()
 
     def show_message(self, title, message, is_error=False):
-        from PyQt6.QtWidgets import QMessageBox
         if is_error:
             QMessageBox.critical(self, title, message)
         else:

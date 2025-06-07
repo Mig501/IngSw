@@ -9,10 +9,7 @@ class LoginScreen(QWidget):
     def __init__(self, controller=None):
         super().__init__()
         print("[DEBUG] LoginScreen: iniciando...")
-        self.controller = controller
-        if not controller:
-            raise ValueError("El controlador no puede ser None")
-        
+        self.controller = controller  # Puede ser asignado después
 
         # Layout principal centrado
         main_layout = QVBoxLayout()
@@ -100,11 +97,13 @@ class LoginScreen(QWidget):
         if not self.input_user.text().strip() or not self.input_pass.text().strip():
             self.mostrar_error("Por favor, completa todos los campos.")
             return
-        user_vo = self.controller.iniciar_sesion()
-        if user_vo:
-            self.input_user.clear()
-            self.input_pass.clear()
-            self.login_clicked.emit()
+
+        if not self.controller:
+            self.mostrar_error("Error interno: controlador no asignado.")
+            return
+
+        self.login_clicked.emit()
+
 
     def mostrar_error(self, mensaje):
         self.input_user.setStyleSheet("border: 1px solid red;")

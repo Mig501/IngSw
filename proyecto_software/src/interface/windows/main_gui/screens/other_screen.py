@@ -1,213 +1,138 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QLineEdit, QPushButton, QListWidget, QListWidgetItem, QLabel, QFormLayout, QSpinBox, QMessageBox
-from PyQt6.QtCore import Qt, QSize
-from PyQt6.QtGui import QPixmap, QFont
-from model.BusinessObject import BusinessObject
+# src/interface/windows/main_gui/screens/other_screen.py
+from PyQt6.QtWidgets import (
+    QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QLineEdit,
+    QPushButton, QListWidget, QLabel, QFormLayout, QSpinBox, QListWidgetItem, QMessageBox
+)
+from PyQt6.QtCore import Qt, pyqtSignal
 
 class OtherScreen(QWidget):
-    def __init__(self, user_vo):
+    buscar_signal = pyqtSignal(str, str, dict)
+    comprar_signal = pyqtSignal(int)
+
+    def __init__(self):
         super().__init__()
+        self.init_ui()
 
-        self.business_object = BusinessObject()
-        self.user_vo = user_vo
-
-        self.setLayout(self.setup_ui())
-
-    def setup_ui(self):
+    def init_ui(self):
         layout = QVBoxLayout()
+        self.setLayout(layout)
 
-        # Barra de búsqueda y botones
+        # Layout búsqueda
         search_layout = QHBoxLayout()
-        self.search_bar = QLineEdit(self)
+        self.search_bar = QLineEdit()
         self.search_bar.setPlaceholderText("Buscar por marca o modelo")
 
-        self.search_button = QPushButton("Buscar", self)
-        self.search_button.clicked.connect(self.search_other)
-
-        self.filter_combo = QComboBox(self)
-        self.filter_combo.addItem("Filtrar")
-        self.filter_combo.addItem("Precio")
-        self.filter_combo.addItem("Tamaño")
-        self.filter_combo.currentTextChanged.connect(self.show_filter_fields)
-
-        self.reset_button = QPushButton("Eliminar filtros", self)
-        self.reset_button.clicked.connect(self.reset_filters)
+        self.search_button = QPushButton("Buscar")
+        self.filter_combo = QComboBox()
+        self.filter_combo.addItems(["Filtrar", "Precio", "Tamaño"])
+        self.reset_button = QPushButton("Eliminar filtros")
 
         search_layout.addWidget(self.search_bar)
         search_layout.addWidget(self.search_button)
         search_layout.addWidget(self.filter_combo)
         search_layout.addWidget(self.reset_button)
-
         layout.addLayout(search_layout)
 
-        # Zona dinámica para filtros
+        # Campos dinámicos
         self.filter_fields_layout = QFormLayout()
         self.filter_fields_widget = QWidget()
         self.filter_fields_widget.setLayout(self.filter_fields_layout)
         layout.addWidget(self.filter_fields_widget)
 
-        # Widgets de filtro
-        self.min_price = QSpinBox()
-        self.min_price.setRange(0,100000000)
-        self.max_price = QSpinBox()
-        self.max_price.setRange(0, 100000000)
+        # Campos de filtro
+        self.min_price = QSpinBox(); self.min_price.setRange(0, 100000000)
+        self.max_price = QSpinBox(); self.max_price.setRange(0, 100000000)
+        self.min_size = QSpinBox(); self.min_size.setRange(0, 2000)
+        self.max_size = QSpinBox(); self.max_size.setRange(0, 2000)
 
-        # Widgets de tamaño
-        self.min_size = QSpinBox()
-        self.min_size.setRange(0, 2000)
-        self.max_size = QSpinBox()
-        self.max_size.setRange(0, 2000)
-
-        # Lista de resultados
         self.other_list = QListWidget()
         self.other_list.setSpacing(8)
         layout.addWidget(self.other_list)
 
-        return layout
+        self.filter_combo.currentTextChanged.connect(self.mostrar_campos)
+        self.search_button.clicked.connect(self.emitir_busqueda)
+        self.reset_button.clicked.connect(self.limpiar)
 
-    def show_filter_fields(self, text):
-        for i in reversed(range(self.filter_fields_layout.count())):
-            self.filter_fields_layout.itemAt(i).widget().setParent(None)
+    def mostrar_campos(self, filtro):
+        while self.filter_fields_layout.count():
+            self.filter_fields_layout.itemAt(0).widget().deleteLater()
 
-
-        if text == "Tamaño":
+        if filtro == "Precio":
+            self.filter_fields_layout.addRow("Mín. precio:", self.min_price)
+            self.filter_fields_layout.addRow("Máx. precio:", self.max_price)
+        elif filtro == "Tamaño":
             self.filter_fields_layout.addRow("Mín. tamaño:", self.min_size)
             self.filter_fields_layout.addRow("Máx. tamaño:", self.max_size)
 
-        elif text == "Precio":
-            self.filter_fields_layout.addRow("Mín. precio:", self.min_price)
-            self.filter_fields_layout.addRow("Máx. precio:", self.max_price)
+    def emitir_busqueda(self):
+        texto = self.search_bar.text().strip()
+        partes = texto.split()
+        marca = partes[0] if partes else ""
+        modelo = " ".join(partes[1:]) if len(partes) > 1 else ""
 
-    def search_other(self):
-        self.other_list.clear()  # Limpiar la lista de otros al realizar una nueva búsqueda
-        query = self.search_bar.text().strip()
-
-        if not query:
-            return
-
-        # Dividir el término de búsqueda en marca y modelo
-        parts = query.split()
-        brand = parts[0] if parts else ""
-        model = " ".join(parts[1:]) if len(parts) > 1 else ""
-
-        filters = {}
-
-        if 'brand' not in filters.keys():
-            filters["brand"] = brand
-
-        if 'model' not in filters.keys():
-            filters["model"] = model
-
-        # Añadir filtros según el tipo de filtro seleccionado
-        if self.min_size.value() != 0 or self.max_size.value() != 0:
-            filters["size_range"] = (self.min_size.value(), self.max_size.value())
-
+        filtros = {}
         if self.min_price.value() != 0 or self.max_price.value() != 0:
-            filters["price_range"] = (self.min_price.value(), self.max_price.value())
+            filtros["price_range"] = (self.min_price.value(), self.max_price.value())
+        if self.min_size.value() != 0 or self.max_size.value() != 0:
+            filtros["size_range"] = (self.min_size.value(), self.max_size.value())
 
-        # Print para depuración
-        print(filters)
-        
-        results = self.business_object.product.get_filtered_others(**filters)
+        self.buscar_signal.emit(marca, modelo, filtros)
 
-        if not results:
-            # Si no hay resultados, mostramos un mensaje de error
+    def limpiar(self):
+        self.search_bar.clear()
+        self.other_list.clear()
+        self.min_price.setValue(0)
+        self.max_price.setValue(0)
+        self.min_size.setValue(0)
+        self.max_size.setValue(0)
+        self.filter_combo.setCurrentIndex(0)
+        self.mostrar_campos("Filtrar")
+
+    def mostrar_resultados(self, resultados, client_id, obtener_owner_fn):
+        self.other_list.clear()
+        if not resultados:
             item = QListWidgetItem("No hay productos disponibles con los filtros actuales.")
             item.setFlags(Qt.ItemFlag.NoItemFlags)
             self.other_list.addItem(item)
             return
 
-        for other in results:
+        from PyQt6.QtGui import QPixmap, QFont
+
+        for r in resultados:
             widget = QWidget()
             layout = QVBoxLayout(widget)
 
-            image_label = QLabel()
-            image_path = other.get('pimage')
-            pixmap = QPixmap(image_path)
-            if not pixmap.isNull():
-                image_label.setPixmap(pixmap.scaled(200, 120, Qt.AspectRatioMode.KeepAspectRatio))
+            img = QLabel()
+            pixmap = QPixmap(r["pimage"])
+            if pixmap.isNull():
+                img.setText("Sin imagen")
+                img.setAlignment(Qt.AlignmentFlag.AlignCenter)
             else:
-                image_label.setText("Sin imagen")
-                image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                img.setPixmap(pixmap.scaled(200, 120, Qt.AspectRatioMode.KeepAspectRatio))
 
-            title = QLabel(f"{other['brand']} {other['model']}")
+            title = QLabel(f"{r['brand']} {r['model']}")
             title.setFont(QFont("Arial", 10, QFont.Weight.Bold))
             title.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-            desc = QLabel(f"{other['size_of']} cm | {other['price']}€")
+            desc = QLabel(f"{r['size_of']} cm | {r['price']}€")
             desc.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-            layout.addWidget(image_label)
+            layout.addWidget(img)
             layout.addWidget(title)
             layout.addWidget(desc)
 
-            # Botón de compra
-            owner_id = self.business_object.product.get_owner_id(other['ProductID'])
-            client_id = self.business_object.user.get_client_id(self.user_vo.user_id)
-
-
-            if owner_id != client_id:
-                buy_button = QPushButton("Comprar")
-                buy_button.clicked.connect(lambda _, product_id=other['ProductID']: self.buy_product(product_id))
-                layout.addWidget(buy_button)
-
-            layout.setContentsMargins(8, 8, 8, 8)
-            layout.setSpacing(4)
+            if obtener_owner_fn(r["ProductID"]) != client_id:
+                boton = QPushButton("Comprar")
+                boton.clicked.connect(lambda _, pid=r["ProductID"]: self.comprar_signal.emit(pid))
+                layout.addWidget(boton)
 
             item = QListWidgetItem()
             item.setSizeHint(widget.sizeHint())
             self.other_list.addItem(item)
             self.other_list.setItemWidget(item, widget)
 
-    def reset_filters(self):
-        # Limpiar el combo de filtros
-        self.filter_combo.setCurrentIndex(0)
-        self.show_filter_fields("Filtrar")
-
-        # Limpiar la barra de búsqueda
-        self.search_bar.clear()
-
-        # Limpiar la lista de otros
-        self.other_list.clear()
-
-        # Restablecer los filtros a los valores predeterminados
-        self.min_size.setValue(0)
-        self.max_size.setValue(2000)
-        self.min_price.setValue(0)
-        self.max_price.setValue(100000000)
-
-    def buy_product(self, product_id:int):
-        confirm = QMessageBox.question(self,"Confirmar compra",
-            "¿Estás seguro de que quieres comprar este producto?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-            )
-        
-        if confirm == QMessageBox.StandardButton.Yes:
-            client_id = self.business_object.user.get_client_id(self.user_vo.user_id)
-
-            # Evitar que compre su propio producto
-            owner = self.business_object.product.get_owner_id(product_id)
-            
-            if client_id is None or owner is None:
-                QMessageBox.critical(self, "Error", "Error interno al validar la compra.")
-                return
-
-            if owner == client_id:
-                QMessageBox.critical(self, "Error", "No puedes comprar tu propio producto.")
-                return
-
-            try:
-                success = self.business_object.product.buy_product(product_id, client_id)
-                
-                if success:
-                    QMessageBox.information(self, "Compra exitosa", "Has comprado el producto con éxito.")
-                    self.other_list.clear()
-                    self.search_other()
-                else:
-                    QMessageBox.critical(self, "Error", "No se ha podido completar la compra.")
-            
-            except Exception as e:
-                if "Saldo insuficiente" in str(e):
-                    QMessageBox.warning(self, "Saldo insuficiente", "No tienes suficiente saldo para comprar este producto.")
-
-                else:
-                    QMessageBox.critical(self, "Error", f"Error inesperado:\n{e}")
+    def mostrar_mensaje(self, titulo, mensaje, critico=False):
+        if critico:
+            QMessageBox.critical(self, titulo, mensaje)
+        else:
+            QMessageBox.information(self, titulo, mensaje)

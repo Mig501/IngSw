@@ -1,14 +1,17 @@
+# src/interface/windows/main_gui/screens/service_screen.py
+
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QLineEdit, QPushButton, QListWidget, QListWidgetItem, QLabel, QFormLayout, QSpinBox, QMessageBox
-from PyQt6.QtCore import Qt, QSize
-from PyQt6.QtGui import QPixmap, QFont
-from model.BusinessObject import BusinessObject
+from PyQt6.QtCore import Qt, pyqtSignal
+from PyQt6.QtGui import QFont
+
 class ServiceScreen(QWidget):
+    buscar_servicios_signal = pyqtSignal(str, int, int)
+    contratar_servicio_signal = pyqtSignal(int)
+    eliminar_filtros_signal = pyqtSignal()
+
     def __init__(self, user_vo):
         super().__init__()
-
-        self.business_object = BusinessObject()
         self.user_vo = user_vo
-
         self.setLayout(self.setup_ui())
 
     def setup_ui(self):
@@ -20,15 +23,15 @@ class ServiceScreen(QWidget):
         self.search_bar.setPlaceholderText("Buscar por nombre del servicio")
 
         self.search_button = QPushButton("Buscar", self)
-        self.search_button.clicked.connect(self.search_services)
+        self.search_button.clicked.connect(self.emitir_busqueda)
 
         self.filter_combo = QComboBox(self)
         self.filter_combo.addItem("Filtrar")
         self.filter_combo.addItem("Precio")
-        self.filter_combo.currentTextChanged.connect(self.show_filter_fields)
+        self.filter_combo.currentTextChanged.connect(self.mostrar_filtros)
 
         self.reset_button = QPushButton("Eliminar filtros", self)
-        self.reset_button.clicked.connect(self.reset_filters)
+        self.reset_button.clicked.connect(lambda: self.eliminar_filtros_signal.emit())
 
         search_layout.addWidget(self.search_bar)
         search_layout.addWidget(self.search_button)
@@ -42,53 +45,43 @@ class ServiceScreen(QWidget):
         self.filter_fields_widget.setLayout(self.filter_fields_layout)
         layout.addWidget(self.filter_fields_widget)
 
-        # Widgets de filtro
+        # Spinners de precio
         self.min_price = QSpinBox()
-        self.min_price.setRange(0,100000000)
+        self.min_price.setRange(0, 100000000)
         self.max_price = QSpinBox()
         self.max_price.setRange(0, 100000000)
-        
-        # Lista de resultados
+
+        # Lista de servicios
         self.service_list = QListWidget()
         self.service_list.setSpacing(8)
         layout.addWidget(self.service_list)
 
         return layout
-    def show_filter_fields(self, text):
+
+    def emitir_busqueda(self):
+        query = self.search_bar.text().strip()
+        min_price = self.min_price.value()
+        max_price = self.max_price.value()
+        self.buscar_servicios_signal.emit(query, min_price, max_price)
+
+    def mostrar_filtros(self, texto):
         for i in reversed(range(self.filter_fields_layout.count())):
             self.filter_fields_layout.itemAt(i).widget().setParent(None)
 
-        if text == "Precio":
+        if texto == "Precio":
             self.filter_fields_layout.addRow("Mín. precio:", self.min_price)
             self.filter_fields_layout.addRow("Máx. precio:", self.max_price)
 
-    def search_services(self):
+    def mostrar_resultados(self, resultados, client_id, service_owner_fn):
         self.service_list.clear()
-        query = self.search_bar.text().strip()
-        if not query:
-            return
-        
-        filters = {}
-        if 'name' not in filters.keys():
-            filters["name"] = query
-        
-        # Añadir filtros según el tipo de filtro seleccionado
-        if self.min_price.value() != 0 or self.max_price.value() != 0:
-            filters["price_range"] = (self.min_price.value(), self.max_price.value())
-        
-        # Print para depuración
-        print(filters)
 
-        results = self.business_object.service.get_filtered_services(**filters)
-
-        if not results:
-            # Si no hay resultados, mostramos un mensaje de error
+        if not resultados:
             item = QListWidgetItem("No hay servicios disponibles con los filtros actuales.")
             item.setFlags(Qt.ItemFlag.NoItemFlags)
             self.service_list.addItem(item)
             return
-        
-        for service in results:
+
+        for service in resultados:
             widget = QWidget()
             layout = QVBoxLayout(widget)
 
@@ -102,13 +95,11 @@ class ServiceScreen(QWidget):
             layout.addWidget(title)
             layout.addWidget(desc)
 
-            # Botón de compra
-            employee_id = self.business_object.service.get_service_owner_id(service['ServiceID'])
-            client_id = self.business_object.user.get_client_id(self.user_vo.user_id)
-
+            # Mostrar botón si el servicio no es del propio cliente
+            employee_id = service_owner_fn(service['ServiceID'])
             if employee_id != client_id:
                 buy_button = QPushButton("Comprar")
-                buy_button.clicked.connect(lambda _, service_id=service['ServiceID']: self.hire_service(service_id))
+                buy_button.clicked.connect(lambda _, s_id=service['ServiceID']: self.contratar_servicio_signal.emit(s_id))
                 layout.addWidget(buy_button)
 
             layout.setContentsMargins(8, 8, 8, 8)
@@ -119,35 +110,10 @@ class ServiceScreen(QWidget):
             self.service_list.addItem(item)
             self.service_list.setItemWidget(item, widget)
 
-    def reset_filters(self):
+    def resetear_vista(self):
         self.search_bar.clear()
         self.min_price.setValue(0)
         self.max_price.setValue(0)
-
         for i in reversed(range(self.filter_fields_layout.count())):
             self.filter_fields_layout.itemAt(i).widget().setParent(None)
-
         self.service_list.clear()
-
-    def hire_service(self, service_id:int):
-        confirm = QMessageBox.question(self,"Confirmar compra",
-            "¿Estás seguro de que quieres comprar este vehículo?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-            )
-        client_id = self.business_object.user.get_client_id(self.user_vo.user_id)
-    
-        try:
-            success = self.business_object.service.hire_service(client_id, service_id)
-            if success:
-                QMessageBox.information(self, "Éxito", "Servicio contratado con éxito.")
-                self.service_list.clear()
-                self.search_services()
-            else:
-                QMessageBox.warning(self, "Error", "No se pudo contratar el servicio.")
-        
-        except Exception as e:
-            if "saldo insuficiente" in str(e):
-                QMessageBox.warning(self, "Error", "No tienes suficiente saldo para contratar este servicio.")
-            else:
-                QMessageBox.critical(self, "Error", f"Error inesperado: {e}")
-

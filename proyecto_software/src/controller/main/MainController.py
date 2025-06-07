@@ -1,18 +1,23 @@
 # src/controller/main/MainController.py
 
 from controller.main.ArchManageWorkshopController import ArchManageWorkshopController
-from interface.windows.main_gui.screens.archManageWorkshop import ArchManageWorkshop
-from controller.main.AdminManageWorkshopController import AdminManageWorkshopController  # NUEVO
-from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop  # NUEVO
+from controller.main.AdminManageWorkshopController import AdminManageWorkshopController
 from controller.main.BackupController import BackupController
-from interface.windows.main_gui.screens.archBackupScreen import BackupScreen
 from controller.main.ArchRegisterController import ArchRegisterController
-from interface.windows.main_gui.screens.archRegisterScreen import ArchRegisterScreen
 from controller.main.ArchDeleteAdminController import ArchDeleteAdminController
-from interface.windows.main_gui.screens.archDeleteAdmins import ArchDeleteAdminScreen
 from controller.main.LogViewerController import LogViewerController
+from controller.main.AdminRegisterEmployeeController import AdminRegisterEmployeeController  # NUEVO
+
+from interface.windows.main_gui.screens.archManageWorkshop import ArchManageWorkshop
+from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
+from interface.windows.main_gui.screens.archBackupScreen import BackupScreen
+from interface.windows.main_gui.screens.archRegisterScreen import ArchRegisterScreen
+from interface.windows.main_gui.screens.archDeleteAdmins import ArchDeleteAdminScreen
 from interface.windows.main_gui.screens.logViewerScreen import LogViewerScreen
+from interface.windows.main_gui.screens.adminRegisterScreen import AdminRegisterEmployeeScreen  # NUEVO
+
 from model.conexion.Conexion import Conexion
+
 
 class MainController:
     """
@@ -67,7 +72,7 @@ class MainController:
                 self.subcontroladores[i] = controlador
                 print(f"[DEBUG] Controlador de ArchManageWorkshop asignado a índice {i}")
 
-            elif isinstance(pantalla, AdminManageWorkshop):  # NUEVO
+            elif isinstance(pantalla, AdminManageWorkshop):
                 controlador = AdminManageWorkshopController(pantalla)
                 self.subcontroladores[i] = controlador
                 print(f"[DEBUG] Controlador de AdminManageWorkshop asignado a índice {i}")
@@ -96,3 +101,7 @@ class MainController:
                 controlador = LogViewerController(pantalla)
                 self.subcontroladores[i] = controlador
                 print(f"[DEBUG] Controlador de LogViewerScreen asignado a índice {i}")
+
+            elif isinstance(pantalla, AdminRegisterEmployeeScreen):
+                controlador = AdminRegisterEmployeeController(pantalla, self.user_vo.user_id)
+                self.subcontroladores[i] = controlador

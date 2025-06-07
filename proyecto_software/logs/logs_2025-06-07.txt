@@ -1,0 +1,8 @@
+[2025-06-07 16:33:22] Empleado registrado: mec1 por Admin 1
+[2025-06-07 16:34:15] Usuario admin1 ha cerrado sesión.
+[2025-06-07 16:35:10] Administrador registrado: admin2 correctamente.
+[2025-06-07 16:35:18] Usuario arch ha cerrado sesión.
+[2025-06-07 16:38:23] Administrador registrado: admin2 correctamente.
+[2025-06-07 16:38:48] Usuario arch ha cerrado sesión.
+[2025-06-07 16:39:03] Admin 1 eliminado y empleados reasignados a 3
+[2025-06-07 16:39:26] Usuario arch ha cerrado sesión.

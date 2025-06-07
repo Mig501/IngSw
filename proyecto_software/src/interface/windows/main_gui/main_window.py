@@ -88,7 +88,7 @@ class MainWindow(QMainWindow):
 
         if self.user_rol == "empleado":
             self.add_sidebar_item("Registrar servicio", ServiceRegisterScreen())
-            self.add_sidebar_item("Mis servicios", MyServicesScreen(client_id))
+            self.add_sidebar_item("Mis servicios", MyServicesScreen())
 
         if self.user_vo:
             edit_screen = EditProfileScreen(self.user_vo)

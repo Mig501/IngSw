@@ -1,66 +1,54 @@
-#src/interface/windows/main_gui/screens/clientMyProductsScreen.py
-from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QLabel, QListWidget,
-    QPushButton, QMessageBox
-)
-from PyQt6.QtCore import Qt
-from model.BusinessObject import BusinessObject
+# src/interface/windows/main_gui/screens/clientMyServicesScreen.py
+
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QListWidget, QPushButton
+from PyQt6.QtCore import Qt, pyqtSignal
 
 class MyServicesScreen(QWidget):
-    def __init__(self, client_id):
+    eliminar_servicio_signal = pyqtSignal(int)
+    actualizar_lista_signal = pyqtSignal()
+
+    def __init__(self):
         super().__init__()
-        self.client_id = client_id
-        self.employee_id = BusinessObject().user.get_employee_id_from_user_id(client_id)
         self.setWindowTitle("Mis Servicios")
         self.setGeometry(100, 100, 600, 400)
 
         layout = QVBoxLayout()
-
         title = QLabel("Servicios Registrados")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(title)
 
-        self.product_list = QListWidget()
-        layout.addWidget(self.product_list)
+        self.service_list = QListWidget()
+        layout.addWidget(self.service_list)
 
         self.btn_delete = QPushButton("Eliminar servicio seleccionado")
         self.btn_delete.clicked.connect(self.eliminar_servicio)
         layout.addWidget(self.btn_delete)
 
         self.btn_refresh = QPushButton("Actualizar lista")
-        self.btn_refresh.clicked.connect(self.cargar_servicios)
+        self.btn_refresh.clicked.connect(self.actualizar_lista_signal.emit)
         layout.addWidget(self.btn_refresh)
 
         self.setLayout(layout)
-        self.cargar_servicios()
-
-    def cargar_servicios(self):
-        self.product_list.clear() 
-        servicios = BusinessObject().service.get_employee_services(self.employee_id)
-        for s in servicios: 
-            item_text = f"{s['ServiceID']} - {s['ser_name']} {s['ser_description']}"
-            self.product_list.addItem(item_text)
 
     def eliminar_servicio(self):
-        selected = self.product_list.currentItem()
-        if not selected:
-            QMessageBox.warning(self, "Advertencia", "Selecciona un servicio para eliminar.")
-            return
+        selected = self.service_list.currentItem()
+        if selected:
+            service_id = int(selected.text().split(" - ")[0])
+            self.eliminar_servicio_signal.emit(service_id)
 
-        service_id = int(selected.text().split(" - ")[0])
+    def actualizar_lista(self, servicios: list[dict]):
+        self.service_list.clear()
+        for s in servicios:
+            texto = f"{s['ServiceID']} - {s['ser_name']} {s['ser_description']}"
+            self.service_list.addItem(texto)
 
-        confirm = QMessageBox.question(
-            self,
-            "Confirmar eliminación",
-            "¿Estás seguro de que quieres eliminar este servicio?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-        )
+    def mostrar_mensaje(self, titulo, mensaje, error=False):
+        from PyQt6.QtWidgets import QMessageBox
+        if error:
+            QMessageBox.critical(self, titulo, mensaje)
+        else:
+            QMessageBox.information(self, titulo, mensaje)
 
-        if confirm == QMessageBox.StandardButton.Yes:
-
-            success = BusinessObject().service.delete_service(service_id)
-            if success:
-                QMessageBox.information(self, "Éxito", "Servicio eliminado correctamente.")
-                self.cargar_servicios()
-            else:
-                QMessageBox.critical(self, "Error", "No se pudo eliminar el servicio.")
+    def advertencia(self, mensaje):
+        from PyQt6.QtWidgets import QMessageBox
+        QMessageBox.warning(self, "Advertencia", mensaje)

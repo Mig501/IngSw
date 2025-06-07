@@ -8,9 +8,9 @@ from controller.main.ArchDeleteAdminController import ArchDeleteAdminController
 from controller.main.LogViewerController import LogViewerController
 from controller.main.AdminRegisterEmployeeController import AdminRegisterEmployeeController
 from controller.main.AdminMyEmployeesController import AdminMyEmployeesController
-from controller.main.AdminReportController import AdminReportController  # NUEVO
-from controller.main.ServiceRegisterController import ServiceRegisterController  # NUEVO
-from interface.windows.main_gui.screens.empRegisterServScreen import ServiceRegisterScreen  # NUEVO
+from controller.main.AdminReportController import AdminReportController
+from controller.main.ServiceRegisterController import ServiceRegisterController
+from controller.main.ClientMyServicesController import ClientMyServicesController
 from interface.windows.main_gui.screens.archManageWorkshop import ArchManageWorkshop
 from interface.windows.main_gui.screens.adminManageWorkshop import AdminManageWorkshop
 from interface.windows.main_gui.screens.archBackupScreen import BackupScreen
@@ -19,7 +19,9 @@ from interface.windows.main_gui.screens.archDeleteAdmins import ArchDeleteAdminS
 from interface.windows.main_gui.screens.logViewerScreen import LogViewerScreen
 from interface.windows.main_gui.screens.adminRegisterScreen import AdminRegisterEmployeeScreen
 from interface.windows.main_gui.screens.adminMyEmployeesScreen import MyEmployeesScreen
-from interface.windows.main_gui.screens.adminReportScreen import AdminReportScreen  # NUEVO
+from interface.windows.main_gui.screens.adminReportScreen import AdminReportScreen
+from interface.windows.main_gui.screens.empRegisterServScreen import ServiceRegisterScreen
+from interface.windows.main_gui.screens.empMyServicesScreen import MyServicesScreen
 
 from model.conexion.Conexion import Conexion
 
@@ -117,12 +119,17 @@ class MainController:
                 self.subcontroladores[i] = controlador
                 print(f"[DEBUG] Controlador de MyEmployeesScreen asignado a índice {i}")
 
-            elif isinstance(pantalla, AdminReportScreen):  # NUEVO
+            elif isinstance(pantalla, AdminReportScreen):
                 controlador = AdminReportController(pantalla)
                 self.subcontroladores[i] = controlador
                 print(f"[DEBUG] Controlador de AdminReportScreen asignado a índice {i}")
 
-            elif isinstance(pantalla, ServiceRegisterScreen):  # NUEVO
+            elif isinstance(pantalla, ServiceRegisterScreen):
                 controlador = ServiceRegisterController(pantalla, self.user_vo.user_id)
                 self.subcontroladores[i] = controlador
                 print(f"[DEBUG] Controlador de ServiceRegisterScreen asignado a índice {i}")
+
+            elif isinstance(pantalla, MyServicesScreen):
+                controlador = ClientMyServicesController(pantalla, self.user_vo.user_id)
+                self.subcontroladores[i] = controlador
+                print(f"[DEBUG] Controlador de MyServicesScreen asignado a índice {i}")

@@ -1,0 +1,9 @@
+PyQt6
+Flask
+python-dotenv
+PyJWT
+mysql-connector-python
+pymysql
+JayDeBeApi
+bcrypt
+fdpf

@@ -1,0 +1,59 @@
+/* src/interface/style.css */
+
+QMainWindow {
+    background-color: #4b5863;
+}
+
+QPushButton  {
+    background-color: #3a3a3a;
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 10px;
+}
+
+QPushButton:hover {
+    background-color: #505050;
+}
+
+/* Estilo para el contenedor principal de la ventana */
+QWidget#MainContainer { 
+    background-color: #4b5863;
+    border-radius: 15px;
+    border: 1px solid #2c3948
+}
+
+/* Estilo para el área de contenido principal */
+QWidget#MainBody {
+    background-color: #546473;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+QWidget#Header, #Sidebar {
+    background-color: #4b5863;
+}
+
+QListWidget#MenuList {
+    background-color: transparent;
+    border: none;
+    color: black;
+    font-size: 50px;
+}
+
+QListWidget#MenuList::item {
+    height: 10px;
+    padding-left: 12px;
+    font-size: 50px;
+}
+
+QLabel#SidebarLabel {
+    font-size: 16px;
+    margin-left: 5px;
+}
+
+QPushButton#CloseButton:hover {
+    background-color: #e74c3c;
+}

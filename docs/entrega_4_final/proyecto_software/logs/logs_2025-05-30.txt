@@ -1,0 +1,5 @@
+[2025-05-30 12:46:33] Usuario soyArch ha iniciado sesión.
+[2025-05-30 12:46:36] Usuario soyArch ha cerrado sesión.
+[2025-05-30 12:46:46] Usuario soyArch ha iniciado sesión.
+[2025-05-30 12:49:13] Usuario soyArch ha iniciado sesión.
+[2025-05-30 12:49:26] Usuario soyArch ha cerrado sesión.

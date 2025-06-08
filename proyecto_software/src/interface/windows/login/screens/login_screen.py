@@ -9,7 +9,7 @@ class LoginScreen(QWidget):
 
     def __init__(self, controller=None):
         super().__init__()
-        self.controller = controller  # Puede ser asignado después
+        self.controller = controller
 
         # Layout principal centrado
         main_layout = QVBoxLayout()

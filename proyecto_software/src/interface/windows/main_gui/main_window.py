@@ -208,4 +208,4 @@ class MainWindow(QMainWindow):
         self.user_vo = user_vo
         self.user_rol = user_vo.rol
         self.client_id = user_vo.user_id
-        print(f"[DEBUG] Usuario cargado en MainWindow: {user_vo.username} (rol: {user_vo.rol})")
+        # print(f"[DEBUG] Usuario cargado en MainWindow: {user_vo.username} (rol: {user_vo.rol})")

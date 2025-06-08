@@ -34,6 +34,7 @@ from interface.windows.main_gui.screens.other_screen import OtherScreen
 from interface.windows.main_gui.screens.service_screen import ServiceScreen
 from controller.main.ServiceScreenController import ServiceScreenController
 from model.conexion.Conexion import Conexion
+from model.loggerSingleton import LoggerSingleton
 
 class MainController:
     """
@@ -47,6 +48,7 @@ class MainController:
         self.coordinador = coordinador
         self.user_vo = user_vo
         self.conexion = conexion
+        self.logger = LoggerSingleton()
 
         # Configurar usuario en la vista
         self.vista.set_user(user_vo)
@@ -77,6 +79,7 @@ class MainController:
         Cierra la ventana principal y vuelve al login.
         """
         self.vista.close()
+        self.logger.add_log_activity(f"Usuario {self.user_vo.username} ha cerrado sesión.")
         self.coordinador.mostrar_login()
 
     def configurar_subcontroladores(self):

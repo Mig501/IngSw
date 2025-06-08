@@ -1,5 +1,6 @@
 #src/controller/login/LoginController.py
 from model.vo.LoginUserVO import LoginUserVO
+from model.loggerSingleton import LoggerSingleton
 
 class LoginController:
     """
@@ -11,6 +12,7 @@ class LoginController:
         self.vista = login_window
         self.modelo = modelo
         self.coordinador = coordinador
+        self.logger = LoggerSingleton()
 
         # Asignar controlador a las pantallas
         self.vista.login_screen.controller = self
@@ -38,6 +40,8 @@ class LoginController:
         if not user_vo:
             self.vista.mostrar_mensaje("Error", "Usuario o contraseña incorrectos.", is_error=True)
             return
+
+        self.logger.add_log_activity(f"Usuario {username} ha iniciado sesión correctamente.")
 
         self.vista.clear_fields()
         self.coordinador.abrir_main_window(user_vo)
@@ -72,6 +76,7 @@ class LoginController:
             send_verification_email(email, username, token)
 
             self.vista.register_screen.mostrar_info(f"Hemos enviado un correo a {email}. Confirma tu cuenta.")
+            self.logger.add_log_activity(f"Usuario registrado: {username} con rol {rol}.")
             return True
 
         except Exception as e:

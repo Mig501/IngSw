@@ -1,11 +1,9 @@
 # src/controller/main/AdminManageWorkshopController.py
-from PyQt6.QtCore import QObject
 from model.vo.WorkshopVO import WorkshopVO
 from model.BusinessObject import BusinessObject
 
-class AdminManageWorkshopController(QObject):
+class AdminManageWorkshopController:
     def __init__(self, vista):
-        super().__init__()
         self.vista = vista
         self.business_object = BusinessObject().workshop
 

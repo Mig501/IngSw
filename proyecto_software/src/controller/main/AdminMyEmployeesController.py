@@ -1,7 +1,6 @@
 # src/controller/main/AdminMyEmployeesController.py
 from model.BusinessObject import BusinessObject
 from model.loggerSingleton import LoggerSingleton
-from PyQt6.QtWidgets import QMessageBox
 
 
 class AdminMyEmployeesController:
@@ -36,16 +35,6 @@ class AdminMyEmployeesController:
         Elimina un empleado tras confirmar la acción con el usuario.
         Primero elimina sus servicios asociados, luego elimina al empleado.
         """
-        
-        confirm = QMessageBox.question(
-            self.vista,
-            "Confirmar eliminación",
-            "¿Estás seguro de que quieres eliminar este empleado?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-        )
-        if confirm != QMessageBox.StandardButton.Yes:
-            return
-
         try:
             success = self.bo_service.delete_services_by_employee_id(employee_id)
 

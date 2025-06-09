@@ -1,6 +1,9 @@
 # src/interface/windows/main_gui/screens/adminMyEmployeesScreen.py
 
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QListWidget, QPushButton, QMessageBox
+from PyQt6.QtWidgets import (
+    QWidget, QVBoxLayout, QLabel, QListWidget,
+    QPushButton, QMessageBox
+)
 from PyQt6.QtCore import Qt, pyqtSignal
 
 
@@ -39,10 +42,19 @@ class MyEmployeesScreen(QWidget):
             return
         try:
             employee_id = int(selected.text().split(" - ")[0])
-            self.eliminar_empleado_signal.emit(employee_id)
         except ValueError:
             QMessageBox.warning(self, "Advertencia", "Empleado inválido.")
 
+        confirm = QMessageBox.question(
+            self,
+            "Confirmar eliminación",
+            "¿Estás seguro de que quieres eliminar este empleado?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+
+        if confirm == QMessageBox.StandardButton.Yes:
+            self.eliminar_empleado_signal.emit(employee_id)
+    
     def cargar_empleados(self, lista_empleados: list):
         self.employee_list.clear()
         for e in lista_empleados:

@@ -14,11 +14,17 @@ def main():
     # Crear la aplicación
     app = QApplication(sys.argv)
 
+    try:
+        with open("src/interface/style.css", "r") as f:
+            app.setStyleSheet(f.read())
+    except Exception as e:
+        print(f"[ERROR] No se pudo cargar el CSS: {e}")
+
     # Crear modelo
     modelo = BusinessObject()
 
     # Crear el controlador principal y llamar a su método de inicio
-    coordinador = ControladorPrincipal(modelo, app)
+    coordinador = ControladorPrincipal(modelo)
     coordinador.iniciar()
 
     # Ejecutar la aplicación

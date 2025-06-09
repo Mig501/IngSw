@@ -1,5 +1,4 @@
 #src/controller/ControladorPrincipal.py
-from PyQt6.QtWidgets import QApplication
 from controller.login.LoginController import LoginController
 from controller.main.MainController import MainController
 from model.conexion.Conexion import Conexion
@@ -11,9 +10,8 @@ class ControladorPrincipal:
     y mantener la referencia al modelo y controladores secundarios.
     """
 
-    def __init__(self, modelo, app: QApplication):
+    def __init__(self, modelo):
         self.modelo = modelo
-        self.app = app
         self.conexion = Conexion()
 
         self.login_window = None
@@ -24,16 +22,7 @@ class ControladorPrincipal:
 
     def iniciar(self):
         """Inicia la aplicación cargando estilos y mostrando la ventana de login."""
-        self.cargar_css()
         self.mostrar_login()
-
-    def cargar_css(self):
-        """Carga el archivo de estilos CSS de la interfaz."""
-        try:
-            with open("src/interface/style.css", "r") as f:
-                self.app.setStyleSheet(f.read())
-        except Exception as e:
-            print(f"[ERROR] No se pudo cargar el CSS: {e}")
 
     def mostrar_login(self):
         """
@@ -84,7 +73,3 @@ class ControladorPrincipal:
             self.login_window.close()
             self.login_window = None
             self.login_controller = None
-
-    def cerrar_aplicacion(self):
-        """Cierra completamente la aplicación."""
-        self.app.quit()

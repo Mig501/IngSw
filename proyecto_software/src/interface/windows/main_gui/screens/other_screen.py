@@ -129,7 +129,7 @@ class OtherScreen(QWidget):
 
             if obtener_owner_fn(r["ProductID"]) != client_id:
                 boton = QPushButton("Comprar")
-                boton.clicked.connect(lambda _, pid=r["ProductID"]: self.comprar_signal.emit(pid))
+                boton.clicked.connect(lambda _, pid=r["ProductID"]: self.confirmar_compra(self.comprar_signal.emit, pid))
                 layout.addWidget(boton)
 
             item = QListWidgetItem()
@@ -143,3 +143,14 @@ class OtherScreen(QWidget):
         
         else:
             QMessageBox.information(self, titulo, mensaje)
+
+    def confirmar_compra(self, callback, product_id):
+        confirm = QMessageBox.question(
+            self,
+            "Confirmar compra",
+            "¿Deseas comprar este producto?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+
+        if confirm == QMessageBox.StandardButton.Yes:
+            callback(product_id)

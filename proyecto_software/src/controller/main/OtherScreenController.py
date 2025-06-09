@@ -1,5 +1,4 @@
 # src/controller/main/OtherScreenController.py
-from PyQt6.QtWidgets import QMessageBox
 from model.BusinessObject import BusinessObject
 
 class OtherScreenController:
@@ -38,11 +37,6 @@ class OtherScreenController:
         Args:
             product_id (int): ID del producto seleccionado para compra.
         """
-        confirm = QMessageBox.question(self.vista, "Confirmar compra", "¿Deseas comprar este producto?",
-                                       QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-        if confirm != QMessageBox.StandardButton.Yes:
-            return
-
         client_id = self.bo.user.get_client_id(self.user_vo.user_id)
         owner = self.bo.product.get_owner_id(product_id)
 

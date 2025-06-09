@@ -11,3 +11,12 @@
 [2025-06-09 11:38:19] Usuario mec2 ha iniciado sesión correctamente.
 [2025-06-09 11:38:49] Servicio 'serv5' registrado por empleado 5.
 [2025-06-09 11:40:53] Usuario arch ha iniciado sesión correctamente.
+[2025-06-09 11:46:00] Usuario cliente2 ha iniciado sesión correctamente.
+[2025-06-09 11:46:10] Usuario cliente2 ha cerrado sesión.
+[2025-06-09 11:46:17] Usuario cliente1 ha iniciado sesión correctamente.
+[2025-06-09 11:48:00] Usuario cliente2 ha iniciado sesión correctamente.
+[2025-06-09 11:48:14] Usuario cliente2 ha cerrado sesión.
+[2025-06-09 11:48:21] Usuario cliente2 ha iniciado sesión correctamente.
+[2025-06-09 11:48:31] Usuario cliente2 ha cerrado sesión.
+[2025-06-09 11:48:38] Usuario cliente1 ha iniciado sesión correctamente.
+[2025-06-09 11:49:05] Usuario cliente1 ha cerrado sesión.

@@ -70,3 +70,10 @@ class ArchManageWorkshop(QWidget):
         self.input_add_street.clear()
         self.input_add_number.clear()
         self.input_add_city.clear()
+
+    def mostrar_mensaje(self, titulo: str, mensaje: str, error: bool = False):
+        if error:
+            QMessageBox.critical(self, titulo, mensaje)
+        else:
+            QMessageBox.information(self, titulo, mensaje)
+

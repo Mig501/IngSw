@@ -1,5 +1,4 @@
 # src/controller/main/ArchManageWorkshopController.py
-from PyQt6.QtWidgets import QMessageBox
 from model.vo.WorkshopVO import WorkshopVO
 
 class ArchManageWorkshopController:
@@ -34,11 +33,11 @@ class ArchManageWorkshopController:
             )
 
             if self.modelo.register_workshop(workshop_vo):
-                QMessageBox.information(self.vista, "Éxito", "Taller registrado correctamente.")
+                self.vista.mostrar_mensaje("Éxito", "Taller registrado correctamente.")
                 self.vista.clear_fields()
             
             else:
                 raise Exception("No se pudo registrar el taller.")
 
         except Exception as e:
-            QMessageBox.critical(self.vista, "Error", str(e))
+            self.vista.mostrar_mensaje("Error", str(e), error=True)

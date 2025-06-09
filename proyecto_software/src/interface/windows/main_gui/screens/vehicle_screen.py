@@ -1,10 +1,12 @@
-#src/interface/windows/main_gui/screens/vehicle_screen.py
+# src/interface/windows/main_gui/screens/vehicle_screen.py
+
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QLineEdit, QPushButton,
-    QListWidget, QListWidgetItem, QLabel, QFormLayout, QSpinBox
+    QListWidget, QListWidgetItem, QLabel, QFormLayout, QSpinBox, QMessageBox
 )
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QPixmap, QFont
+
 
 class VehicleScreen(QWidget):
     buscar_vehiculos_signal = pyqtSignal()
@@ -17,6 +19,7 @@ class VehicleScreen(QWidget):
     def setup_ui(self):
         self.layout = QVBoxLayout(self)
 
+        # Búsqueda y filtros
         search_layout = QHBoxLayout()
         self.search_bar = QLineEdit()
         self.search_bar.setPlaceholderText("Buscar por marca modelo")
@@ -36,11 +39,44 @@ class VehicleScreen(QWidget):
         search_layout.addWidget(self.reset_button)
         self.layout.addLayout(search_layout)
 
+        # Zona de filtros dinámicos
         self.filter_fields_layout = QFormLayout()
         self.filter_fields_widget = QWidget()
         self.filter_fields_widget.setLayout(self.filter_fields_layout)
         self.layout.addWidget(self.filter_fields_widget)
 
+        # Widgets de filtros (expuestos como atributos públicos)
+        self.min_km = QSpinBox()
+        self.min_km.setRange(0, 1_000_000)
+
+        self.max_km = QSpinBox()
+        self.max_km.setRange(0, 1_000_000)
+
+        self.min_consume = QSpinBox()
+        self.min_consume.setRange(0, 100)
+
+        self.max_consume = QSpinBox()
+        self.max_consume.setRange(0, 100)
+
+        self.min_autonomy = QSpinBox()
+        self.min_autonomy.setRange(0, 2000)
+
+        self.max_autonomy = QSpinBox()
+        self.max_autonomy.setRange(0, 2000)
+
+        self.fuel_type = QComboBox()
+        self.fuel_type.addItems(["", "Gasolina", "Diésel", "Eléctrico", "Híbrido"])
+
+        self.env_label = QComboBox()
+        self.env_label.addItems(["", "0", "ECO", "B", "C"])
+
+        self.min_price = QSpinBox()
+        self.min_price.setRange(0, 1_000_000_000)
+
+        self.max_price = QSpinBox()
+        self.max_price.setRange(0, 1_000_000_000)
+
+        # Lista de coches
         self.car_list = QListWidget()
         self.car_list.setSpacing(8)
         self.layout.addWidget(self.car_list)
@@ -73,7 +109,6 @@ class VehicleScreen(QWidget):
         
             if not pixmap.isNull():
                 image_label.setPixmap(pixmap.scaled(200, 120, Qt.AspectRatioMode.KeepAspectRatio))
-        
             else:
                 image_label.setText("Sin imagen")
                 image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -102,3 +137,14 @@ class VehicleScreen(QWidget):
             item.setSizeHint(widget.sizeHint())
             self.car_list.addItem(item)
             self.car_list.setItemWidget(item, widget)
+
+    def mostrar_mensaje(self, titulo: str, mensaje: str, es_error=False):
+        if es_error:
+            QMessageBox.critical(self, titulo, mensaje)
+        else:
+            QMessageBox.information(self, titulo, mensaje)
+
+    def confirmar_accion(self, titulo: str, mensaje: str) -> bool:
+        respuesta = QMessageBox.question(self, titulo, mensaje,
+                                         QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        return respuesta == QMessageBox.StandardButton.Yes

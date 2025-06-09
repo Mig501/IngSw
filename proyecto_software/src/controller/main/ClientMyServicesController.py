@@ -1,6 +1,4 @@
 # src/controller/main/ClientMyServicesController.py
-
-from PyQt6.QtWidgets import QMessageBox
 from model.BusinessObject import BusinessObject
 
 class ClientMyServicesController:
@@ -35,22 +33,14 @@ class ClientMyServicesController:
         Args:
             service_id (int): ID del servicio a eliminar.
         """
-        confirm = QMessageBox.question(
-            self.vista,
-            "Confirmar eliminación",
-            "¿Estás seguro de que quieres eliminar este servicio?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-        )
-
-        if confirm == QMessageBox.StandardButton.Yes:
-            try:
-                success = self.bo.delete_service(service_id)
-                if success:
-                    self.vista.mostrar_mensaje("Éxito", "Servicio eliminado correctamente.")
-                    self.cargar_servicios()
-                
-                else:
-                    self.vista.mostrar_mensaje("Error", "No se pudo eliminar el servicio.", error=True)
+        try:
+            success = self.bo.delete_service(service_id)
+            if success:
+                self.vista.mostrar_mensaje("Éxito", "Servicio eliminado correctamente.")
+                self.cargar_servicios()
             
-            except Exception as e:
-                self.vista.mostrar_mensaje("Error", f"Error al eliminar: {str(e)}", error=True)
+            else:
+                self.vista.mostrar_mensaje("Error", "No se pudo eliminar el servicio.", error=True)
+        
+        except Exception as e:
+            self.vista.mostrar_mensaje("Error", f"Error al eliminar: {str(e)}", error=True)

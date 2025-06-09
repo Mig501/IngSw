@@ -7,3 +7,6 @@
 [2025-06-09 11:26:30] Usuario arch ha cerrado sesión.
 [2025-06-09 11:26:36] Usuario arch ha iniciado sesión correctamente.
 [2025-06-09 11:26:43] Admin 3 eliminado y empleados reasignados a 1
+[2025-06-09 11:33:35] Usuario cliente1 ha iniciado sesión correctamente.
+[2025-06-09 11:38:19] Usuario mec2 ha iniciado sesión correctamente.
+[2025-06-09 11:38:49] Servicio 'serv5' registrado por empleado 5.

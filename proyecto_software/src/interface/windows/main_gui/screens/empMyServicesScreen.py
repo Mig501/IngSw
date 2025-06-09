@@ -1,5 +1,5 @@
 # src/interface/windows/main_gui/screens/clientMyServicesScreen.py
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QListWidget, QPushButton
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QListWidget, QPushButton, QMessageBox
 from PyQt6.QtCore import Qt, pyqtSignal
 
 class MyServicesScreen(QWidget):
@@ -32,8 +32,25 @@ class MyServicesScreen(QWidget):
     def eliminar_servicio(self):
         selected = self.service_list.currentItem()
         
-        if selected:
+        if not selected:
+            self.advertencia("Por favor, seleccione un servicio para eliminar.")
+            return
+
+        try:
             service_id = int(selected.text().split(" - ")[0])
+        
+        except ValueError:
+            self.advertencia("ID de servicio no válido.")
+            return
+        
+        confirm = QMessageBox.question(
+            self,
+            "Confirmar eliminación",
+            "¿Estás seguro de que quieres eliminar este servicio?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+
+        if confirm == QMessageBox.StandardButton.Yes:
             self.eliminar_servicio_signal.emit(service_id)
 
     def actualizar_lista(self, servicios: list[dict]):

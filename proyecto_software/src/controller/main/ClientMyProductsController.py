@@ -1,6 +1,5 @@
 # src/controller/main/ClientMyProductsController.py
 from model.BusinessObject import BusinessObject
-from PyQt6.QtWidgets import QMessageBox
 
 class ClientMyProductsController:
     def __init__(self, vista, user_id):

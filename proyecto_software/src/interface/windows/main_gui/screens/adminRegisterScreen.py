@@ -2,7 +2,7 @@
 
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QFormLayout, QLabel, QLineEdit,
-    QPushButton, QComboBox
+    QPushButton, QComboBox, QMessageBox
 )
 from PyQt6.QtCore import Qt, pyqtSignal
 
@@ -88,3 +88,9 @@ class AdminRegisterEmployeeScreen(QWidget):
         self.extra_specialization.setCurrentIndex(0)
         self.extra_first_name.clear()
         self.extra_second_name.clear()
+
+    def mostrar_mensaje(self, titulo: str, mensaje: str, error: bool = False):
+        if error:
+            QMessageBox.critical(self, titulo, mensaje)
+        else:
+            QMessageBox.information(self, titulo, mensaje)

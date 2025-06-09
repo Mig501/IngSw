@@ -1,5 +1,4 @@
 # src/controller/main/AdminRegisterEmployeeController.py
-from PyQt6.QtWidgets import QMessageBox
 from model.vo.RegisterUserVO import RegisterUserVO
 from model.vo.EmployeeVO import EmployeeVO
 from model.BusinessObject import BusinessObject
@@ -44,8 +43,8 @@ class AdminRegisterEmployeeController:
             self.bo.registrar_empleado(user_vo, employee_vo, self.admin_id)
             self.logger.add_log_activity(f"Empleado registrado: {user_vo.username} por Admin {self.admin_id}")
 
-            QMessageBox.information(self.vista, "Éxito", "Empleado registrado correctamente.")
+            self.vista.mostrar_mensaje("Éxito", "Empleado registrado correctamente.")
             self.vista.limpiar_campos()
 
         except Exception as e:
-            QMessageBox.critical(self.vista, "Error", str(e))
+            self.vista.mostrar_mensaje("Error", str(e), error=True)

@@ -1,5 +1,4 @@
 #src/controller/main/ProductRegisterController.py
-from PyQt6.QtWidgets import QMessageBox
 from model.BusinessObject import BusinessObject
 from model.vo.AutomobileVO import AutomobileVO
 from model.vo.OtherProdVO import OtherProductVO

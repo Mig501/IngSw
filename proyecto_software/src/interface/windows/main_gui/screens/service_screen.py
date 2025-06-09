@@ -2,7 +2,7 @@
 
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QLineEdit, QPushButton,
-    QListWidget, QListWidgetItem, QLabel, QFormLayout, QSpinBox
+    QListWidget, QListWidgetItem, QLabel, QFormLayout, QSpinBox, QMessageBox
 )
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
@@ -103,13 +103,10 @@ class ServiceScreen(QWidget):
             layout.addWidget(title)
             layout.addWidget(desc)
 
-            print(f"[DEBUG] Cliente ID: {client_id}, Dueño del servicio {service['ServiceID']}: {get_owner_id_fn(service['ServiceID'])}")
-
-            # Botón de contratar
-            contratar_btn = QPushButton("Contratar")
-            contratar_btn.clicked.connect(partial(self.contratar_servicio_signal.emit, service["ServiceID"]))
-            layout.addWidget(contratar_btn)
-
+            if get_owner_id_fn(service["ServiceID"]) != client_id:
+                contratar_btn = QPushButton("Contratar")
+                contratar_btn.clicked.connect(lambda _, sid=service["ServiceID"]: self.confirmar_contratacion(sid))
+                layout.addWidget(contratar_btn)
 
             layout.setContentsMargins(8, 8, 8, 8)
             layout.setSpacing(4)
@@ -118,3 +115,19 @@ class ServiceScreen(QWidget):
             item.setSizeHint(widget.sizeHint())
             self.service_list.addItem(item)
             self.service_list.setItemWidget(item, widget)
+
+    def confirmar_contratacion(self, service_id):
+        confirm = QMessageBox.question(
+            self,
+            "Confirmar contratación",
+            "¿Estás seguro de que quieres contratar este servicio?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        if confirm == QMessageBox.StandardButton.Yes:
+            self.contratar_servicio_signal.emit(service_id)
+
+    def mostrar_mensaje(self, titulo, mensaje, error=False):
+        if error:
+            QMessageBox.critical(self, titulo, mensaje)
+        else:
+            QMessageBox.information(self, titulo, mensaje)

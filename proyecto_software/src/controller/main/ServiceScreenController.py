@@ -1,5 +1,4 @@
 # src/controller/main/ServiceScreenController.py
-from PyQt6.QtWidgets import QMessageBox
 from model.BusinessObject import BusinessObject
 
 class ServiceScreenController:
@@ -56,32 +55,23 @@ class ServiceScreenController:
                 self.vista.mostrar_resultado_vacio()
 
         except Exception as e:
-            QMessageBox.critical(self.vista, "Error", f"Error al buscar servicios:\n{str(e)}")
-
+            self.vista.mostrar_mensaje("Error", f"Error al buscar servicios:\n{str(e)}", error=True)
+    
     def contratar_servicio(self, service_id):
         """Contrata un servicio para el cliente actual."""
-        confirm = QMessageBox.question(
-            self.vista,
-            "Confirmar contratación",
-            "¿Estás seguro de que quieres contratar este servicio?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-        )
-
-        if confirm != QMessageBox.StandardButton.Yes:
-            return
-
         try:
             client_id = self.bo_user.get_client_id(self.user_vo.user_id)
             success = self.bo.hire_service(client_id, service_id)
 
             if success:
-                QMessageBox.information(self.vista, "Éxito", "Servicio contratado con éxito.")
+                self.vista.mostrar_mensaje("Éxito", "Servicio contratado con éxito.")
                 self.buscar_servicios()
+            
             else:
-                QMessageBox.warning(self.vista, "Error", "No se pudo contratar el servicio.")
+                self.vista.mostrar_mensaje("Error", "No se pudo contratar el servicio.", error=True)
 
         except Exception as e:
             if "saldo insuficiente" in str(e).lower():
-                QMessageBox.warning(self.vista, "Saldo insuficiente", "No tienes suficiente saldo para contratar este servicio.")
+                self.vista.mostrar_mensaje("Saldo insuficiente", "No tienes suficiente saldo para contratar este servicio.")
             else:
-                QMessageBox.critical(self.vista, "Error", f"Error inesperado:\n{str(e)}")
+                self.vista.mostrar_mensaje("Error", f"Error inesperado:\n{str(e)}", error=True)

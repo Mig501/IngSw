@@ -20,3 +20,4 @@
 [2025-06-09 11:48:31] Usuario cliente2 ha cerrado sesión.
 [2025-06-09 11:48:38] Usuario cliente1 ha iniciado sesión correctamente.
 [2025-06-09 11:49:05] Usuario cliente1 ha cerrado sesión.
+[2025-06-09 11:56:42] Usuario cliente1 ha iniciado sesión correctamente.

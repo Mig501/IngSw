@@ -1,13 +1,11 @@
 # src/controller/ArchRegisterController.py
-from PyQt6.QtCore import QObject
 from model.vo.RegisterUserVO import RegisterUserVO
 from model.vo.AdminVO import AdminVO
 from model.BusinessObject import BusinessObject
 from model.loggerSingleton import LoggerSingleton
 
-class ArchRegisterController(QObject):
+class ArchRegisterController():
     def __init__(self, view):
-        super().__init__()
         self.view = view
         self.view.registrar_admin_signal.connect(self.registrar_admin)
         self.bo = BusinessObject().user

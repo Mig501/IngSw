@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QPushButton, QDateEdit,
-    QHBoxLayout
+    QHBoxLayout, QFileDialog, QMessageBox
 )
 from PyQt6.QtCore import QDate, pyqtSignal
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -83,3 +83,13 @@ class AdminReportScreen(QWidget):
             self.start_date.date().toString("yyyy-MM-dd"),
             self.end_date.date().toString("yyyy-MM-dd")
         )
+
+    def mostrar_mensaje(self, titulo, mensaje, error=False):
+        if error:
+            QMessageBox.critical(self, titulo, mensaje)
+        else:
+            QMessageBox.information(self, titulo, mensaje)
+
+    def seleccionar_ruta_guardado(self, nombre_por_defecto: str) -> str:
+        path, _ = QFileDialog.getSaveFileName(self, "Guardar PDF", nombre_por_defecto, "PDF Files (*.pdf)")
+        return path

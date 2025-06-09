@@ -1,2 +1,4 @@
 [2025-06-09 11:11:43] Usuario admin2 ha iniciado sesión correctamente.
 [2025-06-09 11:12:17] Empleado registrado: mec2 por Admin 2
+[2025-06-09 11:17:43] Usuario admin1 ha iniciado sesión correctamente.
+[2025-06-09 11:18:16] Usuario admin1 ha cerrado sesión.

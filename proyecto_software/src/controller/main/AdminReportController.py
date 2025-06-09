@@ -1,5 +1,4 @@
 #src/controller/main/AdminReportController.py
-from PyQt6.QtWidgets import QMessageBox, QFileDialog
 from fpdf import FPDF
 import os
 
@@ -23,7 +22,7 @@ class AdminReportController:
         self.last_dates = (start, end)
 
         if start > end:
-            QMessageBox.warning(self.vista, "Error", "La fecha de inicio no puede ser mayor que la fecha de fin.")
+            self.vista.mostrar_mensaje("Error", "La fecha de inicio no puede ser mayor que la fecha de fin.", error=True)
             return
 
         try:
@@ -59,17 +58,17 @@ Marca más comprada: {top_brand[0]} ({top_brand[1]} veces)
             self.last_summary = resumen
 
         except Exception as e:
-            QMessageBox.critical(self.vista, "Error", f"Error al generar informe: {e}")
+            self.vista.mostrar_mensaje("Error", f"Error al generar informe: {e}", error=True)
             self.vista.actualizar_resultados("No se pudo generar el informe.")
             self.vista.graficar([])
 
     def exportar_pdf(self):
         if not self.last_summary:
-            QMessageBox.warning(self.vista, "Aviso", "Primero debes generar el informe.")
+            self.vista.mostrar_mensaje("Aviso", "Primero debes generar el informe.", error=True)
             return
 
         default_name = f"informe_{self.last_dates[0]}_a_{self.last_dates[1]}.pdf"
-        path, _ = QFileDialog.getSaveFileName(self.vista, "Guardar PDF", default_name, "PDF Files (*.pdf)")
+        path = self.vista.seleccionar_ruta_guardado(default_name)
 
         if not path:
             return
@@ -85,10 +84,10 @@ Marca más comprada: {top_brand[0]} ({top_brand[1]} veces)
                 pdf.cell(200, 10, txt=line, ln=True)
             pdf.image(img_path, x=10, y=None, w=pdf.w - 20)
             pdf.output(path)
-            QMessageBox.information(self.vista, "Éxito", "Informe exportado correctamente.")
+            self.vista.mostrar_mensaje("Éxito", "Informe exportado correctamente.")
         
         except Exception as e:
-            QMessageBox.critical(self.vista, "Error", f"Error al exportar el PDF:\n{e}")
+            self.vista.mostrar_mensaje("Error", f"Error al exportar el PDF:\n{e}", error=True)
         
         finally:
             if os.path.exists(img_path):

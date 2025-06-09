@@ -2,7 +2,6 @@
 
 from model.loggerSingleton import LoggerSingleton
 import os
-from PyQt6.QtCore import QDate
 
 class LogViewerController:
     def __init__(self, vista):
@@ -27,7 +26,7 @@ class LogViewerController:
         
         self.cargar_logs_por_rango(start, end)
 
-    def cargar_logs_por_rango(self, start_date: QDate, end_date: QDate):
+    def cargar_logs_por_rango(self, start_date, end_date):
         """
         Carga los logs desde archivos entre dos fechas y los muestra en la vista.
 

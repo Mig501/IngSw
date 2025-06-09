@@ -10,3 +10,4 @@
 [2025-06-09 11:33:35] Usuario cliente1 ha iniciado sesión correctamente.
 [2025-06-09 11:38:19] Usuario mec2 ha iniciado sesión correctamente.
 [2025-06-09 11:38:49] Servicio 'serv5' registrado por empleado 5.
+[2025-06-09 11:40:53] Usuario arch ha iniciado sesión correctamente.

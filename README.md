@@ -76,8 +76,3 @@ El sistema BSA ha sido desarrollado por el **Grupo 6** para la asignatura de Ing
 ## Licencia
   
 Puedes consultar los términos completos en el archivo [`LICENSE`](./LICENSE).
-
-## Cosas a hacer
-Añadir la ventana de gráficos para que el arch pueda ver los logs
-
-Añadir etiqueta ECO,... a la columna de vehículos en el modelo de dominio
